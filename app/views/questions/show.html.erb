@@ -1,0 +1,97 @@
+<div class="container">
+  <!--使いやすいように上にも追加-->
+  <div class="text-right">
+    <!--この質問をしたユーザーであれば修正を許可-->
+    <% if current_user.id == @question.user_id %>
+      <%= link_to '修正', edit_question_path(@question) %> |
+    <% end %>
+    <%= link_to '戻る', questions_path %>
+  </div>
+  <header class="jumbotron my-4">
+    <h2 class="card-title"><%= @question.title %></h2>
+  </header>
+  <div class="card-body">
+    内容：<br><%= @question.body %><br>
+ 
+    質問ユーザー：<span class="<%= "user_color" if current_user.id == @question.user_id %>"><%= @question.user.username %></span>
+  </div>
+  <!--ここから下が回答-->
+  <div class="row">
+    <!-- @questionがたくさん持っている(has_manyな)answersをloopさせて一つずつ表示
+    has_manyなデータを取得するときは、配列でデータを取得します。 -->
+    <% @question.answers.each do |answer| %>
+      <div class="col-lg-11 col-md-11">
+        <div class="card h-100">
+        <!--ベストアンサーの色を変更するための修正-->
+        <div class="card-body  <%= "best-answer" if @question.best_answer_id == answer.id %>">
+            <div><%= answer.body %></div>
+            <p class="text-right">
+              <span class="<%= "user_color" if current_user.id == answer.user_id %>">
+                回答ユーザー：<%= answer.user.username %>
+              </span>
+            </p>
+            <% answer.reactions.each do |reaction| %>
+              <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div><%= reaction.body %></div>
+                      <p class="text-right">
+                        <span class="<%= "user_color" if current_user.id == reaction.user_id %>">
+                          回答ユーザー：<%= reaction.user.username %>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+            <% end %>
+            <!-- ベストアンサーが決まっていたら修正ができないようにする best_answer_idがなければ表示される -->
+            <p class="text-right"><%= link_to_unless @question.best_answer_id,  '反応する', new_answer_reaction_path(answer.id) %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-1 col-md-1 ba-parent">
+        <!--disablesと確認ダイアログを追加-->
+        <div class="ba-child text-center">
+          <%= form_with(model: @question, local: true, data: {confirm: "#{answer.user.username}さんの回答をベストアンサーにします。この修正は変更できませんが、よろしいですか？"}) do |form| %>
+            <%= form.hidden_field :best_answer_id, value: answer.id %>
+            <div class="actions">
+              <%= form.submit 'BA', disabled: @question.best_answer_id.present? %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="text-right">
+  <% if current_user.id == @question.user_id %>
+    <!-- ベストアンサーが決まっていたら修正ができないようにする-->
+    <%= link_to_unless @question.best_answer_id, '修正', edit_question_path(@question) %> |
+  <% end %>
+  <%= link_to '戻る', questions_path %>
+  </div>
+</div>
+
+<!--
+# <p id="notice"><%= notice %></p>
+
+# <p>
+#   <strong>User:</strong>
+#   <%= @question.user_id %>
+# </p>
+
+# <p>
+#   <strong>Title:</strong>
+#   <%= @question.title %>
+# </p>
+
+# <p>
+#   <strong>Body:</strong>
+#   <%= @question.body %>
+# </p>
+
+# <%= link_to 'Edit', edit_question_path(@question) %> |
+# <%= link_to 'Back', questions_path %>
+-->

@@ -1,0 +1,55 @@
+<div class="container">
+  <header class="jumbotron my-4">
+    <h1 class="display-3">Questions</h1>
+    <%= link_to '質問する！', new_question_path, class: 'btn btn-primary btn-lg' %>
+  </header>
+  <div class="row text-center">
+    <% @questions.each do |question| %>
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card h-100">
+        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <div class="card-body">
+          <h4 class="card-title"><%= question.title %></h4>
+          <p class="card-text"><%= question.body %></p>
+        </div>
+        <div class="card-footer">
+          <%= link_to '詳細', question %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+
+<!--
+# <h1>Questions</h1>
+
+# <table>
+#   <thead>
+#     <tr>
+#       <th>User</th>
+#       <th>Title</th>
+#       <th>Body</th>
+#       <th colspan="3"></th>
+#     </tr>
+#   </thead>
+
+#   <tbody>
+#     <% @questions.each do |question| %>
+#       <tr>
+#         <td><%= question.user_id %></td>
+#         <td><%= question.title %></td>
+#         <td><%= question.body %></td>
+#         <td><%= link_to 'Show', question %></td>
+#         <td><%= link_to 'Edit', edit_question_path(question) %></td>
+#         <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+#       </tr>
+#     <% end %>
+#   </tbody>
+# </table>
+
+# <br>
+
+# <%= link_to 'New Question', new_question_path %>
+-->
