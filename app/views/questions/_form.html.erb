@@ -21,7 +21,16 @@
     <%= form.label :body %>
     <%= form.text_field :body %>
   </div>
-
+  
+  <!--ここを追加-->
+  <div class="field">
+    <% @tags.each do |t| %>
+      <%= form.label t.name %>
+      <%= check_box_tag "question[tag_ids][]", t.id, @question.tags.include?(t) %>
+      <br/>
+    <% end %>
+  </div>
+  
   <div class="actions">
     <%= form.submit %>
   </div>

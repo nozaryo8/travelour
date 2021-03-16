@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   resources :reactions
   # resources :answers　使うリソースは少ないため限定して設定する
   get 'answers' => 'answers#index'

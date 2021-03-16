@@ -6,7 +6,8 @@ class QuestionsController < ApplicationController
   # GET /questions or /questions.json
   def index
     #@questions = current_user.questions.all
-    @questions = Question.all
+    @q = Question.ransack(params[:q])
+    @questions = @q.result(distinct: true)
   end
 
   # GET /questions/1 or /questions/1.json
@@ -15,11 +16,15 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
+    # 新規作成画面でタグを表示するため
+    @tags = Tag.all
     @question = Question.new
   end
 
   # GET /questions/1/edit
   def edit
+    # 修正画面でタグを表示するため
+    @tags = Tag.all
   end
 
   # POST /questions or /questions.json
@@ -69,6 +74,7 @@ class QuestionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def question_params
-      params.require(:question).permit(:user_id, :title, :body, :best_answer_id)
+      # ここを修正
+      params.require(:question).permit(:user_id, :title, :body, :best_answer_id, {:tag_ids => []})
     end
 end

@@ -9,6 +9,10 @@
   </div>
   <header class="jumbotron my-4">
     <h2 class="card-title"><%= @question.title %></h2>
+    <!--ここにボタン形式でタグを表示-->
+    <% @question.tags.each do |tag| %>
+      <button class="btn btn-info"><%= tag.name %></button>
+    <% end %>
   </header>
   <div class="card-body">
     内容：<br><%= @question.body %><br>
