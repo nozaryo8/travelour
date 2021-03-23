@@ -1,7 +1,7 @@
 # ユーザーのデータ
 User.create(
     [
-        {username: '鈴木太郎', email: 'sitsumon1@gmail.com', password: '11111111', password_confirmation: '11111111'},
+        {username: '鈴木太郎', email: 'sitsumon1@gmail.com', password: '11111111', password_confirmation: '11111111',profile: "こんにちは"},
         {username: '佐々木太郎', email: 'sitsumon2@gmail.com', password: '11111111', password_confirmation: '11111111'},
         {username: '田中太郎', email: 'sitsumon3@gmail.com', password: '11111111', password_confirmation: '11111111'},
         {username: '高橋花子', email: 'kaitou1@gmail.com', password: '11111111', password_confirmation: '11111111'},

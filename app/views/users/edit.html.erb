@@ -1,0 +1,44 @@
+<% if @user.errors.any? %>
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading"><%= pluralize(@user.errors.count, "error") %></h4>
+    <p><%= pluralize(@user.errors.count, "error") %> 更新ができませんでした</p>
+    <hr>
+    <p class="mb-0">
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </p>
+  </div>
+<% end %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-6 mx-auto">
+      <h2>編集</h2>
+      <%= form_with(model: @user, local: true) do |f| %>
+        <div class="form-group">
+          <label>ユーザー名</label>
+          <%= f.text_field :username, class: "form-control"%>
+        </div>
+        <div class="form-group">
+          <label>メールアドレス</label>
+          <%= f.text_field :email, class: "form-control"%>
+        </div>
+        <div class="form-group">
+          <label>自己紹介文</label>
+          <%= f.text_field :profile, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= link_to "パスワードの変更はこちら" , edit_user_registration_path%>
+          
+        </div>
+        
+        <div>
+          <%= f.submit class: "btn btn-success" %>
+        </div>
+      <% end %>
+      <br>
+      <%= button_to "アカウント削除", registration_path(current_user), data: { confirm: "本当によろしいですか？" }, method: :delete %></p>
+    </div>
+  </div>
+</div>
