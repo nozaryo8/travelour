@@ -6,6 +6,9 @@ class User < ApplicationRecord
          :lockable, :timeoutable, :trackable, :omniauthable, omniauth_providers:[:twitter,:facebook]
 
   has_many :questions, dependent: :destroy
+  has_many :evaluations, dependent: :destroy
+  validates :username, presence: true 
+  validates :profile, length: { maximum: 200 } 
 
   def self.find_for_oauth(auth)
     user = User.where(uid: auth.uid, provider: auth.provider).first
@@ -19,7 +22,13 @@ class User < ApplicationRecord
         username: auth.info.nickname
       )
     end
-    user
+   
+  end
+
+  def already_evaluation?(question)
+    #current_userが関係しているevaluationがquestion_idをもっているか？
+    #selfにはcurrent_userが入る。
+    self.evaluations.exists?(question_id: question.id)
   end
 
   # def self.from_omniauth(auth)

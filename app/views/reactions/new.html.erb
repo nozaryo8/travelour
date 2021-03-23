@@ -1,10 +1,10 @@
-<h1>New Reaction</h1>
+<h1>コメントする</h1>
  
 <%= form_with(model: @reaction, url: answer_reactions_path(@reaction.answer.id), local: true) do |form| %>
   <% if @reaction.errors.any? %>
     <div id="error_explanation">
-      #pluralizeヘルパー英語専用のテキストヘルパー。最初の引数に整数があると、それに基づいて２番目の引数である英単語が複数形に変化したものが渡される。
-      #このコードだと"0 errors"、"1 error"、"2 errors"などのように、エラーの数によって活用される単語が変わってきます。
+      <!--#pluralizeヘルパー英語専用のテキストヘルパー。最初の引数に整数があると、それに基づいて２番目の引数である英単語が複数形に変化したものが渡される。
+      #このコードだと"0 errors"、"1 error"、"2 errors"などのように、エラーの数によって活用される単語が変わってきます。 -->
       <h2><%= pluralize(@reaction.errors.count, "error") %> prohibited this reaction from being saved:</h2>
  
       <ul>

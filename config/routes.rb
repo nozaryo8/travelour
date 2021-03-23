@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   resources :reactions
@@ -10,9 +11,20 @@ Rails.application.routes.draw do
       resources :reactions
     end
   end
-  #devise_for :users はrails g devise Userで自動追加された
-  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
-  root 'pages#index'
+
+  resources :questions do
+    resource :evaluation, only: [:create, :destroy]
+  end
+  #devise_for :users はrails g devise Userで自動追加されたこれでdeviseのコントローラーを使うことができる
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' ,
+    registrations: 'users/registrations',
+    sessions: 'users/sessions' 
+  }
+  get 'users/show', to: 'users#show'
+  resources :users 
+  resource :user, except: [:new, :create, :destroy]
+  root 'questions#index'
+  get 'pages/index'
   get 'pages/show'
   get 'questions', to:'questions#index'
   get 'static_pages/home'

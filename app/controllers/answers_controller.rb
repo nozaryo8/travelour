@@ -5,7 +5,12 @@ class AnswersController < ApplicationController
 
   # GET /answers or /answers.json
   def index
+    @q = Question.ransack(params[:q])
+    @tags = Tag.ransack(params[:q])
+   
+    @a = Answer.ransack(params[:q])
     @questions = Question.all
+   
   end
 
   # GET /answers/1 or /answers/1.json
@@ -14,9 +19,11 @@ class AnswersController < ApplicationController
 
   # GET /answers/new
   def new
-    
     question = Question.find(params[:question_id])
     @answer = question.answers.build(user_id: current_user.id)
+    if question.user.id == current_user.id
+      redirect_to question
+    end
   end
 
   # GET /answers/1/edit

@@ -1,5 +1,5 @@
-@import '~bootstrap/scss/bootstrap';
-.user_color{
+@import "~bootstrap/scss/bootstrap";
+.user_color {
   background-color: blue;
   color: white;
 }
@@ -12,8 +12,11 @@
     left: 50%;
   }
 }
- 
-.best-answer{
+
+.best-answer {
   background-color: red;
-  color: white;
+  color: black;
+}
+header {
+  margin-bottom: 80px;
 }

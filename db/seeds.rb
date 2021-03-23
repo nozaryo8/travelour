@@ -46,10 +46,18 @@ Reaction.create(
 
 Tag.create(
     [
-        {name: '動物'},
-        {name: 'スポーツ'},
-        {name: 'ご飯'},
-        {name: 'その他'}])
+        {name: '観光'},
+        {name: 'ホテル'},
+        {name: 'ショッピング'},
+        {name: 'グルメ'},
+        {name: '交通'},
+        {name: '治安'},
+        {name: 'トラブル'},
+        {name: '通貨・クレジットカード'},
+        {name: '天候・気候'},
+        {name: '郵便・電話'},
+        {name: 'Wi-Fiレンタル・Wi-Fiスポット・SIMカード'}
+      ])
 
 # activeadmin(管理画面)に入るためのユーザーです。ターミナルで「rails g active_admin:install」を実行後作成されます。
 AdminUser.create!(email: 'admin@gmail.com', password: '11111111', password_confirmation: '11111111') if Rails.env.development?
