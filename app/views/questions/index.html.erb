@@ -24,14 +24,18 @@
           <% question.tags.each do |tag| %>
             <button class="btn btn-info"><%= tag.name %></button>
           <% end %>
-          <% if current_user.already_evaluation?(question) %>
-            <%= link_to question_evaluation_path(question), method: :delete do%>
-              <i class="fas fa-heart"></i>
-            <%end%>
+          <% if user_signed_in? %>
+            <% if current_user.already_evaluation?(question) %>
+              <%= link_to question_evaluation_path(question), method: :delete do%>
+                <i class="fas fa-heart"></i>
+              <%end%>
+            <% else %>
+              <%= link_to question_evaluation_path(question), method: :post do%>
+                <i class="far fa-heart"></i>
+              <%end%>
+            <% end %>
           <% else %>
-            <%= link_to question_evaluation_path(question), method: :post do%>
-              <i class="far fa-heart"></i>
-            <%end%>
+            <i class="far fa-heart"></i>
           <% end %>
           <%= question.evaluations.count%>
           <%if question.best_answer_id != nil %>

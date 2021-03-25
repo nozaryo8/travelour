@@ -15,7 +15,7 @@ Question.create(
         {title: '美味しいご飯や', body: '名古屋周辺の美味しいご飯屋さん教えてください', user_id: 2},
         {title: '明日の天気', body: '明日の天気は？', user_id: 2},
         {title: '読書時間について', body: '一日の読書時間はどれぐらい？', user_id: 3},
-        {title: '英語の勉強法', body: '英語はどうやって勉強したらいいですか？', user_id: 3}])
+        {title: '英語の勉強法', body: '英語はどうやって勉強したらいいですか？', user_id: 3,}])
  
 Answer.create(
     [
@@ -58,6 +58,12 @@ Tag.create(
         {name: '郵便・電話'},
         {name: 'Wi-Fiレンタル・Wi-Fiスポット・SIMカード'}
       ])
+
+ #質問にタグをつける
+questions = Question.all
+questions.each do |q|
+    q.tag_ids = rand(1..11)
+end
 
 # activeadmin(管理画面)に入るためのユーザーです。ターミナルで「rails g active_admin:install」を実行後作成されます。
 AdminUser.create!(email: 'admin@gmail.com', password: '11111111', password_confirmation: '11111111') if Rails.env.development?

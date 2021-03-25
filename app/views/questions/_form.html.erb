@@ -19,6 +19,8 @@
   <div class="field" id="checkbox">
     <% @tags.each do |t| %>
       <%= form.label t.name %>
+      <%= radio_button "question", "tag_ids" ,t.id  %>
+      <%= form.radio_button "tag_ids","[]", t.id %>
       <%= check_box_tag "question[tag_ids][]", t.id, @question.tags.include?(t) %>
       <br/>
     <% end %>

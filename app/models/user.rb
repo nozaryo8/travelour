@@ -9,7 +9,12 @@ class User < ApplicationRecord
   has_many :evaluations, dependent: :destroy
   validates :username, presence: true 
   validates :profile, length: { maximum: 200 } 
-
+  #tutorial 13章画像のアップロード
+  # validates :image,   content_type: { in: %w[image/jpeg image/gif image/png],
+  #   message: "画像ファイルを選択して下さい" },
+  #             size:         { less_than: 5.megabytes, message: "5MB以下のファイルをアップロードしてください" }
+  mount_uploader :image, ImageUploader
+  has_one_attached :image
   def self.find_for_oauth(auth)
     user = User.where(uid: auth.uid, provider: auth.provider).first
 

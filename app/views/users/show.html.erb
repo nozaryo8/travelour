@@ -1,12 +1,35 @@
-<div class="container mt-5">
+<div class="container mt-5 user">
   <div class="row">
     <div class="col-7 mx-auto">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title"><%= current_user.username %></h5>
           <h6 class="card-subtitle mb-2 text-muted"><%= current_user.email%></h6>
+          <% if current_user.profile? %>
+            <h6 class="">自己紹介</h6>
+            <h6 class=""><%= current_user.profile%></h6>
+          <% end %>
+          <%= image_tag current_user.image.url if current_user.image? %>
+          <br>
           <%= link_to 'ユーザー編集' ,edit_user_path%>
         </div>
+        <ul class="user-tabs">
+          <li class="active"><%= link_to("投稿", "#") %></li>
+        </ul>
+        
+        <% current_user.questions.each do |question| %>            
+          <div class="posts-index-item"> 
+            <div class="post-left">            
+              <%= image_tag current_user.image.url if current_user.image? %>            
+            </div>                    
+            <div class="post-right">            
+              <div class="post-user-name">            
+                <%= link_to(question.user.username, question.user) %>            
+              </div>            
+                <%= link_to(question.title, question) %>            
+            </div>            
+          </div>            
+        <% end %>
       </div>
     </div>
   </div>

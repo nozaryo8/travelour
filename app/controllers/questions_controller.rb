@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: %i[ show edit update destroy ]
   #@tagsを作成する ブラウザでタグを表示するため
   before_action :set_tag, only:[:new,:edit,:create,:update]
-  # before_action :authenticate_user!
+  before_action :authenticate_user!, only:[:new,:create,:edit,:update]
   
   # GET /questions or /questions.json
   def index

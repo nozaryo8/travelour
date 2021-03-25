@@ -21,6 +21,9 @@ gem 'ransack'
 gem 'rails-i18n'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
+gem 'carrierwave', '~> 1.3', '>= 1.3.1'
+gem 'active_storage_validations', '0.8.2'
+gem 'rmagick'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

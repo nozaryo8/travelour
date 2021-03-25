@@ -2,8 +2,10 @@
   <!--使いやすいように上にも追加-->
   <div class="text-right">
     <!--この質問をしたユーザーであれば修正を許可-->
-    <% if current_user.id == @question.user_id %>
-      <%= link_to '編集', edit_question_path(@question) %> |
+    <%if current_user != nil%>
+      <% if current_user.id == @question.user_id %>
+        <%= link_to '編集', edit_question_path(@question) %> |
+      <% end %>
     <% end %>
     <%= link_to '戻る', questions_path %>
   </div>
@@ -14,14 +16,18 @@
       <button class="btn btn-info"><%= tag.name %></button>
     <% end %>
 
-    <% if current_user.already_evaluation?(@question) %>
-      <%= link_to question_evaluation_path(@question), method: :delete do%>
-        <i class="fas fa-heart"></i>
-      <%end%>
+    <% if user_signed_in? %>
+      <% if current_user.already_evaluation?(@question) %>
+        <%= link_to question_evaluation_path(@question), method: :delete do%>
+          <i class="fas fa-heart"></i>
+        <%end%>
+      <% else %>
+        <%= link_to question_evaluation_path(@question), method: :post do%>
+          <i class="far fa-heart"></i>
+        <%end%>
+      <% end %>
     <% else %>
-      <%= link_to question_evaluation_path(@question), method: :post do%>
-        <i class="far fa-heart"></i>
-      <%end%>
+          <i class="far fa-heart"></i>
     <% end %>
     <%= @question.evaluations.count%>
     <small class="text-muted updated">更新日：<%= @question.updated_at.strftime("%Y-%m-%d") %></small>
@@ -29,7 +35,7 @@
   <div class="card-body">
     内容：<br><%= @question.body %><br>
  
-    質問ユーザー：<span class="<%= "user_color" if current_user.id == @question.user_id %>"><%= @question.user.username %></span>
+    質問ユーザー：<span><%= @question.user.username %></span>
   </div>
   <!--ここから下が回答-->
   <div class="row">
@@ -42,7 +48,7 @@
         <div class="card-body  <%= "best-answer" if @question.best_answer_id == answer.id %>">
             <div><%= answer.body %></div>
             <p class="text-right">
-              <span class="<%= "user_color" if current_user.id == answer.user_id %>">
+              <span>
                 回答ユーザー：<%= answer.user.username %>
               </span>
             </p>
@@ -53,7 +59,7 @@
                     <div class="card-body">
                       <div><%= reaction.body %></div>
                       <p class="text-right">
-                        <span class="<%= "user_color" if current_user.id == reaction.user_id %>">
+                        <span>
                           回答ユーザー：<%= reaction.user.username %>
                         </span>
                       </p>
@@ -68,38 +74,41 @@
           </div>
         </div>
       </div>
-      <% if @question.user.id == current_user.id && @question.best_answer_id == nil %>
-        <div class="col-lg-1 col-md-1 ba-parent">
-          <!--disablesと確認ダイアログを追加-->
-          <div class="ba-child text-center">
-            <%= form_with(model: @question, local: true, data: {confirm: "#{answer.user.username}さんの回答をベストアンサーにします。よろしいですか？"}) do |form| %>
-              <%= form.hidden_field :best_answer_id, value: answer.id %>
-              <div class="actions">
-                <%= form.submit 'ベストアンサー'%>
-              </div>
-            <% end %>
+      <%if current_user != nil%>
+        <% if @question.user.id == current_user.id && @question.best_answer_id == nil %>
+          <div class="col-lg-1 col-md-1 ba-parent">
+            <!--disablesと確認ダイアログを追加-->
+            <div class="ba-child text-center">
+              <%= form_with(model: @question, local: true, data: {confirm: "#{answer.user.username}さんの回答をベストアンサーにします。よろしいですか？"}) do |form| %>
+                <%= form.hidden_field :best_answer_id, value: answer.id %>
+                <div class="actions">
+                  <%= form.submit 'ベストアンサー'%>
+                </div>
+              <% end %>
+            </div>
           </div>
-        </div>
-      
-      <% elsif @question.user.id == current_user.id && @question.best_answer_id != nil && answer.id == @question.best_answer_id %>
-        <div class="col-lg-1 col-md-1 ba-parent">
-          <!--disablesと確認ダイアログを追加-->
-          <div class="ba-child text-center">
-            <%= form_with(model: @question, local: true, data: {confirm: "をベストアンサーを取り消します。よろしいですか？"}) do |form| %>
-              <%= form.hidden_field :best_answer_id, value: nil %>
-              <div class="actions">
-                <%= form.submit 'ベストアンサーを取り消す' %>
-              </div>
-            <% end %>
+        <% elsif @question.user.id == current_user.id && @question.best_answer_id != nil && answer.id == @question.best_answer_id %>
+          <div class="col-lg-1 col-md-1 ba-parent">
+            <!--disablesと確認ダイアログを追加-->
+            <div class="ba-child text-center">
+              <%= form_with(model: @question, local: true, data: {confirm: "をベストアンサーを取り消します。よろしいですか？"}) do |form| %>
+                <%= form.hidden_field :best_answer_id, value: nil %>
+                <div class="actions">
+                  <%= form.submit 'ベストアンサーを取り消す' %>
+                </div>
+              <% end %>
+            </div>
           </div>
-        </div>
-      <%end%>
+        <%end%>
+      <% end %>
     <% end %>
   </div>
   <div class="text-right">
-  <% if current_user.id == @question.user_id %>
-    <%= link_to '編集', edit_question_path(@question) %> |
-    <%= link_to '削除する', @question , method: :delete, data: { confirm: '本当によろしいですか？'} %> |
+  <%if current_user != nil%>
+    <% if current_user.id == @question.user_id %>
+      <%= link_to '編集', edit_question_path(@question) %> |
+      <%= link_to '削除する', @question , method: :delete, data: { confirm: '本当によろしいですか？'} %> |
+    <% end %>
   <% end %>
   <%= link_to '戻る', questions_path %>
   </div>
