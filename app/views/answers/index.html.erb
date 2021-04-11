@@ -2,7 +2,7 @@
   <header class="jumbotron my-4">
     <h1 class="display-3">Answers</h1>
   </header>
-  <%= search_form_for @q do |f| %>
+  <%= search_form_for(@q ,url: answers_url) do |f| %>
     <strong>タイトルを検索する</strong><br>
 
     <%= f.search_field :title_cont %>

@@ -1,32 +1,119 @@
 class QuestionsController < ApplicationController
+  protect_from_forgery except: :get_body
   #@questionを作成する
-  before_action :set_question, only: %i[ show edit update destroy ]
+  before_action :set_question, only: %i[ show edit update destroy]
   #@tagsを作成する ブラウザでタグを表示するため
   before_action :set_tag, only:[:new,:edit,:create,:update]
   before_action :authenticate_user!, only:[:new,:create,:edit,:update]
   
+  def top
+
+  end
+  def area
+    @countries = Country.all
+  end
+
   # GET /questions or /questions.json
   def index
     #@questions = current_user.questions.all
     @q = Question.ransack(params[:q])
-    @questions = @q.result(distinct: true)
+    @question = @q.result(distinct: true)
+    
+    if params[:format] == "1"
+      @questions = @q.result(distinct: true).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+      
+    elsif params[:format] == "2"
+      question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+      
+    elsif params[:format] == "3"
+      question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+    elsif params[:format] == "4"
+      question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+    else
+      @questions = @q.result(distinct: true).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+    end
+
+  end
+
+  def resolved_question
+    @q = Question.ransack(params[:q])
+    if params[:format] == "1"
+      @questions = @q.result(distinct: true).page(params[:page]).per(10).where.not(best_answer_id: nil).order(created_at: "DESC")
+      
+    elsif params[:format] == "2"
+      question = @q.result(distinct: true).where.not(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+      
+    elsif params[:format] == "3"
+      question = @q.result(distinct: true).where.not(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+    elsif params[:format] == "4"
+      question = @q.result(distinct: true).where.not(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+    else
+      @questions = @q.result(distinct: true).page(params[:page]).per(10).where.not(best_answer_id: nil).order(created_at: "DESC")
+    end
+  end
+  
+  def all_question
+    @q = Question.ransack(params[:q])
+    if params[:format] == "1"
+      @questions = @q.result(distinct: true).page(params[:page]).per(10).all.order(created_at: "DESC")
+    elsif params[:format] == "2"
+      question = @q.result(distinct: true).all.sort {|a,b| b.answers.size <=> a.answers.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+      
+    elsif params[:format] == "3"
+      question = @q.result(distinct: true).all.sort {|a,b| a.answers.size <=> b.answers.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+    elsif params[:format] == "4"
+      question = @q.result(distinct: true).all.sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
+    else
+      @questions = @q.result(distinct: true).page(params[:page]).per(10).all.order(created_at: "DESC")
+    end
   end
 
   # GET /questions/1 or /questions/1.json
   def show
     # before_action :set_question
+    if @question.best_answer_id
+      @bestanswer = Answer.find(@question.best_answer_id)
+    end
+    question = Question.find(params[:id])
+    @answer = question.answers.build(user_id: current_user.id)
   end
 
+  
   # GET /questions/new
   def new
+    if params[:area]
+      @c = Country.find(params[:area])
+    end
     @question = Question.new
+    @continents = Continent.all
+    @countries = Country.all
     # before_action :set_tag
+  end
+
+  def get_body
+    @continent = Continent.find(params[:continent_id])
+    @countries = @continent.countries
+    
+    respond_to do |format|
+      format.js
+    end
   end
 
   # GET /questions/1/edit
   def edit
     # before_action :set_question
     # before_action :set_tag
+    @countries = Country.all
+    @continents = Continent.all
     if @question.user.id != current_user.id
       redirect_to root_url , alert: '不正なアクセスです'
     end
@@ -96,6 +183,6 @@ class QuestionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def question_params
       # ここを修正
-      params.require(:question).permit(:user_id, :title, :body, :best_answer_id, {:tag_ids => []})
+      params.require(:question).permit(:user_id, :title, :body, :best_answer_id,:country_id,:tag_id)
     end
 end

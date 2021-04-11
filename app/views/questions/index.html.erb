@@ -1,85 +1,65 @@
-<div class="container">
-  <header class="jumbotron my-4">
-    <h1 class="display-3">Questions</h1>
-    <%= link_to '質問する！', new_question_path, class: 'btn btn-primary btn-lg' %>
-  </header>
-
-  <!-- Questionの検索フォームを作る-->
-  <%= search_form_for @q do |f| %>
-    <strong>タイトルを検索する</strong><br>
-
-    <%= f.search_field :title_cont %>
-    <%= f.search_field :body_cont %>
-    <%= f.submit %>
-  <% end %>
-  <br>
-  <div class="row text-center">
-    <% @questions.each do |question| %>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card h-100">
-        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-        <div class="card-body">
-          <h4 class="card-title"><%= question.title %></h4>
-          <p class="card-text"><%= question.body %></p>
-          <% question.tags.each do |tag| %>
-            <button class="btn btn-info"><%= tag.name %></button>
-          <% end %>
-          <% if user_signed_in? %>
-            <% if current_user.already_evaluation?(question) %>
-              <%= link_to question_evaluation_path(question), method: :delete do%>
-                <i class="fas fa-heart"></i>
-              <%end%>
-            <% else %>
-              <%= link_to question_evaluation_path(question), method: :post do%>
-                <i class="far fa-heart"></i>
-              <%end%>
+<div class="container mt-5 col-10">
+  <h2 class="text-center">Q&A一覧</h2>
+</div>
+<div class="container mt-5">
+  <div class="card col-10">
+    <ul class="nav nav-tabs">
+      <li class="nav-item col-4 text-center">
+        <%= link_to "回答受付中", questions_path ,class: "nav-link active h6"%>
+      </li>
+      <li class="nav-item col-4 text-center ">
+        <%= link_to "解決済み", questions_resolved_question_path,class: "nav-link h6" %>
+      </li>
+      <li class="nav-item col-4 text-center">
+        <%= link_to "全て",questions_all_question_path,class: "nav-link h6" %>
+      </li>
+      
+    </ul>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 mx-auto">
+          <li class="nav-item dropdown text-center nav nav-tabs d-flex justify-content-between">
+            <h6 class="text-muted nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <% if params[:format] == "2"%>
+              回答数の多い順
+            <% elsif params[:format] == "3"%>
+              回答数の少ない順
+            <% elsif params[:format] == "4"%>
+              参考になった順
+            <% else%>
+              質問日時の新しい順
             <% end %>
-          <% else %>
-            <i class="far fa-heart"></i>
-          <% end %>
-          <%= question.evaluations.count%>
-          <%if question.best_answer_id != nil %>
-            <h4 style="color :red">解決済</h4> 
-          <% end %>
-        </div>
-        <div class="card-footer">
-          <%= link_to '詳細', question %>
+            </h6>
+            <div class="dropdown-menu">
+              <%=link_to "質問日時の新しい順",questions_path(1), class: "dropdown-item small"%>
+              <%=link_to "回答数の多い順",questions_path(2), class: "dropdown-item small"%>
+              <%=link_to "回答数の少ない順",questions_path(3), class: "dropdown-item small"%>
+              <%=link_to "役に立った順",questions_path(4), class: "dropdown-item small"%>
+            </div>
+            <div class="text-muted d-flex">
+              <%= search_form_for @q do |f| %>
+                <div class="input-group">
+                  <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control", placeholder: "キーワード検索"%>
+                  <div class="input-group-append">
+                    <%= f.submit class: "input-group-text"%>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </li>
+          <ul class="list-group mb-3">
+            <% @questions.each do |question|%>
+              <%= link_to(question, class: "list-group-item list-group-item-action") do%>
+                <p class="mb-2"><%= question.tag.name %></p>
+                <h5 class="list-group-item-heading "><%= question.title%></h5>
+                <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%></span><%="#{l(question.created_at)}"%></p>
+              <%end%>
+            <%end%>
+            <%= paginate @questions%>
+          </ul>
         </div>
       </div>
     </div>
-    <% end %>
   </div>
 </div>
-
-
-<!--
-# <h1>Questions</h1>
-
-# <table>
-#   <thead>
-#     <tr>
-#       <th>User</th>
-#       <th>Title</th>
-#       <th>Body</th>
-#       <th colspan="3"></th>
-#     </tr>
-#   </thead>
-
-#   <tbody>
-#     <% @questions.each do |question| %>
-#       <tr>
-#         <td><%= question.user_id %></td>
-#         <td><%= question.title %></td>
-#         <td><%= question.body %></td>
-#         <td><%= link_to 'Show', question %></td>
-#         <td><%= link_to 'Edit', edit_question_path(question) %></td>
-#         <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-#       </tr>
-#     <% end %>
-#   </tbody>
-# </table>
-
-# <br>
-
-# <%= link_to 'New Question', new_question_path %>
--->
+<br>

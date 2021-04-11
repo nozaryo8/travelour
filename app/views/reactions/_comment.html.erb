@@ -1,0 +1,25 @@
+<%= form_with(model: @reaction,url: answer_reactions_path(@reaction.answer.id)) do |form| %>
+  
+  <% if @reaction.errors.any? %>
+    <div id="error_explanation">
+      
+      <h2><%= pluralize(@reaction.errors.count, "error") %> </h2>
+ 
+      <ul>
+        <% @reaction.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  
+  <div class="field">
+    <%= form.text_area :body , class: "form-control" ,placeholder: "回答に関するコメントを入力してください" %>
+  </div>
+ 
+  <div class="actions">
+    <%= form.submit "コメントする" ,class: "btn btn-primary"%>
+  </div>
+<% end %>

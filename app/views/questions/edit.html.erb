@@ -1,6 +1,15 @@
-<h1>投稿を編集する</h1>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 mx-auto">
+        <h2 class="question_post">編集</h2>
+        <%= render 'form', question: @question %>
 
-<%= render 'form', question: @question %>
-
-<%= link_to 'Show', @question %> |
-<%= link_to 'Back', questions_path %>
+        <%= link_to 'Show', @question %> |
+        <%= link_to 'Back', questions_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

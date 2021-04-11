@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  protect_from_forgery except: :new
   before_action :authenticate_user!
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
   # before_action :set_answer, only: %i[ show edit update destroy ]
@@ -9,8 +10,8 @@ class AnswersController < ApplicationController
     @tags = Tag.ransack(params[:q])
    
     @a = Answer.ransack(params[:q])
-    @questions = Question.all
-   
+    @questions = @q.result(distinct: true)
+    
   end
 
   # GET /answers/1 or /answers/1.json
@@ -21,14 +22,21 @@ class AnswersController < ApplicationController
   def new
     question = Question.find(params[:question_id])
     @answer = question.answers.build(user_id: current_user.id)
+    
     if question.user.id == current_user.id
       redirect_to question
     end
+    respond_to do |format|
+      format.html 
+      format.js
+    end
+    
   end
 
   # GET /answers/1/edit
   def edit
   end
+
 
   # POST /answers or /answers.json
   def create
@@ -37,10 +45,10 @@ class AnswersController < ApplicationController
     @answer = question.answers.build(answer_params)
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to @answer, notice: "Answer was successfully created." }
+        format.html { redirect_to question, notice: "回答を送信しました" }
         format.json { render :show, status: :created, location: @answer }
       else
-        format.html { render :new }
+        format.html { render question }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
       end
     end
@@ -50,10 +58,10 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to @answer, notice: "Answer was successfully updated." }
+        format.html { redirect_to @answer.question, notice: "回答を更新しました" }
         format.json { render :show, status: :ok, location: @answer }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :question }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
       end
     end
@@ -63,7 +71,7 @@ class AnswersController < ApplicationController
   def destroy
     @answer.destroy
     respond_to do |format|
-      format.html { redirect_to answers_url, notice: "Answer was successfully destroyed." }
+      format.html { redirect_back fallback_location: root_path, notice: "回答を削除しました"  }
       format.json { head :no_content }
     end
   end

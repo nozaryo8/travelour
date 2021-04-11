@@ -1,6 +1,6 @@
 class ReactionsController < ApplicationController
   before_action :set_reaction, only: %i[ show edit update destroy ]
-
+  protect_from_forgery except: :new
   # GET /reactions or /reactions.json
   def index
     answer = Answer.find(params[:answer_id])
@@ -13,8 +13,15 @@ class ReactionsController < ApplicationController
 
   # GET /reactions/new
   def new
+    @answer = Answer.find(params[:answer_id])
     answer = Answer.find(params[:answer_id])
     @reaction = answer.reactions.build(user_id: current_user.id)
+    
+    respond_to do |format|
+      format.html 
+      format.js
+    end
+    # @reaction = answer.reactions.build(user_id: current_user.id)
   end
 
   # GET /reactions/1/edit
@@ -23,12 +30,13 @@ class ReactionsController < ApplicationController
 
   # POST /reactions or /reactions.json
   def create
+   
     answer = Answer.find(params[:answer_id])
     @reaction = answer.reactions.build(reaction_params)
-
+    
     respond_to do |format|
       if @reaction.save
-        format.html { redirect_to answer.question, notice: "Reaction was successfully created." }
+        format.html { redirect_to answer.question, notice: "コメントを送信しました。" }
         format.json { render :show, status: :created, location: @reaction }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -54,7 +62,7 @@ class ReactionsController < ApplicationController
   def destroy
     @reaction.destroy
     respond_to do |format|
-      format.html { redirect_to reactions_url, notice: "Reaction was successfully destroyed." }
+      format.html { redirect_back fallback_location: root_path , notice: "コメントを削除しました。" }
       format.json { head :no_content }
     end
   end
@@ -68,5 +76,6 @@ class ReactionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def reaction_params
       params.require(:reaction).permit(:user_id, :answer_id, :body)
+      
     end
 end

@@ -1,7 +1,4 @@
-<!-- 回答する際に質問を表示しておくと分かりやすそうなので配置 -->
-<div>質問情報</div>
-タイトル：<%= @answer.question.title %><br>
-内容：<%= @answer.question.body %><br>
+
 <%= form_with(model: @answer, url: question_answers_path,local: true) do |form| %>
   <% if @answer.errors.any? %>
     <div id="error_explanation">

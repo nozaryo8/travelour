@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   has_many :questions, dependent: :destroy
   has_many :evaluations, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :goods, dependent: :destroy
   validates :username, presence: true 
   validates :profile, length: { maximum: 200 } 
   #tutorial 13章画像のアップロード
@@ -34,6 +36,10 @@ class User < ApplicationRecord
     #current_userが関係しているevaluationがquestion_idをもっているか？
     #selfにはcurrent_userが入る。
     self.evaluations.exists?(question_id: question.id)
+  end
+
+  def already_good?(answer)
+    self.goods.exists?(answer_id: answer.id)
   end
 
   # def self.from_omniauth(auth)

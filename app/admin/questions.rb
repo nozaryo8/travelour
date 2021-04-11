@@ -12,8 +12,8 @@ ActiveAdmin.register Question do
       row :title
       row :body
       row :best_answer_id
-      row :tags do
-        question.tags.collect { |n| n.name }.join(', ')
+      row :tag do
+        question.tag.collect { |n| n.name }.join(', ')
       end
       
     end
@@ -25,7 +25,7 @@ ActiveAdmin.register Question do
       f.input :title
       f.input :body
       f.input :best_answer_id
-      f.has_many :question_tags, allow_destroy: true, new_record: true do |t|
+      f.has_many :question_tag, allow_destroy: true, new_record: true do |t|
         t.input :tag_id,
                 label: 'タグ',
                 as: :select,
@@ -37,7 +37,7 @@ ActiveAdmin.register Question do
   permit_params :title,
                 :body,
                 :best_answer_id,
-                question_tags_attributes: [:id, :tag_id, :_destroy]
+                question_tag_attributes: [:id, :tag_id, :_destroy]
   
   
   

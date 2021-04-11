@@ -1,0 +1,40 @@
+<div class="maps">
+  <div class="map" data-map="all" style="display: block">
+    <div class="mapbtn" data-map="asia">アジア</div>
+      <%= image_tag "/images/map.png" ,class: "all"%>
+  </div>
+  <div class="map" data-map="asia">
+    <%= image_tag "/images/map.png" ,class: "asia"%>
+    <div class="mapbtn" data-map="all">戻る</div>
+    <%= link_to "韓国" ,"/questions/new?area=1" ,style: "top: 230px; left: 410px"%>
+  </div>
+</div>  
+
+<script>
+$(function () {
+    $(".mapbtn").click(function () {
+        var map = $(this).data("map");
+        $(".map").each(function (index, element) {
+            if ($(element).data("map") === map) {
+                $(element).show();
+            } else {
+                $(element).hide();
+            }
+        })
+    })
+});
+</script>
+
+
+
+<!--<div class="container">
+  <div class="row">
+    <div class="col">
+      <% @countries.each do |country|%>
+        <a href ="#" class="thumbnail">
+          <%= image_tag country.image ,class: "country" if country.image? %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div> -->

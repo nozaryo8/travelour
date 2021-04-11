@@ -124,8 +124,6 @@
   padding: 10px;
 }
 
-.photo_list_bg {
-}
 //display:block;
 
 .america {
@@ -161,4 +159,287 @@
   letter-spacing: 0.4rem;
   color: #66cdaa;
   padding: 10px;
+}
+
+/* --- 全体のBOX定義 ---------------------------------------- */
+.box {
+  position: relative;
+  width: 500px;
+  height: 425px;
+  // margin: auto;
+  overflow: hidden;
+}
+
+/* --- 背景の指定 ------------------------------------------- */
+.box .bgImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  animation: bgAnime 20s infinite; /* 4画像 × 各5s = 20s */
+}
+
+/* --- 段差で背景画像のアニメーションを実行 ----------------- */
+.box .src1 {
+  background-image: url(/images/place_image.png); /* 背景の画像を指定 */
+  background-size: 500px 425px;
+}
+.box .src2 {
+  background-image: url(/images/menu.png); /* 背景の画像を指定 */
+  animation-delay: 5s;
+  background-size: 500px 425px;
+}
+.box .src3 {
+  background-image: url(/images/course.png); /* 背景の画像を指定 */
+  animation-delay: 10s;
+  background-size: 500px 425px;
+}
+
+@keyframes bgAnime {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* --- 前面の文字定義（サンプルのため変更してください） ----- */
+.box .boxString {
+  position: absolute;
+  display: inline-block;
+  padding: 20px;
+  background: rgba(0, 127, 255, 0.7); /* 半透明の青 */
+  color: #fff;
+  top: 50%; /* 中央寄せ */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+.text-muted.btn.delete_padding {
+  padding: 0px;
+}
+.text-absolute {
+  margin-right: 5px;
+}
+.justify {
+  display: flex;
+  height: 38px;
+}
+
+.slide-content {
+  margin-top: 20px;
+  justify-content: space-around;
+}
+.slide-text h4 {
+  background: linear-gradient(transparent 60%, rgb(109, 212, 61));
+  display: inline-block;
+  font-size: 30px;
+  font-family: ヒラギノ角ゴシック;
+  color: black;
+}
+
+.question table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.question th {
+  width: 200px;
+  background: none repeat scroll 0 0 #efefef;
+  border: 1px solid #ccc;
+  border-right: 1px dotted #ccc;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.question td {
+  border: 1px solid #ccc;
+  border-left: none;
+  padding: 10px;
+  text-align: left;
+}
+
+.question ul {
+  padding: 0px;
+  margin: 0 0 0 -5px;
+}
+.question li {
+  list-style: none;
+  padding: 0px;
+}
+.question th {
+  font-size: 14px;
+  font-family: "Hiragino Kaku Gothic Pro W3", "ヒラギノ角ゴ Pro W3", Meiryo, "メイリオ", Osaka, "MS P Gothic",
+    "ＭＳ Ｐゴシック", sans-serif;
+}
+
+.question-tabs {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-color: white;
+
+  padding-left: 0px;
+  box-shadow: 0 2px 6px #c1ced7;
+}
+
+.question-tabs li {
+  float: left;
+  list-style-type: none;
+  margin: 0;
+}
+
+.question-tabs li.activate {
+  border-bottom: 2px solid #3ecdc6;
+  padding-left: 0px;
+}
+
+.question-tabs li.activate a {
+  color: #57575f;
+}
+
+.question-tabs a {
+  display: inline-block;
+  padding: 16px 30px;
+  color: #afb6bf;
+}
+.text-right.magin-0 {
+  margin-bottom: 0;
+}
+.indent {
+  margin-right: 18px;
+}
+
+.text-muted.aaaaa {
+  float: left;
+}
+.card {
+  margin-right: auto;
+  margin-left: auto;
+}
+.question-post {
+  border-bottom: dashed 2px #6594e0;
+  position: relative;
+}
+
+.dash {
+  border-bottom: 1px dotted #ddd;
+}
+.best-answer {
+  font-size: 20px;
+}
+
+$info_t1: #e0ffff;
+.card.bg-info .card-header {
+  background-color: $info_t1 !important;
+  padding-right: 0;
+}
+.top {
+  overflow: hidden;
+}
+
+.ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 8.8px;
+  right: -38.4px;
+  height: 20px;
+  width: 120px;
+  transform: rotate(40deg);
+  text-transform: uppercase;
+  background: #f38d33;
+  color: #fff;
+  font-size: 12.4px;
+  line-height: 3;
+  z-index: 100;
+  letter-spacing: 3px;
+}
+
+.question-title {
+  background-color: $info_t1 !important;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+.bg-warning .card-body {
+  background-color: #fff8dc;
+}
+
+.card-body {
+  background-color: white;
+}
+.form-group {
+  margin: 0;
+}
+
+.dropdown-menu li a {
+  padding: 8px 16px;
+  line-height: 1.429;
+  color: #606d7a;
+  display: block;
+}
+
+.icon {
+  color: #6594e0;
+}
+
+.fa-ribbon {
+  color: rgb(255, 136, 0);
+}
+
+.fa-thumbs-up {
+  color: rgb(255, 136, 0);
+}
+.questions img {
+  width: 80px;
+  height: 80px;
+  border-radius: 20%;
+  box-shadow: 0 2px 6px #c1ced7;
+
+  object-fit: cover;
+}
+
+.map {
+  display: none;
+  width: 800px;
+  height: 500px;
+  overflow: hidden;
+  position: relative;
+  a {
+    position: absolute;
+    z-index: 20;
+  }
+  .mapbtn {
+    position: absolute;
+    left: 380px;
+    top: 210px;
+    z-index: 20;
+  }
+  img.all {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 15;
+  }
+  img.asia {
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: -150px;
+    left: -230px;
+    z-index: 15;
+  }
 }

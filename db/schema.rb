@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_103728) do
+ActiveRecord::Schema.define(version: 2021_04_01_084214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,21 @@ ActiveRecord::Schema.define(version: 2021_03_23_103728) do
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
+  create_table "continents", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.string "image"
+    t.bigint "continent_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["continent_id"], name: "index_countries_on_continent_id"
+  end
+
   create_table "evaluations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "question_id"
@@ -58,13 +73,11 @@ ActiveRecord::Schema.define(version: 2021_03_23_103728) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "question_tags", force: :cascade do |t|
-    t.bigint "tag_id", null: false
-    t.bigint "question_id", null: false
+  create_table "goods", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "answer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["question_id"], name: "index_question_tags_on_question_id"
-    t.index ["tag_id"], name: "index_question_tags_on_tag_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -74,6 +87,10 @@ ActiveRecord::Schema.define(version: 2021_03_23_103728) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "best_answer_id"
+    t.bigint "country_id"
+    t.bigint "tag_id"
+    t.index ["country_id"], name: "index_questions_on_country_id"
+    t.index ["tag_id"], name: "index_questions_on_tag_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
@@ -126,8 +143,9 @@ ActiveRecord::Schema.define(version: 2021_03_23_103728) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
-  add_foreign_key "question_tags", "questions"
-  add_foreign_key "question_tags", "tags"
+  add_foreign_key "countries", "continents"
+  add_foreign_key "questions", "countries"
+  add_foreign_key "questions", "tags"
   add_foreign_key "questions", "users"
   add_foreign_key "reactions", "answers"
   add_foreign_key "reactions", "users"

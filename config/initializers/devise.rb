@@ -263,6 +263,12 @@ Devise.setup do |config|
 
   #facebook APIを使うためのconfig設定を行う
   config.omniauth :facebook, FACEBOOK_ID='338355904280885', FACEBOOK_SECRET_KEY='f80e7b02203a93d3b900e33ccce78f7f'
+
+  #Twitter APIを使うためのconfig設定を行う
+  config.omniauth :twitter, '5b8q0W24LOolaef6cv5vL9MEl', 'ukBoWBg7oJofcmbrXr2DFt15Tsddy64zv7r2qPeMaU23QXfqGT', callback_url: 'http://127.0.0.1:3000/users/auth/twitter/callback'
+  
+  
+  
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

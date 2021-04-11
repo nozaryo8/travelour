@@ -1,0 +1,65 @@
+<div class="container mt-5 col-10">
+  <h2 class="text-center">Q&A一覧</h2>
+</div>
+<div class="container mt-5">
+  <div class="card col-10">
+    <ul class="nav nav-tabs">
+      <li class="nav-item col-4 text-center">
+        <%= link_to "回答受付中", questions_path ,class: "nav-link h6"%>
+      </li>
+      <li class="nav-item col-4 text-center ">
+        <%= link_to "解決済み", questions_resolved_question_path,class: "nav-link h6" %>
+      </li>
+      <li class="nav-item col-4 text-center">
+        <%= link_to "全て",questions_all_question_path,class: "nav-link active h6" %>
+      </li>
+      
+    </ul>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 mx-auto">
+          <li class="nav-item dropdown text-center nav nav-tabs d-flex justify-content-between">
+            <h6 class="text-muted nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <% if params[:format] == "2"%>
+              回答数の多い順
+            <% elsif params[:format] == "3"%>
+              回答数の少ない順
+            <% elsif params[:format] == "4"%>
+              参考になった順
+            <% else%>
+              質問日時の新しい順
+            <% end %>
+            </h6>
+            <div class="dropdown-menu">
+              <%=link_to "質問日時の新しい順",questions_path(1), class: "dropdown-item small"%>
+              <%=link_to "回答数の多い順",questions_path(2), class: "dropdown-item small"%>
+              <%=link_to "回答数の少ない順",questions_path(3), class: "dropdown-item small"%>
+              <%=link_to "役に立った順",questions_path(4), class: "dropdown-item small"%>
+            </div>
+            <div class="text-muted d-flex">
+              <%= search_form_for @q ,url: questions_all_question_path do |f| %>
+                <div class="input-group">
+                  <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control", placeholder: "タイトルを検索"%>
+                  <div class="input-group-append">
+                    <%= f.submit class: "input-group-text"%>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </li>
+          <ul class="list-group mb-3">
+            <% @questions.each do |question|%>
+              <%= link_to(question, class: "list-group-item list-group-item-action") do%>
+                <p class="mb-2"><%= question.tag.name %></p>
+                <h5 class="list-group-item-heading "><%= question.title%></h5>
+                <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%></span><%="#{l(question.created_at)}"%></p>
+              <%end%>
+            <%end%>
+            <%= paginate @questions%>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

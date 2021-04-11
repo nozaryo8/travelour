@@ -1,37 +1,75 @@
 <%= render 'error', question: @question%>
- 
-<%= form_with(model: question, local: true) do |form| %>
-  
-　<!-- 質問投稿のフィールドを用意する-->
 
-  <div class="field" id="title">
-    <h6>タイトル</h6>
-    <%= form.text_field :title %>
-  </div>
 
-  <div class="field" id="body">
-    <h6>質問内容</h6>
-    <%= form.text_field :body %>
-  </div>
-  
-  <!--ここを追加-->
-  
-  <div class="field" id="checkbox">
-    <% @tags.each do |t| %>
-      <%= form.label t.name %>
-      <%= radio_button "question", "tag_ids" ,t.id  %>
-      <%= form.radio_button "tag_ids","[]", t.id %>
-      <%= check_box_tag "question[tag_ids][]", t.id, @question.tags.include?(t) %>
-      <br/>
-    <% end %>
-  </div>
-  
-  <!-- <% @tags.each do |tag| %>
-    <%# <%= tag.radio_button "question[tag_ids][]", t.id %>
-    <%# <%= tag.label "question[tag_ids][]", t.name, {value: t.id, style: "display: inline-block;"} %>  %> %>
-  <% end %> -->
+<%= form_with(model: question, remote: true) do |form| %>
+  <div class="row">
+    <div class="col-sm-6">
+      <h6>エリア</h6>
+      <div class="form-row">
+        <!-- onchangeはとりあえず入れておく実際機能しているJavascriptは下部にあり-->
+        <%= @c.name if @c%>
+        <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6"})%>
+        <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select>
+      </div>
+      <br>
+      <%# <%=form.collection_select(:country_id, @countries, :id, :name ,prompt: "選択してください" ) %>
+      <%# <%=form.collection_select(:country_id, @countries, :id, :name ,{include_blank: true, :disabled => true})%> 
+      <%# <%= render 'select_country', form: form%>
 
-  <div class="actions" id="submit">
-    <%= form.submit %>
+      <!-- 質問投稿のフィールドを用意する-->
+      <div class="field" id="title">
+        <h6>タイトル</h6>
+        <%= form.text_field :title ,class: "form-control" %>
+      </div>
+      <br>
+      
+      
+      <!--ここを追加-->
+      <h6>質問の種類</h6><h6 style="color : #a45705">※内容に当てはまるものを1つだけ選んでください。</h6>
+      <div class="form-group mt-3">
+        <div class="field" id="checkbox">
+          <div class="card p-2">
+            <% @tags.each do |t| %>
+              <div class="form-check ">
+                <%= radio_button "question", "tag_id" ,t.id  %>
+                <%# <%= form.radio_button "tag_id" , t.id %>  
+                <%# <%= check_box_tag "question[tag_ids][]", t.id, @question.tags.include?(t) %> 
+                <%= form.label t.name %>
+                <br/>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 content">
+      <div class="field" id="body">
+        <h6>質問内容</h6><h6 style="color : #a45705">※内容が分かるよう、具体的なタイトルをつけましょう</h6>
+          <%= form.text_area :body ,  class: 'form-control', rows: 23%>
+      </div>
+    </div>
+  
+    <div class="actions" id="submit">
+      <%= form.submit class: "btn btn-primary"%>
+    </div>
   </div>
 <% end %>
+
+<script>
+$(function() {
+  $('#question_continent').change(function() {
+    continent_id = $(this).val();
+    if (continent_id == ""){
+      document.getElementById('question_country_id').innerHTML = '<option>国・地域を選択してください</option>';
+      return;
+    }
+    $.ajax({
+      type: 'GET',
+      url: '/questions/get_body',
+      data: {
+        continent_id: continent_id
+      }
+    })
+  });
+});
+</script>

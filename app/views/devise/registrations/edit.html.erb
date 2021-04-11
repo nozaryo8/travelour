@@ -7,22 +7,22 @@
 
         <div class="field">
           新しい<%= f.label :password %>(6文字以上) <i>　</i><br />
-          <%= f.password_field :password, autocomplete: "new-password" %>
+          <%= f.password_field :password, autocomplete: "new-password" , class: "form-control"%>
           
         </div>
 
         <div class="field">
           <%= f.label :password_confirmation %><br />
-          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: "form-control"%>
         </div>
 
         <div class="field">
           <%= f.label :current_password %> <i></i><br />
-          <%= f.password_field :current_password, autocomplete: "current-password" %>
+          <%= f.password_field :current_password, autocomplete: "current-password" , class: "form-control"%>
         </div>
 
         <div class="actions">
-          <%= f.submit "更新する" %>
+          <%= f.submit "更新する" ,class: "btn btn-primary" %>
         </div>
       <% end %>
 

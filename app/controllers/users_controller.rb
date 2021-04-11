@@ -3,10 +3,17 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   def show
     @user = User.find(params[:id])
+  
   end
 
+  def evaluations
+    @user = User.find(params[:id])
+    @questions = Question.where(id: @user.evaluations)
+  end
+  
   def edit
     @user = User.find(params[:id])
+    
   end
 
   def update

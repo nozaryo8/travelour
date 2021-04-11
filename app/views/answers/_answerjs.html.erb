@@ -1,0 +1,24 @@
+<%= form_with(model: @answer, url: question_answers_path,local: true) do |form| %>
+  <% if @answer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@answer.errors.count, "error") %> </h2>
+      <ul>
+        <% @answer.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <div class="field">
+    <%= form.text_area :body , class: "form-control" ,placeholder: "質問に対する回答を入力してください"%>
+  </div>
+ 
+  <!-- ここにもuser_idを入れておかないとparamsに入らない -->
+  <%= form.hidden_field :user_id, value: current_user.id %>
+ 
+  <div class="actions">
+    <%= form.submit "回答する",class: "btn btn-primary"%>
+  </div>
+<% end %>
+ 
