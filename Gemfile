@@ -28,6 +28,7 @@ gem 'dotenv-rails'
 gem "jquery-rails"
 gem 'kaminari' , '~> 1.2.0'
 gem 'rinku'
+gem 'fog'
 gem 'fog-aws'
 gem 'rspec-rails', '~> 3.6'
 gem "factory_bot_rails"
