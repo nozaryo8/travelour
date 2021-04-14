@@ -2,10 +2,25 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   
   # include CarrierWave::MiniMagick
-  
+  if Rails.env.production?    # 本番時はS3にファイルを保存する
+    storage :fog
+  else
+    storage :file             # 開発・テスト時はローカルにファイルを保存する
+  end
   #リサイズ、画像形式を変更に必要
   include CarrierWave::RMagick
-  
+  if Rails.env.production?
+    CarrierWave.configure do |config|
+      config.fog_provider = 'fog/aws'
+      config.fog_credentials = {
+        provider: 'AWS',
+        aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+        region: 'ap-northeast-1'
+      }
+      config.fog_directory = 'travelour'
+    end
+  end
   #上限変更
     process :resize_to_limit => [200, 200]
 
