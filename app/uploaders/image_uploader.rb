@@ -1,7 +1,7 @@
 class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
-  # include CarrierWave::MiniMagick
-  include CarrierWave::RMagick
+  include CarrierWave::MiniMagick
+  #include CarrierWave::RMagick
   
   if Rails.env.production?    # 本番時はS3にファイルを保存する
     storage :fog
@@ -20,7 +20,6 @@ class ImageUploader < CarrierWave::Uploader::Base
         region: 'ap-northeast-1'
       }
       config.fog_directory = 'travelour'
-      config.fog_public     = false
       config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
     end
   end

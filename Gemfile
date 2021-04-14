@@ -23,6 +23,7 @@ gem 'devise-i18n'
 gem 'devise-i18n-views'
 gem 'carrierwave', '~> 1.3', '>= 1.3.1'
 gem 'active_storage_validations', '0.8.2'
+gem 'mini_magick'
 gem 'rmagick' 
 gem 'dotenv-rails'
 gem "jquery-rails"
