@@ -2,9 +2,16 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   
   # include CarrierWave::MiniMagick
-
+  if Rails.env.development?
+    storage :file
+  elsif Rails.env.test?
+    storage :file
+  else
+    storage :fog
+  end
   #リサイズ、画像形式を変更に必要
   include CarrierWave::RMagick
+
 
   #上限変更
     process :resize_to_limit => [200, 200]
