@@ -31,6 +31,7 @@ gem 'rinku'
 gem 'fog-aws'
 gem 'rspec-rails', '~> 3.6'
 gem "factory_bot_rails"
+gem 'aws-sdk-s3', '1.46.0', require: false
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
