@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   
   
   
-  root 'questions#index'
+  root 'questions#top'
   get 'pages/index'
   get 'pages/show'
   get 'static_pages/home'
