@@ -1,7 +1,7 @@
 class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
-  include CarrierWave::MiniMagick
-  #include CarrierWave::RMagick
+  #include CarrierWave::MiniMagick
+  include CarrierWave::RMagick
   
   if Rails.env.production?    # 本番時はS3にファイルを保存する
     storage :fog
@@ -17,7 +17,8 @@ class ImageUploader < CarrierWave::Uploader::Base
         provider: 'AWS',
         aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
         aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-        region: 'ap-northeast-1'
+        region: 'ap-northeast-1',
+        path_style: true
       }
       config.fog_directory = 'travelour'
       config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
@@ -55,7 +56,7 @@ class ImageUploader < CarrierWave::Uploader::Base
     end
   end
   # Choose what kind of storage to use for this uploader:
-  storage :file
+  
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
