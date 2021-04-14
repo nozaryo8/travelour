@@ -16,7 +16,7 @@ class ImageUploader < CarrierWave::Uploader::Base
       aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
       region: 'ap-northeast-1'
     }
-    config.fog_directory = '32naoya25'
+    config.fog_directory = 'travelour'
   end
 
   #上限変更
