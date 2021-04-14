@@ -19,6 +19,7 @@ class ImageUploader < CarrierWave::Uploader::Base
         region: 'ap-northeast-1'
       }
       config.fog_directory = 'travelour'
+      config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
     end
   end
   #上限変更
