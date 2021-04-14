@@ -8,16 +8,7 @@ class ImageUploader < CarrierWave::Uploader::Base
     storage :file             # 開発・テスト時はローカルにファイルを保存する
   end
   #リサイズ、画像形式を変更に必要
-  include CarrierWave::RMagick
-  CarrierWave.configure do |config|
-    config.fog_credentials = {
-      provider: 'AWS',
-      aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      region: 'ap-northeast-1'
-    }
-    config.fog_directory = 'travelour'
-  end
+  
 
   #上限変更
     process :resize_to_limit => [200, 200]
