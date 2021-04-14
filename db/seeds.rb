@@ -1,4 +1,5 @@
 # ユーザーのデータ
+
 User.create(
     [
         {username: 'ヤッピー', email: 'sitsumon1@gmail.com', password: '11111111', password_confirmation: '11111111',profile: "こんにちは",image: open("#{Rails.root}/public/images/user1.jpeg")},

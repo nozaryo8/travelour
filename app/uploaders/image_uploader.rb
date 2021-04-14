@@ -1,7 +1,6 @@
 class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   
-  # include CarrierWave::MiniMagick
   if Rails.env.development?
     storage :file
   elsif Rails.env.test?

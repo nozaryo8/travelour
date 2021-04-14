@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: %i[ show edit update destroy]
   #@tagsを作成する ブラウザでタグを表示するため
   before_action :set_tag, only:[:new,:edit,:create,:update]
-  before_action :authenticate_user!, only:[:new,:create,:edit,:update]
+  before_action :authenticate_user!, only:[:new,:create,:edit,:update,:show,:index,:resolved_question,:all_question]
   
   def top
 

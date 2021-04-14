@@ -248,9 +248,11 @@
                             </div>
                             <div class="dash mt-2 mb-2"></div>
                             <div><%= raw Rinku.auto_link(simple_format(h(reaction.body), {}, wrapper_tag: "h6")) %></div>
-                            <%if reaction.user.id == current_user.id %>
-                              <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
-                            <%end%>
+                            <% if user_signed_in?%>
+                              <%if reaction.user.id == current_user.id %>
+                                <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
+                              <%end%>
+                            <% end %>
                           </div>
                         </div>
                       </div>
