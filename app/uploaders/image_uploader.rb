@@ -1,7 +1,8 @@
 class ImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
+  # include CarrierWave::MiniMagick
   include CarrierWave::RMagick
-  include CarrierWave::MiniMagick
+  
   if Rails.env.production?    # 本番時はS3にファイルを保存する
     storage :fog
   else
