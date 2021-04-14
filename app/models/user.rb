@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :goods, dependent: :destroy
   validates :username, presence: true 
+  validates :email, presence: true
   validates :profile, length: { maximum: 200 } 
   #tutorial 13章画像のアップロード
   # validates :image,   content_type: { in: %w[image/jpeg image/gif image/png],

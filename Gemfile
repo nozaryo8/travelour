@@ -29,6 +29,8 @@ gem "jquery-rails"
 gem 'kaminari' , '~> 1.2.0'
 gem 'rinku'
 gem 'fog-aws'
+gem 'rspec-rails', '~> 3.6'
+gem "factory_bot_rails"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
