@@ -32,6 +32,13 @@ class User < ApplicationRecord
    
   end
 
+  def self.guest
+    find_or_create_by!(email: 'guest@gmail.com') do |user|
+      user.username = 'ゲストユーザー'
+      user.password = SecureRandom.urlsafe_base64
+    end
+  end
+
   def already_evaluation?(question)
     #current_userが関係しているevaluationがquestion_idをもっているか？
     #selfにはcurrent_userが入る。

@@ -3,15 +3,17 @@
     <div class="row">
     <div class="col-7 mx-auto">
     <div class="user">
-      <% if current_user.image? %>
-        <%= image_tag current_user.image.url  %>
+      <% if @user.image? %>
+        <%= image_tag @user.image.url %>
       <% else%>
         <img src="/images/person2.png">
       <% end %>
       <h2 class="mt-2"><%= @user.username %></h2>
       <p><%= @user.email %></p>
-      <% if @user.id == current_user.id %>
-        <%= link_to("編集", edit_user_path(current_user)) %>
+      <%if @user.email != "guest@gmail.com"%>
+        <% if @user.id == current_user.id %>
+          <%= link_to("編集", edit_user_path(current_user)) %>
+        <% end %>
       <% end %>
     </div>
     <ul class="user-tabs">
@@ -21,8 +23,8 @@
     <% @questions.each do |question| %>      
       <div class="col-12 mx-auto posts-index-item">
         <div class="d-flex mr-auto align-items-center">
-          <% if @user.image? %>
-            <%= image_tag @user.image.url%>
+          <% if question.user.image? %>
+            <%= image_tag question.user.image.url%>
           <% else%>
             <img src="/images/person2.png">
           <% end %>

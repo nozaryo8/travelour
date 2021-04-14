@@ -27,6 +27,7 @@ gem 'rmagick'
 gem 'dotenv-rails'
 gem "jquery-rails"
 gem 'kaminari' , '~> 1.2.0'
+gem 'rinku'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

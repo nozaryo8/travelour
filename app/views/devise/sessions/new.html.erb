@@ -1,4 +1,4 @@
-<div class="forms-container f-f-monospace">
+<div class="forms-container f-f-monospace mb-5 pb-4">
   <br><br>
   <div class="titles d-flex justify-content-center mb-5">
     <h2>ログイン</h2>
@@ -23,9 +23,13 @@
           </div>
         <% end %>
 
-        <div class="actions">
+        <div class="actions d-flex">
           <%= f.submit "ログイン" , class: "btn btn-info "%>
+          
         </div>
+
+        <%= link_to "らくらくログイン", users_guest_log_in_path, method: :post,class: "mb-2 btn btn-primary text-white" %>
+        <br>
         <%- if controller_name != 'sessions' %>
           <%= link_to "ログインページへ", new_session_path(resource_name) %><br />
         <% end %>

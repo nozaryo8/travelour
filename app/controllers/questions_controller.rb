@@ -84,7 +84,9 @@ class QuestionsController < ApplicationController
       @bestanswer = Answer.find(@question.best_answer_id)
     end
     question = Question.find(params[:id])
-    @answer = question.answers.build(user_id: current_user.id)
+    if user_signed_in?
+      @answer = question.answers.build(user_id: current_user.id)
+    end
   end
 
   

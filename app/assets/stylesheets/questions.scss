@@ -165,7 +165,7 @@
 .box {
   position: relative;
   width: 500px;
-  height: 425px;
+  height: 400px;
   // margin: auto;
   overflow: hidden;
 }
@@ -183,20 +183,25 @@
 
 /* --- 段差で背景画像のアニメーションを実行 ----------------- */
 .box .src1 {
-  background-image: url(/images/place_image.png); /* 背景の画像を指定 */
-  background-size: 500px 425px;
+  background-image: url(/images/top4.png); /* 背景の画像を指定 */
+  background-size: 500px 400px;
 }
 .box .src2 {
-  background-image: url(/images/menu.png); /* 背景の画像を指定 */
+  background-image: url(/images/top.png); /* 背景の画像を指定 */
   animation-delay: 5s;
-  background-size: 500px 425px;
+  background-size: 500px 400px;
 }
 .box .src3 {
-  background-image: url(/images/course.png); /* 背景の画像を指定 */
+  background-image: url(/images/top2.png); /* 背景の画像を指定 */
   animation-delay: 10s;
-  background-size: 500px 425px;
+  background-size: 500px 400px;
 }
 
+.box .src4 {
+  background-image: url(/images/top3.png); /* 背景の画像を指定 */
+  animation-delay: 15s;
+  background-size: 500px 400px;
+}
 @keyframes bgAnime {
   0% {
     opacity: 0;
@@ -208,6 +213,9 @@
     opacity: 1;
   }
 
+  30% {
+    opacity: 0;
+  }
   100% {
     opacity: 0;
   }
@@ -241,13 +249,32 @@
   justify-content: space-around;
 }
 .slide-text h4 {
-  background: linear-gradient(transparent 60%, rgb(109, 212, 61));
+  background: linear-gradient(transparent 60%, #87cefa);
   display: inline-block;
   font-size: 30px;
   font-family: ヒラギノ角ゴシック;
   color: black;
 }
 
+.about-main {
+  padding: 180px 8% 0;
+  color: #000000;
+}
+
+.about-main h2 {
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.about-main p {
+  font-weight: 200;
+  font-size: 20px;
+}
+
+.about-img {
+  width: 84%;
+}
 .question table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -359,6 +386,24 @@ $info_t1: #e0ffff;
   transform: rotate(40deg);
   text-transform: uppercase;
   background: #f38d33;
+  color: #fff;
+  font-size: 12.4px;
+  line-height: 3;
+  z-index: 100;
+  letter-spacing: 3px;
+}
+.ribbon-done {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 8.8px;
+  right: -38.4px;
+  height: 20px;
+  width: 120px;
+  transform: rotate(40deg);
+  text-transform: uppercase;
+  background: #afb6bf;
   color: #fff;
   font-size: 12.4px;
   line-height: 3;

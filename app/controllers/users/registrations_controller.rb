@@ -3,7 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
-
+  
   # deviseコントローラーにストロングパラメータを追加する 
   before_action :configure_permitted_parameters, if: :devise_controller?
   # ログイン済ユーザーのみにアクセスを許可する
@@ -59,6 +59,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:account_update, keys: [:username,:image,:profile])
   end
   
+  def ensure_normal_user
+    if resource.email == 'guest@gmail.com'
+      redirect_to user_path(@user.id), notice: 'ゲストユーザーは編集できません'
+    end
+  end
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
