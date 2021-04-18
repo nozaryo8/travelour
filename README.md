@@ -1,24 +1,42 @@
-# README
+# TravelOur
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**海外生活もしくは海外旅行に関する質問・回答(Q&A)するサービスです**
+Travelourは質問を投稿して回答や共有ができる、海外旅行者、海外在住者向けサービスです。
 
-Things you may want to cover:
+# URL
+https://guarded-escarpment-94923.herokuapp.com/
 
-* Ruby version
+<img width="1277" alt="スクリーンショット 2021-04-18 20 33 31" src="https://user-images.githubusercontent.com/73025214/115144062-7f31d980-a085-11eb-9636-ec7aefdb5b2c.png">
 
-* System dependencies
+#作成の背景
+一度の渡航経験がきっかけに海外旅行が好きになりました。
+学生時代から4回の海外渡航をしてきましたが海外と日本は違う所ばかりで
+行く度に「この町で一番安いスーパーってどこだろう」とか、「近くに良いバーってないかな」って考えて、
+自分で足を運んで
+身近に気軽に質問できる詳しい人が居たらなぁ…とよく思っていました。
+その経験を元に私のように海外に関する疑問を気軽に質問できて解決できるサービスを作ろうと思い作成しました。
 
-* Configuration
+#使用技術
+* Ruby 2.6.6
+* Ruby on Rails 6.0.3.6
+* JQuery
+* ajax
+* Bootstrap
+* AWS (S3)
+* rspec
 
-* Database creation
+#ER図
+<img width="414" alt="スクリーンショット 2021-04-19 2 17 49" src="https://user-images.githubusercontent.com/73025214/115154406-a7393100-a0b5-11eb-917a-1a2f516f0070.png">
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#機能一覧
+* ログイン　ユーザー登録(divise)
+* 画像投稿(carrierwave,Rmagick)
+* 管理者機能
+* 質問投稿
+* 質問に対する回答(ajax)
+* 回答に対する返信(ajax)返信者のみ：削除可能
+* 回答に対するコメント　
+* 回答に対するいいね
+* 投稿並び替え機能
+* キーワード検索
+* ページネーション
