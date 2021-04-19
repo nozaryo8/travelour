@@ -1,13 +1,13 @@
-# TravelOur
+## TravelOur
 
 **Travelourは質問を投稿して回答や共有ができる、海外旅行者、海外在住者向けサービスです。**
 
-# URL
+## URL
 https://guarded-escarpment-94923.herokuapp.com/
 
 <img width="1277" alt="スクリーンショット 2021-04-18 20 33 31" src="https://user-images.githubusercontent.com/73025214/115144062-7f31d980-a085-11eb-9636-ec7aefdb5b2c.png">
 
-# 作成の背景
+## 作成の背景
 私は一度の渡航経験がきっかけに海外旅行が好きになりました。
 大学生時代から4回の海外渡航をしてきましたが海外と日本は違う所ばかりで
 行く度に新しく覚えなければならないことが沢山ありました。
@@ -17,7 +17,7 @@ https://guarded-escarpment-94923.herokuapp.com/
 そんな時に身近にいつでも質問できる詳しい人が居たらなぁ…とよく思っていました。
 その経験を元に私のように海外に関する疑問を気軽に質問できて解決できるサービスを作ろうと思い形にしました。
 
-# 使用技術
+## 使用技術
 * Ruby 2.6.6
 * Ruby on Rails 6.0.3.6
 * Postgre SQL
@@ -27,11 +27,11 @@ https://guarded-escarpment-94923.herokuapp.com/
 * AWS (S3)
 * rspec
 
-# ER図
+## ER図
 <img width="533" alt="travelour" src="https://user-images.githubusercontent.com/73025214/115192832-4bf35700-a126-11eb-9ee4-cb5252c75457.png">
 
 
-# 機能一覧
+## 機能一覧
 * ログイン　ユーザー登録(divise)
 * らくらくログイン(ユーザ登録不要でログイン)
 * 画像投稿(carrierwave,Rmagick)
@@ -45,6 +45,6 @@ https://guarded-escarpment-94923.herokuapp.com/
 * キーワード検索
 * ページネーション
 
-# 私について
+## 私について
 大学卒業後、1年間エレベータのエンジニアとして働いていました。
 背水の陣でWebエンジニアを目指す為に現在転職活動中です
