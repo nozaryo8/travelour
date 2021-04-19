@@ -30,6 +30,9 @@ https://guarded-escarpment-94923.herokuapp.com/
 ## ER図
 <img width="533" alt="travelour" src="https://user-images.githubusercontent.com/73025214/115192832-4bf35700-a126-11eb-9ee4-cb5252c75457.png">
 
+## 画面遷移図
+<img width="442" alt="TravelOur画面遷移図" src="https://user-images.githubusercontent.com/73025214/115303074-1ab66d80-a19e-11eb-8ed1-5ffde9c17210.png">
+
 
 ## 機能一覧
 * ログイン　ユーザー登録(divise)
