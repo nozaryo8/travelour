@@ -22,6 +22,7 @@ https://guarded-escarpment-94923.herokuapp.com/
 * Ruby on Rails 6.0.3.6
 * Postgre SQL
 * JQuery
+* React(役に立ったボタン、参考になったボタンのみ)
 * ajax
 * Bootstrap
 * AWS (S3)
@@ -37,10 +38,10 @@ https://guarded-escarpment-94923.herokuapp.com/
 * 画像投稿(carrierwave,Rmagick)
 * 管理者機能
 * 質問投稿
-* 質問に対する回答(ajax)
-* 回答に対する返信(ajax)返信者のみ：削除可能
-* 回答に対するコメント　
-* 回答に対するいいね
+* 質問に対する回答 ajax(jQuery)
+* 質問に対する役に立ったボタン ajax(React)
+* 回答に対するコメント ajax(jQuery)返信者のみ：削除可能
+* 回答に対する参考になったボタン ajax(jQuery)
 * 投稿並び替え機能
 * キーワード検索
 * ページネーション
