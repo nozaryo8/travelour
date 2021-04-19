@@ -39,7 +39,7 @@
             <div class="text-muted d-flex">
               <%= search_form_for @q ,url: questions_all_question_path do |f| %>
                 <div class="input-group">
-                  <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control", placeholder: "タイトルを検索"%>
+                  <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control", placeholder: "キーワード検索"%>
                   <div class="input-group-append">
                     <%= f.submit class: "input-group-text"%>
                   </div>

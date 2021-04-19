@@ -23,16 +23,19 @@ gem 'devise-i18n'
 gem 'devise-i18n-views'
 gem 'carrierwave', '~> 1.3', '>= 1.3.1'
 gem 'active_storage_validations', '0.8.2'
-gem 'mini_magick'
 gem 'rmagick' 
 gem 'dotenv-rails'
 gem "jquery-rails"
 gem 'kaminari' , '~> 1.2.0'
 gem 'rinku'
 gem 'fog-aws'
-gem 'rspec-rails', '~> 3.6'
+gem 'rspec-rails', '~> 4.0.1'
+gem 'capybara', '>= 2.15'
+gem 'selenium-webdriver'
 gem "factory_bot_rails"
 gem 'aws-sdk-s3', '1.46.0', require: false
+gem 'react-rails'
+
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

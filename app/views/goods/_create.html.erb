@@ -1,0 +1,3 @@
+<%= link_to answer_goods_path(@bestanswer), method: :delete,remote: true,class:"btn btn-light btn-outline-secondary" do%>
+  参考になった <i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%>
+<%end%>

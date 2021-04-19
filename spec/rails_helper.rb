@@ -3,7 +3,7 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)
-
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
@@ -22,7 +22,6 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -32,6 +31,23 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
+Capybara.register_driver :remote_chrome do |app|
+  url = 'http://chrome:4444/wd/hub'
+  caps = ::Selenium::WebDriver::Remote::Capabilities.chrome(
+    'goog:chromeOptions' => {
+      'args' => [
+        'no-sandbox',
+        'headless',
+        'disable-gpu',
+        'window-size=1680,1050'
+      ]
+    }
+  )
+  Capybara::Selenium::Driver.new(app, browser: :remote, url: url, desired_capabilities: caps)
+end
+
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -40,7 +56,17 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+  Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+  Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f } #support directoryをrequire
+  config.use_transactional_fixtures = true
 
+  config.infer_base_class_for_anonymous_controllers = false
+
+
+  config.include Devise::TestHelpers, type: :controller
+  config.include Capybara::DSL
+  config.include Warden::Test::Helpers
+  config.include Rails.application.routes.url_helpers
   #ログイン
   config.when_first_matching_example_defined(:require_login) do
     require 'support/login'

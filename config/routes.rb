@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get "questions/resolved_question" => "questions#resolved_question"
   get "questions/all_question" => "questions#all_question"
   resources :questions do
-    resource :evaluation, only: [:create, :destroy]
+    resource :evaluation, only: [:create, :destroy] , defaults: { format: 'js' }
   end
   
   get 'questions/select_country' => 'select_country'
@@ -26,14 +26,14 @@ Rails.application.routes.draw do
   #shallow :trueにするとURLを短くしてアクセスできる。
   resources :questions, shallow: true do
     resources :answers, shallow: true do
-      resources :reactions
+      resources :reactions 
     end
   end
 
   get "users/:id/evaluations" => "users#evaluations"
   
   resources :answers do
-    resource :goods, only: [:create, :destroy]
+    resource :goods, only: [:create, :destroy] , defaults: { format: 'js' }
   end
   #devise_for :users はrails g devise Userで自動追加されたこれでdeviseのコントローラーを使うことができる
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' ,

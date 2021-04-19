@@ -87,6 +87,7 @@ class QuestionsController < ApplicationController
     if user_signed_in?
       @answer = question.answers.build(user_id: current_user.id)
     end
+    
   end
 
   

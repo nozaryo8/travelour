@@ -34,15 +34,7 @@
           
           <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
             <% if user_signed_in? %>
-              <% if current_user.already_evaluation?(@question) %>
-                <%= link_to question_evaluation_path(@question), method: :delete,class:"btn btn-light btn-outline-secondary" do%>
-                  役に立った <i class="fas fa-grin-squint smile"></i><%= @question.evaluations.count%>
-                <%end%>
-              <% else %>
-                <%= link_to question_evaluation_path(@question), method: :post ,class:"btn btn-light btn-outline-secondary" do%>
-                  役に立った <i class="far fa-grin-squint smile"></i><%= @question.evaluations.count%>
-                <%end%>
-              <% end %>
+              <%= react_component("EvaluationButton",{isalready: current_user.already_evaluation?(@question), questionid: @question.id ,questionscount: @question.evaluations.count})%>
             <% else %>
               <div><i class="far fa-grin-squint smile"></i><%= @question.evaluations.count%></div>
             <% end %>
@@ -76,15 +68,7 @@
             <div><%= raw Rinku.auto_link(simple_format(h(@bestanswer.body), {}, wrapper_tag: "h6")) %></div>
             <div class="d-flex justify-content-between mt-2 mb-2">
               <% if user_signed_in? %>
-                <% if current_user.already_good?(@bestanswer) %>
-                  <%= link_to answer_goods_path(@bestanswer), method: :delete,class:"btn btn-light btn-outline-secondary" do%>
-                    参考になった <i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%>
-                  <%end%>
-                <% else %>
-                  <%= link_to answer_goods_path(@bestanswer), method: :post ,class:"btn btn-light btn-outline-secondary" do%>
-                    参考になった <i class="far fa-thumbs-up"></i><%= @bestanswer.goods.count%>
-                  <%end%>
-                <% end %>
+                <%= react_component("GoodButton",{isalready: current_user.already_good?(@bestanswer), answerid: @bestanswer.id ,answerscount: @bestanswer.goods.count})%>
               <% else %>
                 <div><i class="far fa-thumbs-up"></i><%= @bestanswer.goods.count%></div>
               <% end %>
@@ -205,12 +189,13 @@
                     <% end %>
                     <div class="mr-auto mb-auto">
                       <% if user_signed_in? %>
+                        <%= react_component("GoodButton",{isalready: current_user.already_good?(answer), answerid: answer.id ,answerscount: answer.goods.count})%>
                         <% if current_user.already_good?(answer) %>
-                          <%= link_to answer_goods_path(answer), method: :delete,class:"btn btn-light btn-outline-secondary" do%>
+                          <%= link_to answer_goods_path(answer), method: :delete,remote: true ,class:"btn btn-light btn-outline-secondary" do%>
                             参考になった <i class="fas fa-thumbs-up"></i><%= answer.goods.count%>
                           <%end%>
                         <% else %>
-                          <%= link_to answer_goods_path(answer), method: :post ,class:"btn btn-light btn-outline-secondary" do%>
+                          <%= link_to answer_goods_path(answer), method: :post ,remote: true,class:"btn btn-light btn-outline-secondary" do%>
                             参考になった <i class="far fa-thumbs-up"></i><%= answer.goods.count%>
                           <%end%>
                         <% end %>

@@ -1,0 +1,3 @@
+<%= link_to question_evaluation_path(@question), method: :post ,remote: true ,class:"btn btn-light btn-outline-secondary" do%>
+  役に立った <i class="far fa-grin-squint smile"></i><%= @question.evaluations.count%>
+<%end%>

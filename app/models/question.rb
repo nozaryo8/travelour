@@ -9,6 +9,7 @@ class Question < ApplicationRecord
   belongs_to :tag 
   has_many :evaluations, dependent: :destroy
   
-  validates :title, presence: true
+  validates :title, presence: true,length: { maximum: 40 }
   validates :body, presence: true
+  validates :tag_id ,presence: true
 end
