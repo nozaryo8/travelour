@@ -190,15 +190,6 @@
                     <div class="mr-auto mb-auto">
                       <% if user_signed_in? %>
                         <%= react_component("GoodButton",{isalready: current_user.already_good?(answer), answerid: answer.id ,answerscount: answer.goods.count})%>
-                        <% if current_user.already_good?(answer) %>
-                          <%= link_to answer_goods_path(answer), method: :delete,remote: true ,class:"btn btn-light btn-outline-secondary" do%>
-                            参考になった <i class="fas fa-thumbs-up"></i><%= answer.goods.count%>
-                          <%end%>
-                        <% else %>
-                          <%= link_to answer_goods_path(answer), method: :post ,remote: true,class:"btn btn-light btn-outline-secondary" do%>
-                            参考になった <i class="far fa-thumbs-up"></i><%= answer.goods.count%>
-                          <%end%>
-                        <% end %>
                       <% else %>
                         <i class="far fa-thumbs-up"></i><%= answer.goods.count%>
                       <% end %>
