@@ -146,7 +146,7 @@
 
 <div class="container mt-5 questions">
   <%if @question.best_answer_id %>
-    他回答<%=@question.answers.count - 1 %>件
+    他回答<%=@question.answers.count %>件
   <% else %>
     回答<%=@question.answers.count %>件
   <% end %>

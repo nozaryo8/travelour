@@ -29,7 +29,7 @@ Rails.application.configure do
   config.assets.compile = false
 
   # アップロードされたファイルをAWSに保存する
-  config.active_storage.service = :amazon
+  # config.active_storage.service = :amazon
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
