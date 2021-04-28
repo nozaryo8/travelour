@@ -69,10 +69,7 @@ TravelOurのメイン機能は以下の2つです。
 <img width="533" alt="travelour" src="https://user-images.githubusercontent.com/73025214/115192832-4bf35700-a126-11eb-9ee4-cb5252c75457.png">
 
 ## インフラ構成図
-<img width="787" alt="スクリーンショット 2021-04-26 18 50 45" src="https://user-images.githubusercontent.com/73025214/116063840-626a5700-a6c0-11eb-9637-7eafdffe67b7.png">
-
+<img width="652" alt="スクリーンショット 2021-04-29 1 54 20" src="https://user-images.githubusercontent.com/73025214/116442818-e9b8f580-a88d-11eb-8328-67cac42236f3.png">
 
 ## 画面遷移図
 <img width="628" alt="スクリーンショット 2021-04-20 6 14 35" src="https://user-images.githubusercontent.com/73025214/115304311-c57b5b80-a19f-11eb-8c28-f91314c920b9.png">
-
-
