@@ -61,7 +61,7 @@ TravelOurのメイン機能は以下の2つです。
 * React(役に立ったボタン、参考になったボタンのみ)
 * ajax
 * Bootstrap
-* AWS (S3)
+* AWS (S3,EC2,Route53,VPC,ACM)
 * rspec(テスト)
 * Rubocop(静的コード解析)
 
