@@ -47,6 +47,9 @@ class AnswersController < ApplicationController
       if @answer.save
         format.html { redirect_to question, notice: "回答を送信しました" }
         format.json { render :show, status: :created, location: @answer }
+        Notification.new(user_id: question.user.id,message: "#{@answer.user.username}さんが、あなたの質問に回答しました。",
+          url: "/questions/#{question.id}").save
+
       else
         format.html { render question }
         format.json { render json: @answer.errors, status: :unprocessable_entity }

@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :evaluations, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :goods, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   validates :username, presence: true , length: { maximum: 20 } 
   validates :email, presence: true
   validates :profile, length: { maximum: 200 } 

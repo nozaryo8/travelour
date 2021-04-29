@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # devise_scope :user do
   #   get '/users/sign_out' => 'devise/sessions#destroy'
   # end
+  get 'notifications' => 'users#notifications'
   get 'questions/top' => 'questions#top'
   get 'questions/area' => 'questions#area'
   get "questions/get_body" => "questions#get_body" , defaults: { format: 'js' }
