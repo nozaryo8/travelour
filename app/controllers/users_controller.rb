@@ -7,6 +7,10 @@ class UsersController < ApplicationController
   
   end
 
+  def notification
+
+  end
+  
   def evaluations
     @user = User.find(params[:id])
     @questions = Question.where(id: @user.evaluations)

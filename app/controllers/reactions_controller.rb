@@ -41,6 +41,17 @@ class ReactionsController < ApplicationController
         format.js {
           flash[:notice] = "コメントを送信しました"
         }
+        #お知らせを作成
+          #質問者が回答者に対してコメントした場合回答者にお知らせする
+        if @reaction.user_id == answer.question.user_id
+          Notification.new(user_id: answer.user_id,message: "#{@reaction.user.username}さんが、あなたにコメントしました。",
+            url: "/questions/#{answer.question_id}").save
+        else
+          #回答者が質問者に対してコメントした場合質問者にお知らせする
+          Notification.new(user_id: answer.question.user_id,message: "#{answer.user.username}さんが、あなたにコメントしました。",
+            url: "/questions/#{answer.question_id}").save
+        end
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @reaction.errors, status: :unprocessable_entity }

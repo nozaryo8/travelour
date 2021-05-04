@@ -70,6 +70,7 @@
                     </div>
                     <br>
                   <% end %>
+                   <div id="reaction<%=answer.id %>"></div>
                   <% if user_signed_in? %>
                     <% if answer.user.id == current_user.id %>
                       <%= form_with(model: @reaction,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
