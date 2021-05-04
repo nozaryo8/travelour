@@ -40,16 +40,18 @@ class AnswersController < ApplicationController
 
   # POST /answers or /answers.json
   def create
-    question = Question.find(params[:question_id])
+    @question = Question.find(params[:question_id])
     #has_manyでquestion.answersが使える
-    @answer = question.answers.build(answer_params)
+    @answer = @question.answers.build(answer_params)
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to question, notice: "回答を送信しました" }
-        format.json { render :show, status: :created, location: @answer }
-        Notification.new(user_id: question.user.id,message: "#{@answer.user.username}さんが、あなたの質問に回答しました。",
-          url: "/questions/#{question.id}").save
-
+        # format.html { redirect_to question, notice: "回答を送信しました" }
+        # format.json { render :show, status: :created, location: @answer }
+        format.js {
+          flash[:notice] = "回答を送信しました"
+          Notification.new(user_id: @question.user.id,message: "#{@answer.user.username}さんが、あなたの質問に回答しました。",
+          url: "/questions/#{@question.id}").save
+        }
       else
         format.html { render question }
         format.json { render json: @answer.errors, status: :unprocessable_entity }

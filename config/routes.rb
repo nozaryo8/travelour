@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get "questions/:question_id/answers/new" => "answers#new" , defaults: { format: 'js' }
   get "questions/resolved_question" => "questions#resolved_question"
   get "questions/all_question" => "questions#all_question"
+  get "questions/:question_id/answers" => "answers#create" ,defaults: { format: 'js' }
   resources :questions do
     resource :evaluation, only: [:create, :destroy] , defaults: { format: 'js' }
   end

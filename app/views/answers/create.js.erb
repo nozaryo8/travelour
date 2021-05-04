@@ -1,0 +1,9 @@
+$("#newanswer").append("<%= escape_javascript(render partial: 'create', locals: {answer: @answer})%>");
+$("#update1").html('<h6 class="text-right"><i class="far fa-comment-alt icon"></i> 回答<%= @question.answers.count %>件</h6>');
+$("#update2").html('他回答<%=@question.answers.count %>件');
+$("#update3").html('回答<%=@question.answers.count %>件');
+$("#answer")[0].reset();
+<% flash.each do |message| %>
+　// Bootstrapを導入しているため、`class="alert alert-success"`としています
+  $("#added-message").html('<div class="alert alert-primary" role="alert"><%= message[1] %></div>')
+<% end %>

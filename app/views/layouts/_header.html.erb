@@ -1,52 +1,65 @@
 <header>
 <!-- Navigation -->
-<nav class="navbar navbar-expand-md fixed-top">
-  <div class="container">
-    <% if user_signed_in? %>
-      <%= link_to "TravelOur", "/questions", id: "logo" %>
-    <% else %>
-      <%= link_to "TravelOur", "/questions/top", id: "logo" %>
-    <% end %> 
-  
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <% if user_signed_in? %>
-    
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <%= link_to '質問する！', new_question_path, class: 'nav-link text-white h6 margin-0',id: 'question_do' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "質問一覧", questions_path, class: "nav-link text-white h6 margin-0" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "お知らせ", '/notifications', class: "nav-link text-white h6 margin-0" %>
-        </li>
+<div class="pb-5">
+  <div class="fixed-top">
+    <nav class="navbar navbar-expand-md">
+      <div class="container">
+        <% if user_signed_in? %>
+          <%= link_to "TravelOur", "/questions", id: "logo" %>
+        <% else %>
+          <%= link_to "TravelOur", "/questions/top", id: "logo" %>
+        <% end %> 
       
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle margin-0 text-white h6 " data-toggle="dropdown" ,href="#" role="button" aria-haspopup="true" aria-expanded="false">アカウント</a>
-          <div class="dropdown-menu">
-            <%= link_to "プロフィール", current_user , class: "dropdown-item small"%>
-            <% if current_user.email != "guest@gmail.com"%>
-              <%= link_to 'ユーザー編集', edit_user_path(current_user) , class: "dropdown-item small"%>
-            <% end %>
-            <%= link_to "ログアウト", destroy_user_session_path, :method => :delete , class: "dropdown-item small"%>
-          </div>
-        </li>
-      </ul>
-    <% else %>
-    <ul class="navbar-nav">
-      <li class="nav-item"> <%= link_to "らくらくログイン", users_guest_log_in_path, method: :post,class: "nav-link h6 text-white h6 margin-0" %></li>
-      <li class="nav-item"> <%= link_to "ログイン", "/users/sign_in", class: "nav-link h6 text-white h6 margin-0" %></li>
-      <li class="nav-item"> <%= link_to 'サインアップ', new_user_registration_path , class: "nav-link h6 text-white h6 margin-0"%> </li>
-    </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <% if user_signed_in? %>
+        
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <%= link_to '質問する！', new_question_path, class: 'nav-link text-white h6 margin-0',id: 'question_do' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "質問一覧", questions_path, class: "nav-link text-white h6 margin-0" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "お知らせ", '/notifications', class: "nav-link text-white h6 margin-0" %>
+            </li>
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle margin-0 text-white h6 " data-toggle="dropdown" ,href="#" role="button" aria-haspopup="true" aria-expanded="false">アカウント</a>
+              <div class="dropdown-menu">
+                <%= link_to "プロフィール", current_user , class: "dropdown-item small"%>
+                <% if current_user.email != "guest@gmail.com"%>
+                  <%= link_to 'ユーザー編集', edit_user_path(current_user) , class: "dropdown-item small"%>
+                <% end %>
+                <%= link_to "ログアウト", destroy_user_session_path, :method => :delete , class: "dropdown-item small"%>
+              </div>
+            </li>
+          </ul>
+        <% else %>
+        <ul class="navbar-nav">
+          <li class="nav-item"> <%= link_to "らくらくログイン", users_guest_log_in_path, method: :post,class: "nav-link h6 text-white h6 margin-0" %></li>
+          <li class="nav-item"> <%= link_to "ログイン", "/users/sign_in", class: "nav-link h6 text-white h6 margin-0" %></li>
+          <li class="nav-item"> <%= link_to 'サインアップ', new_user_registration_path , class: "nav-link h6 text-white h6 margin-0"%> </li>
+        </ul>
+        <% end %>  
+      </div>
+    </nav>
     
-    <% end %>  
+    <div id="added-message"></div>
+    <% if flash[:notice]%>
+      <div class="alert alert-primary" role="alert"><%= notice %></div>
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="alert alert-danger" role="alert"><%= alert %></div>
+    <% end %>
+
   </div>
-</nav>
+</div>
 </header>
+
 <script>
   $('[data-toggle="tooltip"]').tooltip();
 </script>

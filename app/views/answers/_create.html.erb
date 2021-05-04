@@ -1,0 +1,83 @@
+
+      <div class="container mt-5 questions">
+        <div class="card border-info mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 mx-auto">
+                <div class="d-flex mr-auto align-items-center">
+                  <%= link_to user_path(answer.user.id) do %>
+                    <% if answer.user.image? %>
+                      <%= image_tag answer.user.image.url%>
+                    <% else%>
+                      <img src="/images/person2.png">
+                    <% end %>
+                  <% end %>
+                  <h6 class="mr-auto px-3 mb-0"><%= link_to answer.user.username ,user_path(answer.user.id) %></h6>
+                  <div class="align-self-start">
+                    <p class="text-muted ">更新日：<%= answer.updated_at.strftime("%Y-%m-%d %H:%M") %></p>
+                  </div>
+                </div>
+                <div class="dash mt-2 mb-2"></div>
+                <div><%= raw Rinku.auto_link(simple_format(h(answer.body), {}, wrapper_tag: "h6")) %></div>
+                
+                
+                  <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+                    <div class="mr-auto mb-auto">
+                      <% if user_signed_in? %>
+                        <%= react_component("GoodButton",{isalready: current_user.already_good?(answer), answerid: answer.id ,answerscount: answer.goods.count})%>
+                      <% else %>
+                        <i class="far fa-thumbs-up"></i><%= answer.goods.count%>
+                      <% end %>
+                    </div>
+                    <% if user_signed_in?%>
+                      <div class="text-right">
+                        <% if answer.user.id == current_user.id %>
+                          <%= link_to '編集', edit_answer_path(answer),class: "text-primary"%> |
+                          <%= link_to '投稿を削除する', answer , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+                  
+                  <% answer.reactions.each do |reaction| %>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <div class="card h-100 bg-warning">
+                          <div class="card-body">
+                            <div class="d-flex mr-auto align-items-center">
+                              <%= link_to user_path(reaction.user.id) do %>
+                                <% if reaction.user.image? %>
+                                  <%= image_tag reaction.user.image.url  %>
+                                <% else%>
+                                  <img src="/images/person2.png">
+                                <% end %>
+                              <% end %>
+                              <h6 class="mr-auto px-3 mb-0"><%= link_to reaction.user.username ,user_path(reaction.user.id) %></h6>
+                              <div>
+                                <p class="text-muted mb-0"><%= reaction.updated_at.strftime("%Y-%m-%d %H:%M") %></p>
+                              </div>
+                            </div>
+                            <div class="dash mt-2 mb-2"></div>
+                            <div><%= raw Rinku.auto_link(simple_format(h(reaction.body), {}, wrapper_tag: "h6")) %></div>
+                            <% if user_signed_in?%>
+                              <%if reaction.user.id == current_user.id %>
+                                <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
+                              <%end%>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                  <% end %>
+                  <% if user_signed_in? %>
+                    <% if answer.user.id == current_user.id %>
+                      <%= form_with(model: @reaction,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
+                      <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push form-control btn btn-info " %>
+                    <% end%>
+                  <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

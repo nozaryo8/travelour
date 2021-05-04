@@ -1,4 +1,4 @@
-<%= form_with(model: @answer, url: question_answers_path,local: true) do |form| %>
+<%= form_with(model: @answer, url: question_answers_path,remote: true,id: "answer") do |form| %>
   <% if @answer.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@answer.errors.count, "error") %> </h2>
@@ -9,7 +9,7 @@
       </ul>
     </div>
   <% end %>
- 
+ <div id= "sent"></div>
   <div class="field">
     <%= form.text_area :body , class: "form-control" ,placeholder: "質問に対する回答を入力してください"%>
   </div>
