@@ -1,0 +1,5 @@
+$('#remove<%=@reaction.id%>').remove();
+<% flash.each do |message| %>
+　// Bootstrapを導入しているため、`class="alert alert-success"`としています
+  $("#added-message").html('<div class="alert alert-primary" role="alert"><%= message[1] %></div>')
+<% end %>

@@ -1,4 +1,4 @@
-<%= form_with(model: @reaction,url: answer_reactions_path(@reaction.answer.id)) do |form| %>
+<%= form_with(model: @reaction,url: answer_reactions_path(@reaction.answer.id),remote: true,id: "reaction") do |form| %>
   
   <% if @reaction.errors.any? %>
     <div id="error_explanation">

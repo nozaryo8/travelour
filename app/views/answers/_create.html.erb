@@ -1,5 +1,5 @@
 
-      <div class="container mt-5 questions">
+      <div class="container mt-5 questions" id="remove<%=answer.id%>">
         <div class="card border-info mb-4">
           <div class="card-body">
             <div class="row">
@@ -33,7 +33,7 @@
                       <div class="text-right">
                         <% if answer.user.id == current_user.id %>
                           <%= link_to '編集', edit_answer_path(answer),class: "text-primary"%> |
-                          <%= link_to '投稿を削除する', answer , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %>
+                          <%= link_to '回答を削除する', answer , method: :delete,remote: true, data: { confirm: '本当によろしいですか？'},class: "text-primary" %>
                         <% end %>
                       </div>
                     <% end %>
@@ -61,7 +61,7 @@
                             <div><%= raw Rinku.auto_link(simple_format(h(reaction.body), {}, wrapper_tag: "h6")) %></div>
                             <% if user_signed_in?%>
                               <%if reaction.user.id == current_user.id %>
-                                <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
+                                <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
                               <%end%>
                             <% end %>
                           </div>

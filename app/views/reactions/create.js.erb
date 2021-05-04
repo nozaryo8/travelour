@@ -1,0 +1,7 @@
+$("#reaction<%=@reaction.answer.id%>").append("<%= escape_javascript(render partial: 'create', locals: {reaction: @reaction})%>")
+//なぜかフォームにidが設定されていて書き換えられないため、それに合わせてidを指定した。
+$("#<%=@reaction.answer.id%>")[0].reset();
+<% flash.each do |message| %>
+　// Bootstrapを導入しているため、`class="alert alert-success"`としています
+  $("#added-message").html('<div class="alert alert-primary" role="alert"><%= message[1] %></div>')
+<% end %>

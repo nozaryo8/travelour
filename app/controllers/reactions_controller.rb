@@ -38,6 +38,9 @@ class ReactionsController < ApplicationController
       if @reaction.save
         format.html { redirect_to answer.question, notice: "コメントを送信しました。" }
         format.json { render :show, status: :created, location: @reaction }
+        format.js {
+          flash[:notice] = "コメントを送信しました"
+        }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @reaction.errors, status: :unprocessable_entity }
@@ -64,6 +67,9 @@ class ReactionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_back fallback_location: root_path , notice: "コメントを削除しました。" }
       format.json { head :no_content }
+      format.js { 
+        flash[:notice] = "コメントを削除しました" 
+      }
     end
   end
 

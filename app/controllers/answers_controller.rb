@@ -45,7 +45,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     respond_to do |format|
       if @answer.save
-        # format.html { redirect_to question, notice: "回答を送信しました" }
+        format.html { redirect_to question, notice: "回答を送信しました" }
         # format.json { render :show, status: :created, location: @answer }
         format.js {
           flash[:notice] = "回答を送信しました"
@@ -78,6 +78,9 @@ class AnswersController < ApplicationController
     respond_to do |format|
       format.html { redirect_back fallback_location: root_path, notice: "回答を削除しました"  }
       format.json { head :no_content }
+      format.js { 
+        flash[:notice] = "回答を削除しました。"
+      }
     end
   end
 

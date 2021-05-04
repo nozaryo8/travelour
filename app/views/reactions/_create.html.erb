@@ -1,0 +1,29 @@
+<div class="row" id="remove<%=reaction.id%>">
+  <div class="col-lg-12 col-md-12">
+    <div class="card h-100 bg-warning">
+      <div class="card-body">
+        <div class="d-flex mr-auto align-items-center">
+          <%= link_to user_path(reaction.user.id) do %>
+            <% if reaction.user.image? %>
+              <%= image_tag reaction.user.image.url  %>
+            <% else%>
+              <img src="/images/person2.png">
+            <% end %>
+          <% end %>
+          <h6 class="mr-auto px-3 mb-0"><%= link_to reaction.user.username ,user_path(reaction.user.id) %></h6>
+          <div>
+            <p class="text-muted mb-0"><%= reaction.updated_at.strftime("%Y-%m-%d %H:%M") %></p>
+          </div>
+        </div>
+        <div class="dash mt-2 mb-2"></div>
+        <div><%= raw Rinku.auto_link(simple_format(h(reaction.body), {}, wrapper_tag: "h6")) %></div>
+        <% if user_signed_in?%>
+          <%if reaction.user.id == current_user.id %>
+            <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
+          <%end%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
