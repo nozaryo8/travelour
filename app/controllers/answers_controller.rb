@@ -7,11 +7,8 @@ class AnswersController < ApplicationController
   # GET /answers or /answers.json
   def index
     @q = Question.ransack(params[:q])
-    @tags = Tag.ransack(params[:q])
    
-    @a = Answer.ransack(params[:q])
     @questions = @q.result(distinct: true)
-    
   end
 
   # GET /answers/1 or /answers/1.json

@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-md">
       <div class="container">
         <% if user_signed_in? %>
-          <%= link_to "TravelOur", "/questions", id: "logo" %>
+          <%= link_to "TravelOur", "/questions", id: "logo" ,class: "a_tag" %>
         <% else %>
           <%= link_to "TravelOur", "/questions/top", id: "logo" %>
         <% end %> 
@@ -18,17 +18,17 @@
         
           <ul class="navbar-nav">
             <li class="nav-item">
-              <%= link_to '質問する！', new_question_path, class: 'nav-link text-white h6 margin-0',id: 'question_do' %>
+              <%= link_to '質問する！', new_question_path, class: 'nav-link text-white h6 margin-0 a_tag',id: 'question_do' %>
             </li>
             <li class="nav-item">
-              <%= link_to "質問一覧", questions_path, class: "nav-link text-white h6 margin-0" %>
+              <%= link_to "質問一覧", questions_path, class: "nav-link text-white h6 margin-0 a_tag" %>
             </li>
             <li class="nav-item">
-              <%= link_to "お知らせ", '/notifications', class: "nav-link text-white h6 margin-0" %>
+              <%= link_to "お知らせ", '/notifications', class: "nav-link text-white h6 margin-0 a_tag" %>
             </li>
           
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle margin-0 text-white h6 " data-toggle="dropdown" ,href="#" role="button" aria-haspopup="true" aria-expanded="false">アカウント</a>
+              <a class="nav-link dropdown-toggle margin-0 text-white h6 a_tag" data-toggle="dropdown" ,href="#" role="button" aria-haspopup="true" aria-expanded="false">アカウント</a>
               <div class="dropdown-menu">
                 <%= link_to "プロフィール", current_user , class: "dropdown-item small"%>
                 <% if current_user.email != "guest@gmail.com"%>

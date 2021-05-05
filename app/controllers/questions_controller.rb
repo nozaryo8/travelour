@@ -74,7 +74,7 @@ class QuestionsController < ApplicationController
       @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
     elsif params[:format] == "4"
       questions = @q.result.includes(:user,:tag).all.sort {|a,b| b.evaluations.size <=> a.evaluations.size}
-      @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
     else
       @questions = @q.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
     end
