@@ -37,13 +37,13 @@ class EvaluationButton extends React.Component {
     if (this.state.isEvaluated) {
       evaluations = (
         <button onClick={(e) => { this.onClickButtonEvaluation(e, "DELETE") }} className={"btn btn-light btn-outline-secondary"}>
-          役に立った <i className={"far fa-grin-squint smile"} /> {this.state.count}
+          役に立った <i className={"fas fa-grin-squint smile"} /> {this.state.count}
         </button>
       );
     } else {
       evaluations = (
         <button onClick={(e) => { this.onClickButtonEvaluation(e, "POST") }} className={"btn btn-light btn-outline-secondary"}>
-          役に立った <i className={"fas fa-grin-squint smile"} /> {this.state.count}
+          役に立った <i className={"far fa-grin-squint smile"} /> {this.state.count}
         </button>
       )
     }

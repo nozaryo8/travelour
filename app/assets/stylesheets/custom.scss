@@ -1,6 +1,6 @@
 #logo {
   float: left;
-  font-size: 1.7em;
+  font-size: 1.5em;
   color: white;
   // text-transform: uppercase;
   letter-spacing: -1px;
@@ -41,4 +41,8 @@
 
 body {
   background-image: linear-gradient(-90deg, #f0f8ff, white);
+}
+
+.alert.alert-primary {
+  padding-left: 84px;
 }
