@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     resource :evaluation, only: [:create, :destroy] , defaults: { format: 'js' }
   end
   
+  resources :notifications, only: [:update]
+
   get 'questions/select_country' => 'select_country'
   # resources :answers　使うリソースは少ないため限定して設定する
   get 'answers' => 'answers#index'

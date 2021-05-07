@@ -9,9 +9,9 @@
           <ul class="list-group">
             <% if @notifications.count != 0 %>
               <% @notifications.each do |n| %>
-                <%= link_to(n.url, class: "list-group-item list-group-item-action", onclick: 'read(#{n})',id: "read")do %>
+                <%= link_to notification_path(n.id), method: :patch, class: "list-group-item list-group-item-action" do%>
+                  
                   <p class="mb-0"><%= n.message %></p>
-                 　<% notification_read(n) %>
                   <% if n.is_read %>
                     <p class="text-right text-muted mb-0">既読</p>
                   <% else %>
@@ -23,7 +23,7 @@
               <% end %>
               <%= paginate @notifications%>
             <% else %>
-              <div class="text-center">お知らせはありません</div>
+              <div class="text-center text">お知らせはありません</div>
             <% end %>
           </ul>
         </div>

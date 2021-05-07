@@ -15,68 +15,101 @@ class QuestionsController < ApplicationController
 
   # GET /questions or /questions.json
   def index
-    #@questions = current_user.questions.all
-    @q = Question.ransack(params[:q])
     # @question = @q.result(distinct: true)
-    
-    if params[:format] == "1"
-      # @questions = @q.result(distinct: true).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
-      @questions = @q.result.includes(:tag, :user).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
-    elsif params[:format] == "2"
-      # question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
-      questions = @q.result.includes(:tag, :user).where(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
-      @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
-      
-    elsif params[:format] == "3"
-      # question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
-      questions = @q.result.includes(:user,:tag, ).where(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
-      @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
-    elsif params[:format] == "4"
-      # question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
-      questions = @q.result.includes(:tag, :user).where(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
-      @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
-    else
-      # @questions = @q.result(distinct: true).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
-      @questions = @q.result.includes(:user,:tag).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
-    end
+    #application_controllerにset_searchを記述
+    if params[:mode] == "index"
+      if params[:order] == "questions_new"
+        # @questions = @q.result(distinct: true).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+        @questions = @search.result.includes(:tag, :user).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+      elsif params[:order] == "answers_desc"
+        # question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
+        questions = @search.result.includes(:tag, :user).where(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+        
+      elsif params[:order] == "answers_asc"
+        # question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
+        questions = @search.result.includes(:user,:tag, ).where(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      elsif params[:order] == "evaluations_desc"
+        # question = @q.result(distinct: true).where(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+        questions = @search.result.includes(:tag, :user).where(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      else
+        # @questions = @q.result(distinct: true).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+        @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+      end
 
+    elsif params[:mode] == "resolved_questions"
+      if params[:order] == "questions_new"
+        @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).where.not(best_answer_id: nil).order(created_at: "DESC")
+      elsif params[:order] == "answers_desc"
+        questions = @search.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+        
+      elsif params[:format] == "answers_asc"
+        questions = @search.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      elsif params[:format] == "evaluations_desc"
+        questions = @search.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      else
+        @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).where.not(best_answer_id: nil).order(created_at: "DESC")
+      end
+    
+    else
+      if params[:order] == "questions_new"
+        @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
+      elsif params[:order] == "answers_desc"
+        questions = @search.result.includes(:user,:tag).all.sort {|a,b| b.answers.size <=> a.answers.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+        
+      elsif params[:order] == "answers_asc"
+        questions = @search.result.includes(:user,:tag).all.sort {|a,b| a.answers.size <=> b.answers.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      elsif params[:order] == "evaluations_desc"
+        questions = @search.result.includes(:user,:tag).all.sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+        @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      else
+        @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
+      end
+    end
   end
 
   def resolved_question
     @q = Question.ransack(params[:q])
-    if params[:format] == "1"
-      
-    elsif params[:format] == "2"
-      questions = @q.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
+    if params[:order] == "questions_new"
+      @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
+    elsif params[:order] == "answers_desc"
+      questions = @search.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| b.answers.size <=> a.answers.size}
       @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
       
-    elsif params[:format] == "3"
-      questions = @q.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
+    elsif params[:format] == "answers_asc"
+      questions = @search.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| a.answers.size <=> b.answers.size}
       @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
-    elsif params[:format] == "4"
-      questions = @q.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+    elsif params[:format] == "evaluations_desc"
+      questions = @search.result.includes(:user,:tag).where.not(best_answer_id: nil,).sort {|a,b| b.evaluations.size <=> a.evaluations.size}
       @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
     else
-      @questions = @q.result.includes(:user,:tag).page(params[:page]).per(10).where.not(best_answer_id: nil).order(created_at: "DESC")
+      @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).where.not(best_answer_id: nil).order(created_at: "DESC")
     end
   end
   
   def all_question
     @q = Question.ransack(params[:q])
     if params[:format] == "1"
-      @questions = @q.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
+      @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
     elsif params[:format] == "2"
-      questions = @q.result.includes(:user,:tag).all.sort {|a,b| b.answers.size <=> a.answers.size}
+      questions = @search.result.includes(:user,:tag).all.sort {|a,b| b.answers.size <=> a.answers.size}
       @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
       
     elsif params[:format] == "3"
-      questions = @q.result.includes(:user,:tag).all.sort {|a,b| a.answers.size <=> b.answers.size}
+      questions = @search.result.includes(:user,:tag).all.sort {|a,b| a.answers.size <=> b.answers.size}
       @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
     elsif params[:format] == "4"
-      questions = @q.result.includes(:user,:tag).all.sort {|a,b| b.evaluations.size <=> a.evaluations.size}
+      questions = @search.result.includes(:user,:tag).all.sort {|a,b| b.evaluations.size <=> a.evaluations.size}
       @questions = Kaminari.paginate_array(question).page(params[:page]).per(10)
     else
-      @questions = @q.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
+      @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
     end
   end
 

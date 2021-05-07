@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   # ログイン済ユーザーのみにアクセスを許可する
   # before_action :authenticate_user!
-  
+  before_action :set_search
 
   def after_sign_in_path_for(resource)
     questions_path
@@ -14,6 +14,11 @@ class ApplicationController < ActionController::Base
   end
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_path
+  end
+
+  def set_search
+    @search = Question.ransack(params[:q])
+    @question = @search.result.includes(:tag, :user).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
   end
   #ストロングパラメータ：deviseではサインアップ時emailとpasswordの入力しか許可しないが以下のメソッドで登録が可能になる
     protected
