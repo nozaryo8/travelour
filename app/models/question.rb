@@ -12,4 +12,5 @@ class Question < ApplicationRecord
   validates :title, presence: true,length: { maximum: 40 }
   validates :body, presence: true
   validates :tag_id ,presence: true
+  is_impressionable
 end

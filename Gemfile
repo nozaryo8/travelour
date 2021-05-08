@@ -37,7 +37,7 @@ gem 'aws-sdk-s3', '1.46.0', require: false
 gem 'react-rails'
 gem 'rubocop', require:false
 gem 'rubocop-rails', require:false
-
+gem 'impressionist'
 
 
 # Reduces boot times through caching; required in config/boot.rb

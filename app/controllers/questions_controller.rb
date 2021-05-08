@@ -5,7 +5,8 @@ class QuestionsController < ApplicationController
   #@tagsを作成する ブラウザでタグを表示するため
   before_action :set_tag, only:[:new,:edit,:create,:update]
   before_action :authenticate_user!, only:[:new,:create,:edit,:update,:show,:index,:resolved_question,:all_question]
-  
+  impressionist :actions=> [:show]
+
   def top
 
   end
@@ -119,11 +120,12 @@ class QuestionsController < ApplicationController
     if @question.best_answer_id
       @bestanswer = Answer.find(@question.best_answer_id)
     end
-    question = Question.find(params[:id])
+
     if user_signed_in?
-      @answer = question.answers.build(user_id: current_user.id)
+      @answer = @question.answers.build(user_id: current_user.id)
     end
-    
+    impressionist(@question, nil, unique: [:session_hash])
+
   end
 
   

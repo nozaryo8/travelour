@@ -22,7 +22,7 @@
             <h6 class="mr-auto px-3 mb-0"><%= link_to @question.user.username ,user_path(@question.user.id) %></h6>
             <div>
               <p class="text-muted">更新日：<%= @question.updated_at.strftime("%Y-%m-%d %H:%M")%></p>
-              <div id="update1"><h6 class="text-right"><i class="far fa-comment-alt icon"></i> 回答<%=@question.answers.count %>件</h6></div>
+              <div id="update1"><h6 class="text-right"><i class="far fa-comment-alt icon"></i> 回答<%=@question.answers.count %>件 | <i class="far fa-eye"></i>閲覧数<%=@question.impressionist_count %></h6></div> 
             </div>
           </div>
           <h6 class="mt-2">
@@ -38,6 +38,15 @@
             <% else %>
               <div><i class="far fa-grin-squint smile"></i><%= @question.evaluations.count%></div>
             <% end %>
+            
+            <%= link_to "https://twitter.com/intent/tweet?url=#{request.url}&text=#{@question.title}", title: 'Twitter', target: '_blank' do%>
+              <i class="fa fa-twitter"></i>
+            <% end %>
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v10.0&appId=338355904280885&autoLogAppEvents=1" nonce="HKSneGBg"></script>
+            <div class="fb-share-button" data-href="https://www.travelour.net" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.travelour.net%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">シェア</a></div>
+            <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://www.travelour.net" data-color="default" data-size="small" data-count="false" style="display: none;"></div>
+            <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
             <div class="text-right">
               <%if user_signed_in? %>
                 <% if current_user.id == @question.user_id %>

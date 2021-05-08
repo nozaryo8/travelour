@@ -5,7 +5,7 @@
   <div class="card col-10">
     <ul class="nav nav-tabs">
       <li class="nav-item col-4 text-center">
-        <%= link_to "回答受付中", questions_path(order: params[:order],mode: "index") ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'index'} "%>
+        <%= link_to "回答受付中", questions_path(order: params[:order],mode: "index") ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'index' || params[:mode] == nil} "%>
       </li>
       <li class="nav-item col-4 text-center ">
         <%= link_to "解決済み", questions_path(order: params[:order],mode: "resolved_questions"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'resolved_questions'}" %>
@@ -56,7 +56,7 @@
               <%= link_to(question, class: "list-group-item list-group-item-action",'data-toggle': :tooltip,"title": :"#{question.user.username}さんの投稿") do%>
                 <p class="mb-1"><%= question.tag.name %> | <%= question.country.name%></p>
                 <h5 class="list-group-item-heading"><%= question.title%></h5>
-                <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%></span><%="#{l(question.created_at)}"%></p>
+                <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> | <%="#{l(question.created_at)}"%></p></span>
               <%end%>
             <%end%>
             <div class="mx-auto"><%= paginate @questions%><div>
