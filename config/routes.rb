@@ -19,8 +19,10 @@ Rails.application.routes.draw do
   get "questions/all_question" => "questions#all_question"
   get "questions/:question_id/answers" => "answers#create" ,defaults: { format: 'js' }
   get "answers/:answer_id/reactions" => "reactions#create" ,defaults: { format: 'js' }
+  get "users/:id/connections" => "users#connections", as: 'connections'
   delete "reactions/:id" => "reactions#destroy" ,defaults: { format: 'js' }
   delete "answers/:id" => "answers#destroy" ,defaults: { format: 'js' }
+  resources :relationships, only: [:create, :destroy]
   resources :questions do
     resource :evaluation, only: [:create, :destroy] , defaults: { format: 'js' }
   end

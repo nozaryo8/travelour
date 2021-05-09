@@ -10,9 +10,14 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :goods, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :relationships
+  has_many :followings, through: :relationships, source: :follow
+  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
+  has_many :followers, through: :reverse_of_relationships, source: :user
   validates :username, presence: true , length: { maximum: 20 } 
   validates :email, presence: true
   validates :profile, length: { maximum: 200 } 
+
   #tutorial 13章画像のアップロード
   # validates :image,   content_type: { in: %w[image/jpeg image/gif image/png],
   #   message: "画像ファイルを選択して下さい" },
@@ -51,8 +56,24 @@ class User < ApplicationRecord
     self.goods.exists?(answer_id: answer.id)
   end
 
-  
+  def follow(other_user)
+    unless self == other_user
+      self.relationships.find_or_create_by(follow_id: other_user.id)
+    end
+  end
 
+  def unfollow(other_user)
+    relationship = self.relationships.find_by(follow_id: other_user.id)
+    relationship.destroy if relationship
+  end
+
+  def following?(other_user)
+    self.followings.include?(other_user)
+  end
+
+  def matchers
+    followings & followers
+  end
   # def self.from_omniauth(auth)
   #   find_or_create_by(provider: auth["provider"], uid: auth["uid"]) do |user|
   #     user.provider = auth["provider"]

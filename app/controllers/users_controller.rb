@@ -7,6 +7,18 @@ class UsersController < ApplicationController
   
   end
 
+  def connections
+    @user = User.find(params[:id])
+    if params[:mode] == 'followings' || params[:mode] == nil
+      @connections = @user.followings
+    elsif params[:mode] == 'followers'
+      @connections = @user.followers
+      
+    else params[:mode] == 'matchers'
+      @connections = @user.matchers
+    end
+  end
+
   def notifications
     notifications = Notification.where(user_id: current_user.id).order(created_at: "DESC")
     @notifications= Kaminari.paginate_array(notifications).page(params[:page]).per(10)
@@ -19,7 +31,6 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
-    
   end
 
   def update

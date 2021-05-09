@@ -18,7 +18,7 @@ class QuestionsController < ApplicationController
   def index
     # @question = @q.result(distinct: true)
     #application_controllerにset_searchを記述
-    if params[:mode] == "index"
+    if params[:mode] == "index" || params[:mode] == nil
       if params[:order] == "questions_new"
         # @questions = @q.result(distinct: true).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
         @questions = @search.result.includes(:tag, :user).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
