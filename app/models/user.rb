@@ -74,6 +74,24 @@ class User < ApplicationRecord
   def matchers
     followings & followers
   end
+
+  def get_exp(exp)
+    self.exp += exp
+    self.save
+  end
+
+  def check_level_up
+    if rank_setting = RankSetting.find_by(rank: self.rank + 1)
+      while true do
+        if rank_setting.necessary_exp <= self.exp
+          self.rank += 1
+          self.save
+        else
+          break
+        end
+      end
+    end
+  end
   # def self.from_omniauth(auth)
   #   find_or_create_by(provider: auth["provider"], uid: auth["uid"]) do |user|
   #     user.provider = auth["provider"]

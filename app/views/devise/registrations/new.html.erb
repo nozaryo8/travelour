@@ -35,6 +35,9 @@
         <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: "w-100 p-2 mb-4 rounded form"%>
       </div>
 
+      <%= f.hiddden_field :exp, 0%>
+      <%= f.hiddden_field :rank, 1%>
+
       <div class="actions">
         <%= f.submit "サインアップ", class: "btn btn-info "%>
       </div>
