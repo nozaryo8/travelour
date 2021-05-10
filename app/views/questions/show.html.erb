@@ -43,10 +43,8 @@
               <i class="fa fa-twitter"></i>
             <% end %>
             <div id="fb-root"></div>
-            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v10.0&appId=338355904280885&autoLogAppEvents=1" nonce="HKSneGBg"></script>
-            <div class="fb-share-button" data-href="https://www.travelour.net" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.travelour.net%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">シェア</a></div>
-            <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://www.travelour.net" data-color="default" data-size="small" data-count="false" style="display: none;"></div>
-            <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+            
+            <div class="fb-share-button" data-href="<%=request.url%>" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.travelour.net%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="fab fa-facebook"></i></a></div>
             <div class="text-right">
               <%if user_signed_in? %>
                 <% if current_user.id == @question.user_id %>
@@ -144,8 +142,10 @@
                 <hr>
                 <%= form_with(model: @answer, url: question_answers_path(@question.id),id: "answer") do |form| %><% end%>
                 <%= button_to 'この質問に回答する',  new_question_answer_path(@question.id), :method => :get, :remote => true ,class: "form-control btn btn-primary answer-push"%>
+                
               <% end %>
             <% end %>
+            <%= button_to '回答依頼を出す',  answer_request_path(id: @question.id), :method => :get, class: "form-control btn btn-primary" if current_user.id == @question.user.id%>
           <% end %>
         </div>
       </div>

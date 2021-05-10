@@ -128,7 +128,27 @@ class QuestionsController < ApplicationController
 
   end
 
+  def answer_request
+    @users = current_user.matchers
+ 
+    @question = Question.find(params[:id])
+  end
   
+  def create_request
+    question = Question.find(params[:id])
+    user = User.find(params[:user_id])
+    notification = Notification.new(user_id: params[:user_id],message: params[:message],url: params[:url])
+    if notification.save
+      respond_to do |format|
+        format.html { redirect_to question, notice: "#{user.username}に回答リクエストを送信しました。" }
+      end
+    else
+      #saveできなかった場合
+      format.html { render question, status: :unprocessable_entity }
+     
+    end
+  end
+
   # GET /questions/new
   def new
     if params[:area]
