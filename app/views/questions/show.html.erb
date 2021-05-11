@@ -38,6 +38,15 @@
             <% else %>
               <div><i class="far fa-grin-squint smile"></i><%= @question.evaluations.count%></div>
             <% end %>
+            <% if current_user.bookmarked_by?(@question) %>
+              <%= link_to question_bookmarks_path(@question), method: :delete do%>
+                <i class="fas fa-bookmark"></i>
+              <% end %>
+            <% else %>
+              <%= link_to question_bookmarks_path(@question), method: :post do%>
+                <i class="far fa-bookmark"></i>
+              <% end %>
+            <% end %>
             
             <%= link_to "https://twitter.com/intent/tweet?url=#{request.url}&text=#{@question.title}", title: 'Twitter', target: '_blank' do%>
               <i class="fa fa-twitter"></i>
@@ -45,7 +54,7 @@
             <div id="fb-root"></div>
             
             <div class="fb-share-button" data-href="<%=request.url%>" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.travelour.net%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="fab fa-facebook"></i></a></div>
-            <div class="text-right">
+            <div class="ml-auto">
               <%if user_signed_in? %>
                 <% if current_user.id == @question.user_id %>
                   <%= link_to '編集', edit_question_path(@question),class: "text-primary"%> |

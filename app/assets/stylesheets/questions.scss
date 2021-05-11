@@ -3,6 +3,7 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 /* posts/index ================================ */
+
 .posts-index-item {
   padding: 20px 30px;
   background-color: white;
@@ -126,32 +127,6 @@
 
 //display:block;
 
-.america {
-  position: relative;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.australia {
-  position: relative;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.canada {
-  position: relative;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  text-align: center;
-  margin: 0 auto;
-}
 .photo_list a {
   background-color: white;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);

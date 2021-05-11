@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverse_of_relationships, source: :user
+  has_many :bookmarks, dependent: :destroy
+
   validates :username, presence: true , length: { maximum: 20 } 
   validates :email, presence: true
   validates :profile, length: { maximum: 200 } 
@@ -78,6 +80,11 @@ class User < ApplicationRecord
   def get_exp(exp)
     self.exp += exp
     self.save
+  end
+
+  def bookmarked_by?(question)
+    #selfは省略できる
+    bookmarks.where(question_id: question.id).exists?
   end
 
   def check_level_up

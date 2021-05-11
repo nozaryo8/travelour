@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     resource :evaluation, only: [:create, :destroy] , defaults: { format: 'js' }
   end
   
+  resources :questions, only: [:show] do
+    resource :bookmarks, only: [:create, :destroy]
+  end
   
   resources :notifications, only: [:update]
 
