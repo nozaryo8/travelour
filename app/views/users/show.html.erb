@@ -40,24 +40,34 @@
           <% end %>
         <% end %>
         <ul class="user-tabs">
-          <li class="active"><%= link_to("投稿", user_path) %></li>
-          <li><%= link_to("役に立った!", "/users/#{@user.id}/evaluations") %></li>
+          <li class="<%='active' if params[:mode] == 'show' || params[:mode] == nil %>">
+            <%= link_to "投稿", user_path(mode: "show") %>
+          </li>
+          <li class="<%='active' if params[:mode] == 'evaluations' %>">
+            <%= link_to "役に立った!", user_path(mode: "evaluations") %>
+          </li>
+
+          <li class="<%='active' if params[:mode] == 'bookmarks' %>">
+            <%= link_to "ブックマーク", user_path(mode: "bookmarks") %>
+          </li>
         </ul>
-        <% @user.questions.each do |question| %>
-          <div class="col-12 mx-auto posts-index-item">
-            <div class="d-flex mr-auto align-items-center">
-              <% if @user.image? %>
-                <%= image_tag @user.image.url%>
-              <% else%>
-                <img src="/images/person2.png">
-              <% end %>
-              <div class="">
-                <h6 class="text-left mr-auto px-3 mb-0"><%= @user.username%></h6>
-                <h5 class="mb-0 px-3"><%= link_to(question.title, question) %></h5>
+        
+          <% @questions.each do |question| %>
+            <div class="col-12 mx-auto posts-index-item">
+              <div class="d-flex mr-auto align-items-center">
+                <% if question.user.image? %>
+                  <%= image_tag question.user.image.url%>
+                <% else%>
+                  <img src="/images/person2.png">
+                <% end %>
+                <div class="">
+                  <h6 class="text-left mr-auto px-3 mb-0"><%= question.user.username%></h6>
+                  <h5 class="mb-0 px-3"><%= link_to question.title, question %></h5>
+                </div>
               </div>
             </div>
-          </div>              
-        <% end %>
+          <% end %>
+ 
       </div>
     </div>
   </div>

@@ -3,8 +3,24 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_normal_user, only: :edit
   def show
+
     @user = User.find(params[:id])
-  
+    if params[:mode] == "show" || params[:mode] == nil
+      @questions = @user.questions
+    elsif params[:mode] == "evaluations"
+      evaluations =  @user.evaluations
+      @questions = []
+      evaluations.each do |evaluation|
+        @questions.push(evaluation.question)
+      end
+    elsif params[:mode] == "bookmarks"
+      bookmarks = @user.bookmarks
+      @questions = []
+      bookmarks.each do |bookmark|
+        @questions.push(bookmark.question)
+      end
+    end
+    
   end
 
   def connections
@@ -25,8 +41,7 @@ class UsersController < ApplicationController
   end
 
   def evaluations
-    @user = User.find(params[:id])
-    @questions = Question.where(id: @user.evaluations)
+    
   end
   
   def edit
