@@ -36,20 +36,7 @@
               <%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode]), class: "dropdown-item small"%>
               <%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode]), class: "dropdown-item small"%>
             </div>
-            <%
-=begin%>
- <div class="text-muted d-flex">
-              <%= search_form_for @q do |f| %>
-                <div class="input-group">
-                  <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control", placeholder: "キーワード検索"%>
-                  <div class="input-group-append">
-                    <%= f.submit class: "input-group-text"%>
-                  </div>
-                </div>
-              <% end %>
-            </div> 
-<%
-=end%>
+
           </li>
           <ul class="list-group mb-3">
             <% @questions.each do |question|%>
