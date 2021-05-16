@@ -8,6 +8,7 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
+
 // 新規追加
 import 'bootstrap';
 import '../stylesheets/application';

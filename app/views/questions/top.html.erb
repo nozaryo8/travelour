@@ -1,11 +1,17 @@
 
-<div id="wrapper">
-<canvas id="particle"></canvas>
-<!--/wrapper--></div>
+  <div id="splash">
+    <div id="splash-logo">
+      aaa
+    </div>
+  </div>
+  <div class="splashbg"></div><!---画面遷移用-->
+
+  
+
 
 <div class="container">
   <div class="col-11 mx-auto">
-    <div class="slide-content row mb-5 pb-5 ">
+    <div class="slide-content row mb-5 pb-5">
       <div class="box mb-5 title fadeUp">
         <div class="bgImg src1"></div>
         <div class="bgImg src2"></div>
@@ -30,10 +36,39 @@
   </div>
 </div>
 
+
+<%= javascript_include_tag "particleText" %>
 <script>
- $("#particle").particleText({
-    text: "If you can dream it<br>you can do it.<br>日本語もいけるよ", // 表示させたいテキスト。改行の場合は<br>追加
-    colors:["#fff","#ccc", "#ddd"], // パーティクルの色を複数指定可能
+
+$(window).on('load',function(){
+    $("#splash-logo").delay(1200).fadeOut('slow');//ロゴを1.2秒でフェードアウトする記述
+	
+    //=====ここからローディングエリア（splashエリア）を1.5秒でフェードアウトした後に動かしたいJSをまとめる
+    $("#splash").delay(1500).fadeOut('slow',function(){//ローディングエリア（splashエリア）を1.5秒でフェードアウトする記述
+    
+        $('body').addClass('appear');//フェードアウト後bodyにappearクラス付与
+	
+    });
+    //=====ここまでローディングエリア（splashエリア）を1.5秒でフェードアウトした後に動かしたいJSをまとめる
+    
+   //=====ここから背景が伸びた後に動かしたいJSをまとめたい場合は
+    $('.splashbg').on('animationend', function() {    
+        //この中に動かしたいJSを記載
+    });
+    //=====ここまで背景が伸びた後に動かしたいJSをまとめる
+        
+});
+
+$("#particle").particleText({
+    text: "TravelOur", // 表示させたいテキスト。改行の場合は<br>追加
+    colors:["#87cefa","#87cefa", "#87cefa"], // パーティクルの色を複数指定可能
     speed: "high",  // slow, middle, high の3つから粒子が集まる速さを選択
   });
 </script>
+
+
+
+
+
+
+
