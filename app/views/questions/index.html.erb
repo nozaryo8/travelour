@@ -1,56 +1,67 @@
 <div class="container mt-5 col-10">
   <h2 class="text-center">Q&A一覧</h2>
 </div>
-<div class="container mt-5">
-  <div class="card col-10">
-    <ul class="nav nav-tabs">
-      <li class="nav-item col-4 text-center">
-        <%= link_to "回答受付中", questions_path(order: params[:order],mode: "index") ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'index' || params[:mode] == nil} "%>
-      </li>
-      <li class="nav-item col-4 text-center ">
-        <%= link_to "解決済み", questions_path(order: params[:order],mode: "resolved_questions"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'resolved_questions'}" %>
-      </li>
-      <li class="nav-item col-4 text-center">
-        <%= link_to "全て",questions_path(order: params[:order], mode: "all_questions"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'all_questions'}" %>
-      </li>
-      
-    </ul>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-12 mx-auto">
-          <li class="nav-item dropdown text-center nav nav-tabs d-flex justify-content-between">
-            <h6 class="text-muted nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            <% if params[:order] == "answers_desc" %>
-              回答数の多い順
-            <% elsif params[:order] == "answers_asc"%>
-              回答数の少ない順
-            <% elsif params[:order] == "evaluations_desc"%>
-              参考になった順
-            <% else %>
-              質問日時の新しい順
-            <% end %>
-            </h6>
-            <div class="dropdown-menu">
-              <%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode]), class: "dropdown-item small"%>
-              <%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode]), class: "dropdown-item small"%>
-              <%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode]), class: "dropdown-item small"%>
-              <%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode]), class: "dropdown-item small"%>
-            </div>
-
+<div class="container mt-5 ">
+  <div class="row"> 
+    <div class="col-10">
+      <div class="card">
+        <ul class="nav nav-tabs">
+          <li class="nav-item col-4 text-center">
+            <%= link_to "回答受付中", questions_path(order: params[:order],mode: "index") ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'index' || params[:mode] == nil} "%>
           </li>
-          <ul class="list-group mb-3">
-            <% @questions.each do |question|%>
-              <%= link_to(question, class: "list-group-item list-group-item-action",'data-toggle': :tooltip,"title": :"#{question.user.username}さんの投稿") do%>
-                <p class="mb-1"><%= question.tag.name %> | <%= question.country.name%></p>
-                <h5 class="list-group-item-heading"><%= question.title%></h5>
-                <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> | <%="#{l(question.created_at)}"%></p></span>
-              <%end%>
-            <%end%>
-            <div class="mx-auto"><%= paginate @questions%><div>
-          </ul>
+          <li class="nav-item col-4 text-center ">
+            <%= link_to "解決済み", questions_path(order: params[:order],mode: "resolved_questions"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'resolved_questions'}" %>
+          </li>
+          <li class="nav-item col-4 text-center">
+            <%= link_to "全て",questions_path(order: params[:order], mode: "all_questions"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'all_questions'}" %>
+          </li>
+          
+        </ul>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 mx-auto">
+              <div class="nav-item dropdown text-center nav nav-tabs d-flex justify-content-between">
+                <h6 class="text-muted nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <% if params[:order] == "answers_desc" %>
+                  回答数の多い順
+                <% elsif params[:order] == "answers_asc"%>
+                  回答数の少ない順
+                <% elsif params[:order] == "evaluations_desc"%>
+                  参考になった順
+                <% else %>
+                  質問日時の新しい順
+                <% end %>
+                </h6>
+                <ul class="dropdown-menu">
+                  <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode]), class: "dropdown-item small"%></li>
+                  <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode]), class: "dropdown-item small"%></li>
+                  <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode]), class: "dropdown-item small"%></li>
+                  <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode]), class: "dropdown-item small"%></li>
+                </ul>
+              </div>
+              <div class="list-group mb-3">
+                <% @questions.each do |question|%>
+                  <%= link_to(question, class: "list-group-item list-group-item-action",'data-toggle': :tooltip,"title": :"#{question.user.username}さんの投稿") do%>
+                    <p class="mb-1"><%= question.tag.name %> | <%= question.country.name%></p>
+                    <h5 class="list-group-item-heading"><%= question.title%></h5>
+                    <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> | <%="#{l(question.created_at)}"%></p></span>
+                  <%end%>
+                <%end%>
+                <div class="mx-auto"><%= paginate @questions%></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="card">
+        <div class="card-title">
+          dfsadfd
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <br>
