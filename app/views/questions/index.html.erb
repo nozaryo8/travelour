@@ -4,20 +4,30 @@
 <div class="container mt-5 ">
   <div class="row justify-content-center"> 
     <div class="col-2">
-      <div class="card ">
+      <div class="card">
         <div class="card-title text-muted mb-0">
           <p class="text-center">&lt;国で絞り込む&gt;<p>
         </div>
-          <div class="card-body pt-0">
-            <% @continents.each do |continent| %>
-              <p><%= link_to "▶︎#{continent.name}" ,"#collapse#{continent.id}",'data-toggle': :'collapse' ,'role': :'button' ,'aria-expanded': :'false', 'aria-controls': :'collapseExample' %></p>                    
-              <div class="collapse" id="collapse<%= continent.id%>">
-                <% continent.countries.each do |country|%>
-                  <p><%= link_to country.name , questions_path(country: country.name ,order: params[:order],mode: params[:mode])  %></p>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
+        <div class="card-body pt-0">
+          <% @continents.each do |continent| %>
+            <p><%= link_to "▶︎#{continent.name}" ,"#collapse#{continent.id}",'data-toggle': :'collapse' ,'role': :'button' ,'aria-expanded': :'false', 'aria-controls': :'collapseExample' %></p>                    
+            <div class="collapse" id="collapse<%= continent.id%>">
+              <% continent.countries.each do |country|%>
+                <p><%= link_to country.name , questions_path(country: country.name ,order: params[:order],mode: params[:mode])  %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title text-muted mb-0">
+          <p class="text-center">&lt;ジャンルで絞り込む&gt;<p>
+        </div>
+        <div class="card-body pt-0">
+          <% @tags.each do |tag| %>
+            <p><%= link_to tag.name %></p>
+          <% end %>
+        </div>
       </div>
     </div>
     <div class="col-7">

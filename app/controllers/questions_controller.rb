@@ -19,6 +19,7 @@ class QuestionsController < ApplicationController
     # @question = @q.result(distinct: true)
 
     @continents = Continent.all
+    @tags = Tag.all
     #application_controllerにset_searchを記述
     if params[:mode] == "index" || params[:mode] == nil
       if params[:order] == "questions_new"

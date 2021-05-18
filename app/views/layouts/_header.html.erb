@@ -12,7 +12,7 @@
 
         <% if user_signed_in? %>
         <div class="text-muted form">
-          <%= search_form_for @search , url: questions_path do |f| %>
+          <%= search_form_for @search , url: questions_path  do |f| %>
             <%= f.hidden_field(:mode, :value => params[:mode]) %>
             <%= f.hidden_field(:order, :value => params[:order]) %>
             <%= f.hidden_field(:country, :value => params[:country]) %>

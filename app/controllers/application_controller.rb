@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   # ログイン済ユーザーのみにアクセスを許可する
   # before_action :authenticate_user!
   before_action :set_search
+  before_action :search_params , only:[:set_search]
 
   def after_sign_in_path_for(resource)
     questions_path
@@ -22,6 +23,10 @@ class ApplicationController < ActionController::Base
   end
   #ストロングパラメータ：deviseではサインアップ時emailとpasswordの入力しか許可しないが以下のメソッドで登録が可能になる
     protected
+      def search_params 
+        params.require(:q).permit(:mode,:order ,:country)
+      end
+
       def configure_permitted_parameters
         # サインアップ時にusernameのストロングパラメータを追加
         devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :image])
