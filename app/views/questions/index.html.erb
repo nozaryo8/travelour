@@ -4,7 +4,7 @@
 <div class="container mt-5 ">
   <div class="row justify-content-center"> 
     <div class="col-2">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-title text-muted mb-0">
           <p class="text-center">&lt;国で絞り込む&gt;<p>
         </div>
@@ -13,7 +13,12 @@
             <p><%= link_to "▶︎#{continent.name}" ,"#collapse#{continent.id}",'data-toggle': :'collapse' ,'role': :'button' ,'aria-expanded': :'false', 'aria-controls': :'collapseExample' %></p>                    
             <div class="collapse" id="collapse<%= continent.id%>">
               <% continent.countries.each do |country|%>
-                <p><%= link_to country.name , questions_path(country: country.name ,order: params[:order],mode: params[:mode])  %></p>
+                <%if params[:q]%>
+                  <p><%= link_to country.name , questions_path(country: country.name ,order: params[:order],mode: params[:mode],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%></p>
+                <% else %>
+                  <p><%= link_to country.name , questions_path(country: country.name ,order: params[:order],mode: params[:mode])%></p>
+                <% end %>
+
               <% end %>
             </div>
           <% end %>
@@ -32,18 +37,31 @@
     </div>
     <div class="col-7">
       <div class="card">
-        <ul class="nav nav-tabs">
-          <li class="nav-item col-4 text-center">
-            <%= link_to "回答受付中", questions_path(order: params[:order],mode: "index", country: params[:country]) ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'index' || params[:mode] == nil} "%>
-          </li>
-          <li class="nav-item col-4 text-center ">
-            <%= link_to "解決済み", questions_path(order: params[:order],mode: "resolved_questions" , country: params[:country]),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'resolved_questions'}" %>
-          </li>
-          <li class="nav-item col-4 text-center">
-            <%= link_to "全て",questions_path(order: params[:order], mode: "all_questions" , country: params[:country] ),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'all_questions'}" %>
-          </li>
-          
-        </ul>
+        <% if params[:q] %>
+          <ul class="nav nav-tabs">
+            <li class="nav-item col-4 text-center">
+              <%= link_to "回答受付中", questions_path(order: params[:order],mode: "index", country: params[:country] ,"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]) ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'index' || params[:mode] == nil} "%>
+            </li>
+            <li class="nav-item col-4 text-center ">
+                <%= link_to "解決済み", questions_path(order: params[:order],mode: "resolved_questions" , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'resolved_questions'}" %>
+            </li>
+            <li class="nav-item col-4 text-center">
+              <%= link_to "全て",questions_path(order: params[:order], mode: "all_questions" , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'all_questions'}" %>
+            </li>
+          </ul>
+        <% else %>
+          <ul class="nav nav-tabs">
+            <li class="nav-item col-4 text-center">
+              <%= link_to "回答受付中", questions_path(order: params[:order],mode: "index", country: params[:country] ),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'index' || params[:mode] == nil } "%>
+            </li>
+            <li class="nav-item col-4 text-center ">
+                <%= link_to "解決済み", questions_path(order: params[:order],mode: "resolved_questions" , country: params[:country]),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'resolved_questions'}" %>
+            </li>
+            <li class="nav-item col-4 text-center">
+              <%= link_to "全て",questions_path(order: params[:order], mode: "all_questions" , country: params[:country]),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'all_questions'}" %>
+            </li>
+          </ul>
+        <% end %>
         <div class="card-body">
           <div class="row">
             <div class="col-12 mx-auto">
@@ -60,10 +78,17 @@
                 <% end %>
                 </h6>
                 <ul class="dropdown-menu">
-                  <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode], country: params[:country]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
+                  <% if params[:q]%>
+                    <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode], country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+                    <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+                    <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+                    <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+                  <% else %>
+                    <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode], country: params[:country]), class: "dropdown-item small"%></li>
+                    <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
+                    <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
+                    <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
+                  <% end %>
                 </ul>
               </div>
               <div class="list-group mb-3">
@@ -83,8 +108,10 @@
     </div>
     <div class="col-3">
       <div class="card">
-        <div class="card-title">
-          dfsadfd
+        <div class="card-title text-muted mb-0">
+          <div class="text-muted">
+            <p class="text-center">&lt;おすすめの質問&gt;</p>
+          </div>
         </div>
       </div>
     </div>
