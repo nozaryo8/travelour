@@ -17,7 +17,6 @@ class QuestionsController < ApplicationController
   # GET /questions or /questions.json
   def index
     # @question = @q.result(distinct: true)
-
     @continents = Continent.all
     @tags = Tag.all
     #application_controllerにset_searchを記述
@@ -77,8 +76,9 @@ class QuestionsController < ApplicationController
         @questions = @search.result.includes(:user,:tag).page(params[:page]).per(10).all.order(created_at: "DESC")
       end
     end
-
-    if params[:country]
+    
+    #検索をするとパラメータcountryの返り値が""になるため
+    if params[:country] && params[:country] != ""
       @questions = @questions.select do |q|
         q.country.name == params[:country]
       end
