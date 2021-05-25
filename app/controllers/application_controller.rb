@@ -18,8 +18,19 @@ class ApplicationController < ActionController::Base
   end
 
   def set_search
-    @search = Question.ransack(params[:q])
-    @question = @search.result.includes(:tag, :user).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+    if params[:q] 
+      keywords = params[:q][:title_or_body_or_tag_name_or_country_name_cont].split(/[\p{blank}\s]+/) #正規表現で半角全角スペースを認識できる
+      grouping_hash = keywords.reduce({}){|hash,word| hash.merge(word => {title_or_body_or_tag_name_or_country_name_cont: word} )}
+      
+      # @search = Question.ransack(params[:q])
+      @search = Question.ransack({conbinator: "and", groupings: grouping_hash})
+      @question = @search.result.includes(:tag, :user).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+    else
+      @search = Question.ransack(params[:q])
+      # @search = Question.ransack({conbinator: "and", groupings: grouping_hash})
+      @question = @search.result.includes(:tag, :user).page(params[:page]).per(10).where(best_answer_id: nil).order(created_at: "DESC")
+    end
+
   end
   #ストロングパラメータ：deviseではサインアップ時emailとpasswordの入力しか許可しないが以下のメソッドで登録が可能になる
     protected
