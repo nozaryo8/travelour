@@ -97,25 +97,25 @@
               <div class="list-group mb-3">
                 <% @questions.each do |question|%>
                   <%= link_to(question, class: "list-group-item list-group-item-action",'data-toggle': :tooltip,"title": :"#{question.user.username}さんの投稿") do%>
-                    <div class="q-header d-flex justify-content">
-                      <div class="header-left d-flex">
-                        <div class="user-image">
+                    <div class="q-header d-flex justify-content-between">
+                      <div class="header-left d-flex align-items-center">
+                        <div class="user-image mr-1">
                           <%= image_tag question.user.image.url%>
                         </div>
                         <div class="user-info">
-                          <p class="user-info-top">
-                            <span>名前</span>・<span>フォロー</span>
+                          <p class="user-info-top mb-0">
+                            <span class = "font-weight-bold name">名前</span>・<span>フォロー</span>
                           </p>
-                          <p class="user-info-bottom">
+                          <p class="user-info-bottom mb-0">
                             <span>ジャンル</span>|<span>更新日時</span>
                           </p>
                         </div>
                       </div>
                       <div class="header-right">
-                        <span>x</span>
+                        <span><i class="far fa-times-circle"></i></span>
                       </div>
                     </div>
-                    <%= question.title%>
+                    
                     <%
 =begin%>
  <p class="mb-1"><%= question.tag.name %> | <%= question.country.name%></p>
