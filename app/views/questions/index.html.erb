@@ -104,16 +104,19 @@
                         </div>
                         <div class="user-info">
                           <p class="user-info-top mb-0">
-                            <span class = "font-weight-bold name">名前</span>・<span>フォロー</span>
+                            <span class = "font-weight-bold name"><%= question.user.username%></span>・<span>フォロー</span>
                           </p>
                           <p class="user-info-bottom mb-0">
-                            <span>ジャンル</span>|<span>更新日時</span>
+                            <span><%= question.tag.name %></span>|<span><%= " #{time_ago_in_words(question.created_at)}前に更新" %></span>
                           </p>
                         </div>
                       </div>
-                      <div class="header-right">
+                      <div class="header-right d-flex align-items-center">
                         <span><i class="far fa-times-circle"></i></span>
                       </div>
+                    </div>
+                    <div class="q-body">
+                      <span class="font-weight-bold q-title h6"><%= question.title%></span>
                     </div>
                     
                     <%
