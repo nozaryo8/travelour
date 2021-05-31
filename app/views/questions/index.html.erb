@@ -96,6 +96,40 @@
               </div>
               <div class="list-group mb-3">
                 <% @questions.each do |question|%>
+                  <div class= "list-group-item list-group-item-action">
+                    <div class="q-header d-flex justify-content-between mb-1">
+                      <div class="header-left d-flex align-items-center">
+                        <div class="user-image mr-1">
+                          <%= image_tag question.user.image.url%>
+                        </div>
+                        <div class="user-info">
+                          <p class="user-info-top mb-0">
+                            <span class = "font-weight-bold name"><%= question.user.username%></span>・<span>フォロー</span>
+                          </p>
+                          <p class="user-info-bottom mb-0">
+                            <span><%= question.tag.name %></span>|<span><%= " #{time_ago_in_words(question.created_at)}前に更新" %></span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="header-right d-flex align-items-center">
+                        <span><i class="far fa-times-circle"></i></span>
+                      </div>
+                    </div>
+                    <div class="q-body">
+                      <div class="content-title">
+                        <span class="font-weight-bold h6"><%= question.title%></span>
+                      </div>
+                      <div class="content-body">
+                        <p class="mb-0"><%= question.body.truncate(200)%></p>
+                        <p class="text-right mb-0">&lt;もっと見る&gt;</p>
+                        
+                      </div>
+                    </div>
+                  </div>
+               
+                <%
+=begin%>
+ <% @questions.each do |question|%>
                   <%= link_to(question, class: "list-group-item list-group-item-action",'data-toggle': :tooltip,"title": :"#{question.user.username}さんの投稿") do%>
                     <div class="q-header d-flex justify-content-between mb-1">
                       <div class="header-left d-flex align-items-center">
@@ -120,10 +154,13 @@
                         <span class="font-weight-bold h6"><%= question.title%></span>
                       </div>
                       <div class="content-body">
-                        <p><%= question.body.truncate(100)%></p>
-                        <p class="text-right">&lt;もっと見る&gt;</p>
+                        <p class="mb-0"><%= question.body.truncate(200)%></p>
+                        <p class="text-right mb-0">&lt;もっと見る&gt;</p>
+                        
                       </div>
-                    </div>
+                    </div> 
+<%
+=end%>
                     
                     <%
 =begin%>
@@ -132,7 +169,11 @@
                     <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> | <%="#{l(question.created_at)}"%></p></span> 
 <%
 =end%>
-                  <%end%>
+                  <%
+=begin%>
+ <%end%> 
+<%
+=end%>
                 <%end%>
                 <div class="mx-auto"><%= paginate @questions%></div>
               </div>
