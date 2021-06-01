@@ -1,3 +1,27 @@
+<% if params[:country]%>
+  <%if params[:q]%>
+    <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
+  <% else %>
+    <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode]) %>
+  <% end %>
+<% end %>
+
+<% if params[:tag]%>
+  <%if params[:q]%>
+    <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
+  <% else %>
+    <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode]) %>
+  <% end %>
+<% end %>
+
+<%if @words%>
+  <h1>検索ワード</h1>
+  <% @words.each do |word| %>
+    <p><%= link_to "x #{word[:word]}", questions_path(order: params[:order],mode: params[:mode],"q[title_or_body_or_tag_name_or_country_name_cont]": word[:words])%></p>
+  <% end %>
+<%end%>
+
+
 <div class="container mt-5 col-10">
   <h2 class="text-center">Q&A一覧</h2>
 </div>
@@ -30,7 +54,12 @@
         </div>
         <div class="card-body pt-0">
           <% @tags.each do |tag| %>
-            <p><%= link_to tag.name %></p>
+            <%if params[:q]%>
+              <p><%= link_to tag.name, questions_path(country: params[:country] ,order: params[:order],mode: params[:mode],tag: tag.name,"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%></p>
+            <% else %>
+              <p><%= link_to tag.name, questions_path(country: params[:country] ,order: params[:order],mode: params[:mode],tag: tag.name)%></p>
+            <% end %>
+
           <% end %>
         </div>
       </div>

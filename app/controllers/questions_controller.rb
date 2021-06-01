@@ -19,6 +19,23 @@ class QuestionsController < ApplicationController
     # @question = @q.result(distinct: true)
     @continents = Continent.all
     @tags = Tag.all
+
+    if params[:q]
+      words = params[:q][:title_or_body_or_tag_name_or_country_name_cont].split(/[\p{blank}\s]+/)
+      @words = []
+      words.each do |word|
+        w = {}
+        w[:word] = word
+        r = words
+        r.delete(word)
+        w[:words] = r.join(" ")
+        @words.append(w)
+      end
+    else
+      
+    
+
+    end
     #application_controllerにset_searchを記述
     if params[:mode] == "index" || params[:mode] == nil
       if params[:order] == "questions_new"
@@ -84,6 +101,14 @@ class QuestionsController < ApplicationController
       end
       @questions = Kaminari.paginate_array(@questions).page(params[:page]).per(10)
     end
+
+    if params[:tag] && params[:tag] != ""
+      @questions = @questions.select do |q|
+        q.tag.name == params[:tag]
+      end
+      @questions = Kaminari.paginate_array(@questions).page(params[:page]).per(10)
+    end
+
   end
 
 

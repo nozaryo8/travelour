@@ -34,6 +34,15 @@ class ApplicationController < ActionController::Base
     end
 
   end
+
+  # def remove_same_word(words , word)
+  #   r = words
+  #   r.delete(word)
+  #   r.join(" ")
+  # end
+  
+
+
   #ストロングパラメータ：deviseではサインアップ時emailとpasswordの入力しか許可しないが以下のメソッドで登録が可能になる
     protected
       def search_params
