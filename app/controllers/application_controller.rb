@@ -42,7 +42,6 @@ class ApplicationController < ActionController::Base
   # end
   
 
-
   #ストロングパラメータ：deviseではサインアップ時emailとpasswordの入力しか許可しないが以下のメソッドで登録が可能になる
     protected
       def search_params
