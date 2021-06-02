@@ -16,6 +16,7 @@
             <%= f.hidden_field(:mode, name: :mode,:value => params[:mode]) %>
             <%= f.hidden_field(:order,name: :order, :value => params[:order]) %>
             <%= f.hidden_field(:country,name: :country, :value => params[:country]) %>
+            <%= f.hidden_field(:tag,name: :tag, :value => params[:tag]) %>
             <div class="input-group form">
               <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す"%>
               

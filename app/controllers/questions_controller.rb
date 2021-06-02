@@ -21,16 +21,17 @@ class QuestionsController < ApplicationController
     @tags = Tag.all
 
     if params[:q]
-      words = params[:q][:title_or_body_or_tag_name_or_country_name_cont].split(/[\p{blank}\s]+/)
-      @words = []
-      words.each do |word|
-        w = {}
-        w[:word] = word
-        r = words
-        r.delete(word)
-        w[:words] = r.join(" ")
-        @words.append(w)
-      end
+      @words = params[:q][:title_or_body_or_tag_name_or_country_name_cont].split(/[\p{blank}\s]+/)
+      # @words = []
+      # words.each do |word|
+      #   w = {}
+      #   w[:word] = word
+      #   r = words
+      #   r.delete(word)
+      #   w[:words] = r.join(" ")
+      #   @words.append(w)
+      # end
+      # @w = params[:q][:title_or_body_or_tag_name_or_country_name_cont].split(/[\p{blank}\s]+/)
     else
       
     
