@@ -1,28 +1,35 @@
 <div class="container mt-5 col-10">
-  <h2 class="text-center">Q&A一覧</h2>
-  <% if params[:country] && params[:country] != ""%>
-  <%if params[:q]%>
-    <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
-  <% else %>
-    <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode],tag: params[:tag]) %>
-  <% end %>
-  <% end %>
+  <% if params[:country] && params[:country] != "" || params[:tag] && params[:tag] != "" || @words%>
+    <h3>表示結果 : <%= @questions.count%> 件</h3>
+    <% if params[:country] && params[:country] != ""%>
+      <%if params[:q]%>
+        <%= link_to params[:country] ,questions_path(order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
+          
 
-  <% if params[:tag] && params[:tag] != ""%>
-    <%if params[:q]%>
-      <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
-    <% else %>
-      <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country]) %>
+      <% else %>
+        <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode],tag: params[:tag]) %>
+      <% end %>
     <% end %>
-  <% end %>
 
-  <%if @words%>
-    <h1>検索ワード</h1>
-    <% @words.each do |word| %>
-      <p><%= link_to "x #{word}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) )%></p>
+    <% if params[:tag] && params[:tag] != ""%>
+      <%if params[:q]%>
+        <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
+      <% else %>
+        <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country]) %>
+      <% end %>
     <% end %>
-  <%end%>
 
+    <%if @words%>
+      <% @words.each do |word| %>
+        <p>
+          <%= link_to questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) ), class: "word" do %>
+            <i class="fas fa-search"></i> <%=word%>
+          <%end%>
+        </p>
+
+      <% end %>
+    <%end%>
+  <% end %>
 </div>
 <div class="container mt-5 ">
   <div class="row justify-content-center"> 

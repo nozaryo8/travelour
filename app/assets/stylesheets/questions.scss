@@ -463,3 +463,22 @@ $info_t1: #e0ffff;
     z-index: 15;
   }
 }
+
+.word {
+  position: relative;
+  display: inline-block;
+  height: 10px;
+  margin-left: 10px;
+  padding: 10px 9.5px 10px 0;
+  color: #fff;
+  background: #fa4141;
+}
+.word:before {
+  position: absolute;
+  top: 0;
+  left: -10px;
+  content: "";
+  border-width: 10px 9.5px 10px 0;
+  border-style: solid;
+  border-color: transparent #fa4141 transparent transparent;
+}
