@@ -1,29 +1,28 @@
-<% if params[:country] && params[:country] != ""%>
+<div class="container mt-5 col-10">
+  <h2 class="text-center">Q&A一覧</h2>
+  <% if params[:country] && params[:country] != ""%>
   <%if params[:q]%>
     <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
   <% else %>
     <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode],tag: params[:tag]) %>
   <% end %>
-<% end %>
-
-<% if params[:tag] && params[:tag] != ""%>
-  <%if params[:q]%>
-    <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
-  <% else %>
-    <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country]) %>
   <% end %>
-<% end %>
 
-<%if @words%>
-  <h1>検索ワード</h1>
-  <% @words.each do |word| %>
-     <p><%= link_to "x #{word}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) )%></p>
+  <% if params[:tag] && params[:tag] != ""%>
+    <%if params[:q]%>
+      <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
+    <% else %>
+      <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country]) %>
+    <% end %>
   <% end %>
-<%end%>
 
+  <%if @words%>
+    <h1>検索ワード</h1>
+    <% @words.each do |word| %>
+      <p><%= link_to "x #{word}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) )%></p>
+    <% end %>
+  <%end%>
 
-<div class="container mt-5 col-10">
-  <h2 class="text-center">Q&A一覧</h2>
 </div>
 <div class="container mt-5 ">
   <div class="row justify-content-center"> 
