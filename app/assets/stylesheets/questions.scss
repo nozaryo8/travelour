@@ -465,20 +465,25 @@ $info_t1: #e0ffff;
 }
 
 .word {
-  position: relative;
   display: inline-block;
-  height: 10px;
-  margin-left: 10px;
-  padding: 10px 9.5px 10px 0;
-  color: #fff;
-  background: #fa4141;
+  margin: 0 0.1em 0.6em 0;
+  padding: 0.6em;
+  line-height: 1;
+  text-decoration: none;
+  color: black;
+  background-color: #fff;
+  border: 1px solid orange;
+  border-radius: 2em;
 }
-.word:before {
-  position: absolute;
-  top: 0;
-  left: -10px;
-  content: "";
-  border-width: 10px 9.5px 10px 0;
-  border-style: solid;
-  border-color: transparent #fa4141 transparent transparent;
+
+.word-q {
+  display: inline-block;
+  margin: 0 0.1em 0.6em 0;
+  padding: 0.6em;
+  line-height: 1;
+  text-decoration: none;
+  color: black;
+  background-color: #fff;
+  border: 1px solid #0000ee;
+  border-radius: 2em;
 }

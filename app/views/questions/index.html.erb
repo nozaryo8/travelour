@@ -1,34 +1,39 @@
 <div class="container mt-5 col-10">
   <% if params[:country] && params[:country] != "" || params[:tag] && params[:tag] != "" || @words%>
     <h3>表示結果 : <%= @questions.count%> 件</h3>
-    <% if params[:country] && params[:country] != ""%>
-      <%if params[:q]%>
-        <%= link_to params[:country] ,questions_path(order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
-          
-
-      <% else %>
-        <%= link_to "x #{params[:country]}", questions_path(order: params[:order],mode: params[:mode],tag: params[:tag]) %>
+    <div class="search-tag d-flex ">
+      <% if params[:country] && params[:country] != ""%>
+        <%if params[:q]%>
+          <%= link_to questions_path(order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]),class: "word" do%>
+            <span><%= params[:country] %> <i class="fas fa-times"></i></span>
+          <% end %>
+        <% else %>
+          <%= link_to questions_path(order: params[:order],mode: params[:mode],tag: params[:tag]),class: "word" do%>
+            <span><%= params[:country]%> <i class="fas fa-times"></i></span>
+          <% end %>
+        <% end %>
       <% end %>
-    <% end %>
 
-    <% if params[:tag] && params[:tag] != ""%>
-      <%if params[:q]%>
-        <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%>
-      <% else %>
-        <%= link_to "x #{params[:tag]}", questions_path(order: params[:order],mode: params[:mode],country: params[:country]) %>
+      <% if params[:tag] && params[:tag] != ""%>
+        <%if params[:q]%>
+          <%= link_to questions_path(order: params[:order],mode: params[:mode],country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]) ,class: "word" do%>
+            <span><%= params[:tag]%> <i class="fas fa-times"></i></span>
+          <% end %>
+        <% else %>
+          <%= link_to questions_path(order: params[:order],mode: params[:mode],country: params[:country]) ,class: "word" do%>
+            <span><%= params[:tag]%> <i class="fas fa-times"></i></span>
+          <% end %>
+        <% end %>
       <% end %>
-    <% end %>
 
-    <%if @words%>
-      <% @words.each do |word| %>
-        <p>
-          <%= link_to questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) ), class: "word" do %>
-            <i class="fas fa-search"></i> <%=word%>
+      <%if @words%>
+        <% @words.each do |word| %>
+          <%= link_to questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) ), class: "word-q" do %>
+            <span class ="mb-0"><i class="fas fa-search"></i> <%=word%> <i class="fas fa-times"></i></i></span>
           <%end%>
-        </p>
-
-      <% end %>
-    <%end%>
+        <% end %>
+      <%end%>
+    </div>
   <% end %>
 </div>
 <div class="container mt-5 ">
