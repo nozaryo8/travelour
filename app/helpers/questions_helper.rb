@@ -10,6 +10,6 @@ module QuestionsHelper
     words.join(" ")
     
   end
-
+  
 end
 
