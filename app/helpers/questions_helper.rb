@@ -7,6 +7,7 @@ module QuestionsHelper
     # r.join(" ")
     # p r
     words = words.reject {|w| w == word}
+    # joinで配列を一つの引数として返す
     words.join(" ")
     
   end
