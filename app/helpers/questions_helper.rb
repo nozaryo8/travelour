@@ -9,7 +9,7 @@ module QuestionsHelper
     words = words.reject {|w| w == word}
     # joinで配列を一つの引数として返す
     words.join(" ")
-    
+  
   end
   
 end
