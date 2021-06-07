@@ -12,14 +12,18 @@
 
         <% if user_signed_in? %>
         <div class="text-muted form">
-          <%= search_form_for @search , url: questions_path  do |f| %>
+          <%= search_form_for @search , url: questions_path do |f| %>
             <%= f.hidden_field(:mode, name: :mode,:value => params[:mode]) %>
             <%= f.hidden_field(:order,name: :order, :value => params[:order]) %>
             <%= f.hidden_field(:country,name: :country, :value => params[:country]) %>
             <%= f.hidden_field(:tag,name: :tag, :value => params[:tag]) %>
             <div class="input-group form">
-              <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す"%>
-              
+              <!-- AND検索を実行するとvalue(検索フォームの文字)が消えるのでvalueを追加-->
+              <% if params[:q] %>
+                <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す" ,value: params[:q][:title_or_body_or_tag_name_or_country_name_cont] %>
+              <% else %>
+                <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す" %>
+              <% end %>
               <div class="input-group-append">
                 <%= f.submit class: "input-group-text submit"%>
               </div>
