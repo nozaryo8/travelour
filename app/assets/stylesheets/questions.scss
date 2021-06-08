@@ -492,3 +492,25 @@ $info_t1: #e0ffff;
 .see-more {
   cursor: pointer;
 }
+
+.card-body {
+  a {
+    color: black !important;
+  }
+  a:hover {
+    text-decoration: underline !important; /*リンクにマウスが乗ったら下線を表示*/
+    background-color: #fff !important;
+    color: black !important;
+  }
+}
+
+.select-order {
+  a {
+    color: black !important;
+  }
+  a:hover {
+    text-decoration: underline !important; /*リンクにマウスが乗ったら下線を表示*/
+    background-color: #fff !important;
+    color: black !important;
+  }
+}
