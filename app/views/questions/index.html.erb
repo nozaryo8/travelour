@@ -141,7 +141,7 @@
               </div>
               <div class="list-group mb-3">
                 <% @questions.each do |question|%>
-                  <div class= "list-group-item list-group-item-action">
+                  <div class= "list-group-item list-group-item-action question-content">
                     <div class="q-header d-flex justify-content-between mb-1">
                       <div class="header-left d-flex align-items-center">
                         <div class="user-image mr-1">
@@ -157,17 +157,23 @@
                         </div>
                       </div>
                       <div class="header-right d-flex align-items-center">
-                        <span><i class="far fa-times-circle"></i></span>
+                        <span class="hide-question"><i class="far fa-times-circle"></i></span>
                       </div>
                     </div>
                     <div class="q-body">
                       <div class="content-title">
                         <span class="font-weight-bold h6"><%= question.title%></span>
                       </div>
-                      <div class="content-body" id = <%= question.id %> >
-                        <p class="mb-0"><%= question.body.truncate(200)%></p>
-                        <p class="text-right mb-0">&lt;もっと見る&gt;</p>
-                
+                      <div class="content-body" >
+                      <%if question.body.length > 200 %>
+                        <div class="truncated">
+                          <p class="mb-0"><%= question.body.truncate(200)%></p>
+                          <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
+                        </div>
+                        <div class="untruncated" style="display: none"><p class="mb-0"><%= simple_format(h(question.body), {}) %></p></div>
+                      <%else%>
+                        <p class="mb-0"><%= simple_format(h(question.body), {})%></p>
+                      <%end%>
                       </div>
                       <div class="content-footer">
                         <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %></p> 
@@ -241,5 +247,15 @@
     </div>
   </div>
 </div>
-
 <br>
+
+<script>
+$('.see-more').click(function(){
+  $(this).closest(".content-body").find(".truncated").hide();
+  $(this).closest(".content-body").find(".untruncated").show();
+})
+
+$('.hide-question').click(function(){
+  $(this).closest(".question-content").hide();
+})
+</script>
