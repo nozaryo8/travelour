@@ -1,9 +1,15 @@
-<div class="container mt-5 col-10">
+<div class="container mt-5 col-7">
   <% if params[:country] && params[:country] != "" || params[:tag] && params[:tag] != "" || @words%>
-    <% if params[:q][:title_or_body_or_tag_name_or_country_name_cont] != nil && params[:q][:title_or_body_or_tag_name_or_country_name_cont] != ""%>
-      <h3>表示結果 : <%= @search.result.count%> 件</h3>
-    <% end %>
     <div class="search-tag d-flex ">
+      <h3 class="mr-1 result">キーワード : </h3>
+      <%if @words%>
+        <% @words.each do |word| %>
+          <%= link_to questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) ), class: "word-q" do %>
+            <p class ="mb-0"><i class="fas fa-search"></i> <%=word%> <i class="fas fa-times"></i></p>
+          <%end%>
+        <% end %>
+      <%end%>
+
       <% if params[:country] && params[:country] != ""%>
         <%if params[:q]%>
           <%= link_to questions_path(order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]),class: "word" do%>
@@ -28,17 +34,10 @@
         <% end %>
       <% end %>
 
-      <%if @words%>
-        <% @words.each do |word| %>
-          <%= link_to questions_path(order: params[:order],mode: params[:mode],country: params[:country],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": remove_same_word(@words , word) ), class: "word-q" do %>
-            <p class ="mb-0"><i class="fas fa-search"></i> <%=word%> <i class="fas fa-times"></i></p>
-          <%end%>
-        <% end %>
-      <%end%>
     </div>
   <% end %>
 </div>
-<div class="container mt-5 ">
+<div class="container mt-5">
   <div class="row justify-content-center"> 
     <div class="col-2">
       <div class="card mb-2">
@@ -48,13 +47,25 @@
         <div class="card-body pt-0">
           <div class="continent-list">
             <% @continents.each do |continent| %>
-              <p><%= link_to "▶︎#{continent.name}" ,"#collapse#{continent.id}",'data-toggle': :'collapse' ,'role': :'button' ,'aria-expanded': :'false', 'aria-controls': :'collapseExample' %></p>                    
+              <p>
+                <%= link_to "#collapse#{continent.id}",'data-toggle': :'collapse' ,'role': :'button' ,'aria-expanded': :'false', 'aria-controls': :'collapseExample' do%>
+                  <i class="fas fa-globe-americas"></i><%=continent.name%>
+                <% end %>
+              </p>                    
               <div class="collapse" id="collapse<%= continent.id%>">
                 <% continent.countries.each do |country|%>
                   <%if params[:q]%>
-                    <p><%= link_to country.name , questions_path(country: country.name ,order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%></p>
+                    <p>
+                      <%= link_to questions_path(country: country.name ,order: params[:order],mode: params[:mode],tag: params[:tag],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])do%>
+                        <i class="fas fa-genderless"></i> <%= country.name%>
+                      <% end%>
+                    </p>
                   <% else %>
-                    <p><%= link_to country.name , questions_path(country: country.name ,order: params[:order],mode: params[:mode],tag: params[:tag])%></p>
+                    <p>
+                      <%= questions_path(country: country.name ,order: params[:order],mode: params[:mode],tag: params[:tag]) do%>
+                        <i class="fas fa-genderless"></i> <%= country.name%>
+                      <% end %>
+                    </p>
                   <% end %>
                 <% end %>
               </div>
@@ -69,9 +80,17 @@
         <div class="card-body pt-0">
           <% @tags.each do |tag| %>
             <%if params[:q]%>
-              <p><%= link_to tag.name, questions_path(country: params[:country] ,order: params[:order],mode: params[:mode],tag: tag.name,"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont])%></p>
+              <p>
+                <%= link_to questions_path(country: params[:country] ,order: params[:order],mode: params[:mode],tag: tag.name,"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]) do%>
+                  <i class="fas fa-genderless"></i> <%= tag.name %>
+                <% end %>
+              </p>
             <% else %>
-              <p><%= link_to tag.name, questions_path(country: params[:country] ,order: params[:order],mode: params[:mode],tag: tag.name)%></p>
+              <p>
+                <%= link_to questions_path(country: params[:country] ,order: params[:order],mode: params[:mode],tag: tag.name) do%>
+                  <i class="fas fa-genderless"></i> <%= tag.name %>
+                <% end %>
+              </p>
             <% end %>
 
           <% end %>
@@ -113,6 +132,7 @@
         </div>
 
         <!-- TODO: 背景色とpaddingを上書きする-->
+        <div class="question-body">
         <div class="card-body">
           <div class="row">
             <div class="col-12 mx-auto">
@@ -239,6 +259,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
     <div class="col-3">
       <div class="card">

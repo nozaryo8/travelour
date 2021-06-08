@@ -495,15 +495,26 @@ $info_t1: #e0ffff;
 
 .card-body {
   a {
-    color: black !important;
+    color: #495057 !important;
   }
   a:hover {
     text-decoration: underline !important; /*リンクにマウスが乗ったら下線を表示*/
     background-color: #fff !important;
-    color: black !important;
+    color: #778899 !important;
+  }
+}
+.search-tag {
+  a {
+    color: #495057 !important;
+  }
+  a:hover {
+    text-decoration: none !important; /*リンクにマウスが乗ったら下線を表示*/
+    background-color: #fff !important;
+    color: #778899 !important;
   }
 }
 
+.question-body,
 .select-order {
   a {
     color: black !important;
@@ -513,4 +524,8 @@ $info_t1: #e0ffff;
     background-color: #fff !important;
     color: black !important;
   }
+}
+
+.result {
+  margin-top: 2px;
 }
