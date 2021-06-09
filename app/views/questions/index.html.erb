@@ -40,7 +40,7 @@
 <div class="container mt-5">
   <div class="row justify-content-center"> 
     <div class="col-2">
-      <div class="card mb-2">
+      <div class="card mb-2 slide">
         <div class="card-title mb-0">
           <p class="text-center">&lt;国で絞り込む&gt;<p>
         </div>
@@ -62,7 +62,7 @@
                     </p>
                   <% else %>
                     <p>
-                      <%= questions_path(country: country.name ,order: params[:order],mode: params[:mode],tag: params[:tag]) do%>
+                      <%= link_to questions_path(country: country.name ,order: params[:order],mode: params[:mode],tag: params[:tag]) do%>
                         <i class="fas fa-genderless"></i> <%= country.name%>
                       <% end %>
                     </p>
