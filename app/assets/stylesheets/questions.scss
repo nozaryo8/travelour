@@ -540,3 +540,64 @@ $info_t1: #e0ffff;
   transition-duration: 0.3s;
   transition-property: width, min-width, transform;
 }
+
+.gold {
+  background-color: gold;
+  color: #fff;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  padding: 3px 0;
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 0em;
+  white-space: nowrap;
+}
+
+.silver {
+  background-color: silver;
+  color: #fff;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  padding: 3px 0;
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 0em;
+  white-space: nowrap;
+}
+
+.bronze {
+  background-color: #cd7f32;
+  color: #fff;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  padding: 3px 0;
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 0em;
+  white-space: nowrap;
+}
+
+.ranking {
+  border-bottom: 1px solid #ebebeb;
+}
+
+.less_4 {
+  width: 22px;
+  margin-left: 5.5px;
+}
+
+.fa-crown {
+  color: gold;
+}

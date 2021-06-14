@@ -181,7 +181,7 @@
                             <span class="font-weight-bold name"><%= question.user.username%></span>・<span>フォロー</span>
                           </p>
                           <p class="user-info-bottom mb-0">
-                            <span><%= question.tag.name %></span>|<span><%= " #{time_ago_in_words(question.created_at)}前に更新" %></span>
+                            <span> <%= question.country.name%></span> | <span><%= question.tag.name %></span>
                           </p>
                         </div>
                       </div>
@@ -208,7 +208,7 @@
                         <%end%>
                       </div>
                       <div class="content-footer">
-                        <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %></p>
+                        <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> <span>| <%= " #{time_ago_in_words(question.created_at)}前に更新" %></span></p>
                       </div>
                     </div>
                   </div>
@@ -270,13 +270,25 @@
       </div>
     </div>
     <div class="col-3 container">
-
+      <p class="h6 font-weight-bold"><i class="fas fa-crown"></i> 週間Q&Aランキング</p>
       <% @ranks.each.with_index(1) do |question, i| %>
-      <div class="mb-3">
-        <%= i %>位
-        <div class="card shadow-lg">
-          <div class="card-title pt-1 pb-1 mb-0">
-            <p class="mb-0 ">◆<%= question.title.truncate(50) %></p>
+      <div class="ranking">
+        <div class="d-flex align-items-center mt-3 mb-3">
+          <% if i < 4 %>
+
+          <% case i when 1 %>
+          <span class="gold mr-3"><%= i %></span>
+          <% when 2 %>
+          <span class="silver mr-3"><%= i %></span>
+          <% when 3 %>
+          <span class="bronze mr-3"><%= i %></span>
+          <% end %>
+
+          <% else %>
+          <span class="mr-3 less_4"><%= i %></span>
+          <% end %>
+          <div class="mb-0">
+            <p class="mb-0 question-body"><%= link_to(question.title.truncate(50),question) %></p>
           </div>
         </div>
       </div>
