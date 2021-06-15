@@ -23,4 +23,11 @@ class Question < ApplicationRecord
     end
     return evaluation 
   end
+
+  def related_questions
+    #インスタンスメソッド
+    Question.where(country_id: self.country_id).where.not(id: self.id).order(updated_at: :desc).limit(5)
+    # Question.where(country_id: self.country_id).where.not(id: self.id).or(Question.where(tag_id: self.tag_id).where.not(id: self.id)).order(updated_at: :desc).limit(5)
+    
+  end
 end

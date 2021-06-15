@@ -660,3 +660,24 @@ $info_t1: #e0ffff;
     text-decoration: underline !important;
   }
 }
+
+.follow {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: blue;
+  font-weight: 700 !important;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.form-follow {
+  display: inline-block !important;
+}
+
+.question-user-name {
+  font-size: 13px;
+  font-family: verdana, arial, helvetica, sans-serif;
+}

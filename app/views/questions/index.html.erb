@@ -177,24 +177,26 @@
                         <% end %>
                       </div>
                       <div class="user-info">
-                        <p class="user-info-top mb-0">
-                          <span class="font-weight-bold name"><%= link_to question.user.username, user_path(question.user.id)%></span>
+                        
+                        <div class="user-info-top mb-0">
+                          <span class="font-weight-bold question-user-name"><%= link_to question.user.username, user_path(question.user.id)%></span>
                           <% unless current_user == question.user %>
                             <% if current_user.following?(question.user) %>
                               <span>・</span>
-                              <%= link_to(current_user.relationships.find_by({follow_id: question.user.id}), method: :delete ) do |f| %>
+                              <%= form_with(model: current_user.relationships.find_by(follow_id: question.user.id), class: "form-follow",method: :delete ) do |f| %>
                                 <%= hidden_field_tag :follow_id, question.user.id %>
-                                <span>フォロー解除</span>
+                                <%= f.submit 'フォロー解除', class: 'follow p-0' %>
                               <% end %>
                             <% else %>
                               <span>・</span>
-                              <%= link_to(current_user.relationships.build({follow_id: question.user.id}) , method: :post) do |f| %>
+                          
+                              <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
                                 <%= hidden_field_tag :follow_id, question.user.id %>
-                                <span>フォロー</span>
+                                <%= f.submit 'フォロー', class: 'follow p-0 ' %>
                               <% end %>
                             <% end %>
                           <% end %>
-                        </p>
+                        </div>
                         
                         <p class="user-info-bottom mb-0">
                           <span> <%= question.country.name%></span> | <span><%= question.tag.name %></span>
