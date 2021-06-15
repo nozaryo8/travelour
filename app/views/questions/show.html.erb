@@ -18,28 +18,32 @@
                   <% end %>
                 </div>
                 <div class="user-info">
-                  <p class="user-info-top mb-0">
-                    <span class="font-weight-bold name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
+                  <div class="user-info-top mb-0">
+                    <span class="font-weight-bold question-user-name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
                     <% unless current_user == @question.user %>
                       <% if current_user.following?(@question.user) %>
                         <span>・</span>
-                        <%= link_to(current_user.relationships.find_by({follow_id: @question.user.id}), method: :delete ) do %>
-                          <span>フォロー解除</span>
+                        <%= form_with(model: current_user.relationships.find_by(follow_id: @question.user.id), class: "form-follow",method: :delete ) do |f| %>
+                          <%= hidden_field_tag :follow_id, @question.user.id %>
+                          <%= f.submit 'フォロー解除', class: 'follow p-0' %>
                         <% end %>
                       <% else %>
                         <span>・</span>
-                        <%= link_to(current_user.relationships.build({follow_id: @question.user.id}) , method: :post) do%>
-                          <span>フォロー</span>
+                    
+                        <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                          <%= hidden_field_tag :follow_id, @question.user.id %>
+                          <%= f.submit 'フォロー', class: 'follow p-0 ' %>
                         <% end %>
                       <% end %>
                     <% end %>
-                  </p>
+                  </div>
                 
                   <p class="user-info-bottom mb-0">
                     <span> <%= @question.country.name%></span> | <span><%= @question.tag.name %></span>
                   </p>
                 </div>
               </div>
+              
               <div class="header-right d-flex align-items-center">
                 <% if @question.best_answer_id == nil%>
                   <div class="index-ribbon">未解決</div>
@@ -53,8 +57,8 @@
                 <%= link_to(@question.title, @question, class: "font-weight-bold h6")%>
               </div>
               <div class="content-body">
-              
-                <p class="mb-0"><%= simple_format(h(@question.body), {})%></p>
+                
+                <p class="mb-0"><%= raw Rinku.auto_link(simple_format(h(@question.body), {})) %></p>
               </div>
               <div class="content-footer">
                 <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=@question.answers.count %> <i class="fas fa-thumbs-up"></i><%= @question.evaluations.count%> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p>
@@ -63,8 +67,63 @@
           </div>
         </div>
       </div>
+      <!-- TODO: ベストアンサーの修正-->
+      
       <%if @question.best_answer_id%>
         <hr>
+        <div class="question-content">
+          <div class="list-group mb-3">
+            <div class="list-group-item list-group-item-action question-content mb-4">
+              <div class="q-header d-flex justify-content-between mb-1">
+                <div class="header-left d-flex align-items-center">
+                  <div class="user-image mr-1">
+                    <% if @bestanswer.user.image? %>
+                      <%= link_to user_path(@bestanswer.user.id) do%>
+                        <%= image_tag @bestanswer.user.image.url%>
+                      <% end %>
+                    <% else %>
+                      <%= link_to user_path(@bestanswer.user.id) do%>
+                        <img src="/images/person2.png">
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="user-info">
+                    <div class="user-info-top mb-0">
+                      <span class="font-weight-bold question-user-name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
+                      <% unless current_user == @bestanswer.user %>
+                        <% if current_user.following?(@bestanswer.user) %>
+                          <span>・</span>
+                          <%= form_with(model: current_user.relationships.find_by(follow_id: @bestanswer.user.id), class: "form-follow",method: :delete ) do |f| %>
+                            <%= hidden_field_tag :follow_id, @bestanswer.user.id %>
+                            <%= f.submit 'フォロー解除', class: 'follow p-0' %>
+                          <% end %>
+                        <% else %>
+                          <span>・</span>
+                      
+                          <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                            <%= hidden_field_tag :follow_id, @bestanswer.user.id %>
+                            <%= f.submit 'フォロー', class: 'follow p-0 ' %>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="header-right d-flex align-items-center">
+                  <i class="fas fa-ribbon"></i> ベストアンサー
+                </div>
+              </div>
+              <div class="q-body">
+                <div class="content-body mt-2">
+                  <p class="mb-0"><%= raw Rinku.auto_link(simple_format(h(@bestanswer.body), {},wrapper_tag: "mb-0")) %></p>
+                </div>
+                <div class="content-footer">
+                  <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%><span>| <%= " #{time_ago_in_words(@bestanswer.updated_at)}前に更新" %></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="best-answer mb-2"><i class="fas fa-ribbon"></i> ベストアンサー </div>
         <div class="d-flex mr-auto align-items-center">
           <%= link_to user_path(@bestanswer.user.id) do%> 
