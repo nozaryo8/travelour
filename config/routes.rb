@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   #shallow :trueにするとURLを短くしてアクセスできる。
   resources :questions, shallow: true do
     resources :answers, shallow: true do
-      resources :reactions 
+      resources :reactions , defaults: { format: 'js' }
     end
   end
 

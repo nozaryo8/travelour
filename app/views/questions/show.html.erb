@@ -120,47 +120,84 @@
                   <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%><span>| <%= " #{time_ago_in_words(@bestanswer.updated_at)}前に更新" %></span></p>
                 </div>
               </div>
-              <div class="comment-content">
-                <div class="list-group ">
-                  <% @bestanswer.reactions.each do |reaction| %>
-                    <div class="list-group-item list-group-item-action question-content" id="remove<%=reaction.id%>">
-                      <div class="q-header d-flex justify-content-between mb-1">
-                        <div class="header-left d-flex align-items-center">
-                          <div class="user-image mr-1">
-                            <% if reaction.user.image? %>
-                              <%= link_to user_path(reaction.user.id) do%>
-                                <%= image_tag reaction.user.image.url%>
-                              <% end %>
-                            <% else %>
-                              <%= link_to user_path(reaction.user.id) do%>
-                                <img src="/images/person2.png">
-                              <% end %>
-                            <% end %>
+
+              <%if @bestanswer.reactions%>
+                <div class="comment-content">
+                  <% if @bestanswer.reactions.count >= 2 %>
+                    <div class="truncated">
+                      <p class="mb-0 see-more"><%= "#{@bestanswer.reactions.first.user.username} さん他より#{@bestanswer.reactions.count}件のコメント"%></p>
+                    </div>
+                  <% else %>
+                    <div class="truncated">
+                      <p class="mb-0 see-more"><%= "#{@bestanswer.reactions.first.user.username} さんより#{@bestanswer.reactions.count}件のコメント"%></p>
+                    </div>
+                  <% end %>
+                  
+                  
+                  <div class="untruncated" style="display: none">
+                    <div class="list-group">
+                      <!--TODO: Ajaxでコメント送信ができないので実装する-->
+                      <div id="reaction<%=@bestanswer.id %>"></div>
+                        <div class="list-group-item list-group-item-action">
+                          <% if user_signed_in? %>
+                            <div class="header-left d-flex align-items-center">
+                              <div class="user-image mr-1">
+                                <% if @bestanswer.user.image? %>
+                                  <%= link_to user_path(@bestanswer.user.id) do%>
+                                    <%= image_tag @bestanswer.user.image.url%>
+                                  <% end %>
+                                <% else %>
+                                  <%= link_to user_path(@bestanswer.user.id) do%>
+                                    <img src="/images/person2.png">
+                                  <% end %>
+                                <% end %>
+                              </div>
+                              <%= form_with(model: @reaction,url: answer_reactions_path(@bestanswer.id),id: @bestanswer.id) do |form| %><%end%>
+                              <%= button_to 'コメントする', new_answer_reaction_path(@bestanswer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
+                            </div>
+                          <%end%>
+                        </div>
+                      <% @bestanswer.reactions.each do |reaction| %>
+                        <div class="list-group-item list-group-item-action question-content" id="remove<%=reaction.id%>">
+                          <div class="q-header d-flex justify-content-between mb-1">
+                            <div class="header-left d-flex align-items-center">
+                              <div class="user-image mr-1">
+                                <% if reaction.user.image? %>
+                                  <%= link_to user_path(reaction.user.id) do%>
+                                    <%= image_tag reaction.user.image.url%>
+                                  <% end %>
+                                <% else %>
+                                  <%= link_to user_path(reaction.user.id) do%>
+                                    <img src="/images/person2.png">
+                                  <% end %>
+                                <% end %>
+                              </div>
+                              <div class="user-info">
+                                <div class="user-info-top mb-0">
+                                  <span class="font-weight-bold question-user-name"><%= link_to reaction.user.username, user_path(reaction.user.id)%></span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div class="user-info">
-                            <div class="user-info-top mb-0">
-                              <span class="font-weight-bold question-user-name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
+                          <div class="q-body">
+                            <div class="content-body mt-2 mb-2">
+                              <%= raw Rinku.auto_link(simple_format(h(reaction.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
+                            </div>
+                            <div class="content-footer">
+                              <p class="mb-0"><span><%= " #{time_ago_in_words(reaction.updated_at)}前に更新" %></span></p>
+                              <% if user_signed_in?%>
+                                <%if reaction.user.id == current_user.id %>
+                                  <p class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></p>
+                                <%end%>
+                              <% end %>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="q-body">
-                        <div class="content-body mt-2 mb-2">
-                          <%= raw Rinku.auto_link(simple_format(h(reaction.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
-                        </div>
-                        <div class="content-footer">
-                          <p class="mb-0"><span><%= " #{time_ago_in_words(reaction.updated_at)}前に更新" %></span></p>
-                          <% if user_signed_in?%>
-                            <%if reaction.user.id == current_user.id %>
-                              <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
-                            <%end%>
-                          <% end %>
-                        </div>
-                      </div>
+                      <% end %>
                     </div>
-                  <% end %>
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>
@@ -386,24 +423,24 @@
                 <% end %>
                 <div id="reaction<%=@bestanswer.id %>"></div>
                 <%= form_with(model: @reaction,url: answer_reactions_path(@bestanswer.id),id: @bestanswer.id) do |form| %><%end%>
-                <% if user_signed_in? %>
-                  <% if current_user.id == @question.user_id || @bestanswer.user.id  == current_user.id %>
-                    <!-- <button class="comment-push" value="<%=@bestanswer.id %>" data-answer_id="<%=@bestanswer.id%>">コメントする</button> -->
-                    <%= button_to 'コメントする', new_answer_reaction_path(@bestanswer.id), :method => :get, :remote => true ,class: "comment-push btn btn-info form-control", id: "comment-push"%>
-                  <% end%>
-                <%end%>
-              <% end %>
-              <% if user_signed_in?%>
-                <% if @question.user.id != current_user.id %>
-                  <% if @bestanswer == nil%>
-                    <hr>
-                    <%= form_with(model: @answer, url: question_answers_path(@question.id),id: "answer") do |form| %><% end%>
-                    <%= button_to 'この質問に回答する',  new_question_answer_path(@question.id), :method => :get, :remote => true ,class: "form-control btn btn-primary answer-push"%>
-                    
-                  <% end %>
+                  <% if user_signed_in? %>
+                    <% if current_user.id == @question.user_id || @bestanswer.user.id  == current_user.id %>
+                      <!-- <button class="comment-push" value="<%=@bestanswer.id %>" data-answer_id="<%=@bestanswer.id%>">コメントする</button> -->
+                      <%= button_to 'コメントする', new_answer_reaction_path(@bestanswer.id), :method => :get, :remote => true ,class: "comment-push btn btn-info form-control", id: "comment-push"%>
+                    <% end%>
+                  <%end%>
                 <% end %>
-                <%= button_to '回答依頼を出す',  answer_request_path(id: @question.id), :method => :get, class: "form-control btn btn-primary" if current_user.id == @question.user.id%>
-              <% end %>
+                <% if user_signed_in?%>
+                  <% if @question.user.id != current_user.id %>
+                    <% if @bestanswer == nil%>
+                      <hr>
+                      <%= form_with(model: @answer, url: question_answers_path(@question.id),id: "answer") do |form| %><% end%>
+                      <%= button_to 'この質問に回答する',  new_question_answer_path(@question.id), :method => :get, :remote => true ,class: "form-control btn btn-primary answer-push"%>
+                      
+                    <% end %>
+                  <% end %>
+                  <%= button_to '回答依頼を出す',  answer_request_path(id: @question.id), :method => :get, class: "form-control btn btn-primary" if current_user.id == @question.user.id%>
+                <% end %>
             </div>
           </div>
         </div>
@@ -525,6 +562,12 @@
   </div>
 </div>
 
+<script>
+$('.see-more').click(function() {
+  $(this).closest(".comment-content").find(".truncated").hide();
+  $(this).closest(".comment-content").find(".untruncated").show();
+})
+</script>
 
 
 
@@ -548,5 +591,4 @@ $(function() {
     
   });
 });
-
 </script>

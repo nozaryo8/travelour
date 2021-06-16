@@ -12,14 +12,26 @@
       </ul>
     </div>
   <% end %>
- 
+ <!-- TODO: Qiita テキストボックスの拡張-->
   <%= form.hidden_field :user_id, value: current_user.id %>
+  <div class="d-flex align-items-center">
+    <div class="FlexTextarea mr-3">
+      <div class="FlexTextarea__dummy" aria-hidden="true"></div>
+      <%= form.text_area :body ,id: "push-textarea", class: "push-textarea" ,placeholder: "コメントを入力..." %>
+    </div>
   
-  <div class="field">
-    <%= form.text_area :body , class: "form-control" ,placeholder: "回答に関するコメントを入力してください" %>
-  </div>
- 
-  <div class="actions">
-    <%= form.submit "コメントする" ,class: "btn btn-primary"%>
+    <%= form.submit "コメントを追加" ,class: "push-button"%>
+
   </div>
 <% end %>
+
+<script>
+function flexTextarea(el) {
+  const dummy = el.querySelector('.FlexTextarea__dummy')
+  el.querySelector('.push-textarea').addEventListener('input', e => {
+    dummy.textContent = e.target.value + '\u200b'
+  })
+}
+
+document.querySelectorAll('.FlexTextarea').forEach(flexTextarea)
+</script>
