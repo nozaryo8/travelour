@@ -471,7 +471,6 @@ $info_t1: #e0ffff;
   height: 80px;
   border-radius: 20%;
   box-shadow: 0 2px 6px #c1ced7;
-
   object-fit: cover;
 }
 
@@ -680,4 +679,19 @@ $info_t1: #e0ffff;
 .question-user-name {
   font-size: 13px;
   font-family: verdana, arial, helvetica, sans-serif;
+}
+
+.questions-show {
+  .list-group :hover {
+    background-color: white;
+  }
+  .comment-content {
+    .list-group-item {
+      background-color: #f7f7f8;
+    }
+    // &hoverにすると優先順位が低くなったため別に書いた
+    .list-group-item :hover {
+      background-color: #f7f7f8;
+    }
+  }
 }

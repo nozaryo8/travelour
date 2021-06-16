@@ -1,4 +1,4 @@
-<div class="container mt-5 questions">
+<div class="container mt-5 questions questions-show">
   <div class="row">
     <div class="col-8">
       <div class="question-content">
@@ -56,9 +56,8 @@
               <div class="content-title">
                 <%= link_to(@question.title, @question, class: "font-weight-bold h6")%>
               </div>
-              <div class="content-body">
-                
-                <p class="mb-0"><%= raw Rinku.auto_link(simple_format(h(@question.body), {})) %></p>
+              <div class="content-body mb-2">
+                <%= raw Rinku.auto_link(simple_format(h(@question.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
               </div>
               <div class="content-footer">
                 <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=@question.answers.count %> <i class="fas fa-thumbs-up"></i><%= @question.evaluations.count%> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p>
@@ -114,11 +113,52 @@
                 </div>
               </div>
               <div class="q-body">
-                <div class="content-body mt-2">
-                  <p class="mb-0"><%= raw Rinku.auto_link(simple_format(h(@bestanswer.body), {},wrapper_tag: "mb-0")) %></p>
+                <div class="content-body mt-2 mb-2">
+                  <%= raw Rinku.auto_link(simple_format(h(@bestanswer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
                 </div>
                 <div class="content-footer">
                   <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%><span>| <%= " #{time_ago_in_words(@bestanswer.updated_at)}前に更新" %></span></p>
+                </div>
+              </div>
+              <div class="comment-content">
+                <div class="list-group ">
+                  <% @bestanswer.reactions.each do |reaction| %>
+                    <div class="list-group-item list-group-item-action question-content" id="remove<%=reaction.id%>">
+                      <div class="q-header d-flex justify-content-between mb-1">
+                        <div class="header-left d-flex align-items-center">
+                          <div class="user-image mr-1">
+                            <% if reaction.user.image? %>
+                              <%= link_to user_path(reaction.user.id) do%>
+                                <%= image_tag reaction.user.image.url%>
+                              <% end %>
+                            <% else %>
+                              <%= link_to user_path(reaction.user.id) do%>
+                                <img src="/images/person2.png">
+                              <% end %>
+                            <% end %>
+                          </div>
+                          <div class="user-info">
+                            <div class="user-info-top mb-0">
+                              <span class="font-weight-bold question-user-name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="q-body">
+                        <div class="content-body mt-2 mb-2">
+                          <%= raw Rinku.auto_link(simple_format(h(reaction.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
+                        </div>
+                        <div class="content-footer">
+                          <p class="mb-0"><span><%= " #{time_ago_in_words(reaction.updated_at)}前に更新" %></span></p>
+                          <% if user_signed_in?%>
+                            <%if reaction.user.id == current_user.id %>
+                              <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
+                            <%end%>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
                 </div>
               </div>
             </div>
