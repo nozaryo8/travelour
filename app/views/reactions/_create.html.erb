@@ -1,29 +1,36 @@
-<div class="row" id="remove<%=reaction.id%>">
-  <div class="col-lg-12 col-md-12">
-    <div class="card h-100 bg-warning">
-      <div class="card-body">
-        <div class="d-flex mr-auto align-items-center">
-          <%= link_to user_path(reaction.user.id) do %>
-            <% if reaction.user.image? %>
-              <%= image_tag reaction.user.image.url  %>
-            <% else%>
-              <img src="/images/person2.png">
-            <% end %>
+
+<div class="list-group-item list-group-item-action question-content" id="remove<%=reaction.id%>">
+  <div class="q-header d-flex justify-content-between mb-1">
+    <div class="header-left d-flex align-items-center">
+      <div class="user-image mr-1">
+        <% if reaction.user.image? %>
+          <%= link_to user_path(reaction.user.id) do%>
+            <%= image_tag reaction.user.image.url%>
           <% end %>
-          <h6 class="mr-auto px-3 mb-0"><%= link_to reaction.user.username ,user_path(reaction.user.id) %></h6>
-          <div>
-            <p class="text-muted mb-0"><%= reaction.updated_at.strftime("%Y-%m-%d %H:%M") %></p>
-          </div>
-        </div>
-        <div class="dash mt-2 mb-2"></div>
-        <div><%= raw Rinku.auto_link(simple_format(h(reaction.body), {}, wrapper_tag: "h6")) %></div>
-        <% if user_signed_in?%>
-          <%if reaction.user.id == current_user.id %>
-            <div class="text-right"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></div>
-          <%end%>
+        <% else %>
+          <%= link_to user_path(reaction.user.id) do%>
+            <img src="/images/person2.png">
+          <% end %>
         <% end %>
+      </div>
+      <div class="user-info">
+        <div class="user-info-top mb-0">
+          <span class="font-weight-bold question-user-name"><%= link_to reaction.user.username, user_path(reaction.user.id)%></span>
+        </div>
       </div>
     </div>
   </div>
+  <div class="q-body">
+    <div class="content-body mt-2 mb-2">
+      <%= raw Rinku.auto_link(simple_format(h(reaction.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
+    </div>
+    <div class="content-footer d-flex justify-content-between">
+      <p class="mb-0"><span><%= " #{time_ago_in_words(reaction.updated_at)}前に更新" %></span></p>
+      <% if user_signed_in?%>
+        <%if reaction.user.id == current_user.id %>
+          <p class="text-right mb-0"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></p>
+        <%end%>
+      <% end %>
+    </div>
+  </div>
 </div>
-<br>

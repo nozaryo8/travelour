@@ -403,6 +403,9 @@ $info_t1: #e0ffff;
   line-height: 3;
   z-index: 100;
   letter-spacing: 3px;
+  &:hover {
+    background-color: #f38d33 !important;
+  }
 }
 
 .index-ribbon-done {
@@ -422,6 +425,9 @@ $info_t1: #e0ffff;
   line-height: 3;
   z-index: 100;
   letter-spacing: 3px;
+  &:hover {
+    background: #afb6bf !important;
+  }
 }
 .question-title {
   background-color: $info_t1 !important;
@@ -688,12 +694,27 @@ $info_t1: #e0ffff;
 
   .comment-content {
     .list-group-item {
+      &:not(:first-child) {
+        border-top-width: 0px !important;
+      }
       background-color: #f7f7f8;
+      &:hover {
+        background-color: #f7f7f8;
+      }
     }
     // &hoverにすると優先順位が低くなったため別に書いた
     // TODO: コメントボタンに使うpush-buttonのhoverの調整
     .list-group-item :hover {
       background-color: #f7f7f8;
+      .push-button {
+        background-color: #007bff;
+        &:hover {
+          background-color: #87cefa;
+        }
+      }
+      .index-ribbon-done {
+        background-color: #007bff;
+      }
     }
     .see-more {
       display: block;
