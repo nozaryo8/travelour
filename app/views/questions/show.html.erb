@@ -122,8 +122,8 @@
                 </div>
               </div>
 
-              <%if @bestanswer.reactions%>
-                <div class="comment-content">
+              <%if @bestanswer.reactions.count > 0%>
+                <div class="comment-content py-2">
                   <% if @bestanswer.reactions.count >= 2 %>
                     <div class="truncated">
                       <p class="mb-0 see-more"><%= "#{@bestanswer.reactions.first.user.username} さん他より#{@bestanswer.reactions.count}件のコメント"%></p>
@@ -199,6 +199,31 @@
                     </div>
                   </div>
                 </div>
+              <% else %>
+                <div class="comment-content py-2">
+                  <div class="list-group">
+                    <div class="list-group-item list-group-item-action">
+                      <% if user_signed_in? %>
+                        <div class="header-left d-flex align-items-center">
+                          <div class="user-image mr-1">
+                            <% if current_user.image? %>
+                              <%= link_to user_path(current_user.id) do%>
+                                <%= image_tag current_user.image.url%>
+                              <% end %>
+                            <% else %>
+                              <%= link_to user_path(current_user.user.id) do%>
+                                <img src="/images/person2.png">
+                              <% end %>
+                            <% end %>
+                          </div>
+                          <%= form_with(model: answer,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
+                          <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                  <div id="reaction<%=answer.id %>"></div>
+                </div>
               <% end %>
             </div>
           </div>
@@ -258,12 +283,113 @@
                   </div>
                   <div class="q-body">
                     <div class="content-body mt-2 mb-2">
-                      <%= raw Rinku.auto_link(simple_format(h(@bestanswer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
+                      <%= raw Rinku.auto_link(simple_format(h(answer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
                     </div>
                     <div class="content-footer">
-                      <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%><span>| <%= " #{time_ago_in_words(@bestanswer.updated_at)}前に更新" %></span></p>
+                      <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= answer.goods.count%><span>| <%= " #{time_ago_in_words(answer.updated_at)}前に更新" %></span></p>
                     </div>
                   </div>
+                  <%if answer.reactions.count > 0 %>
+                    <div class="comment-content py-2">
+                      <% if answer.reactions.count >= 2 %>
+                        <div class="truncated">
+                          <p class="mb-0 see-more"><%= "#{answer.reactions.first.user.username} さん他より#{answer.reactions.count}件のコメント"%></p>
+                        </div>
+                      <% else %>
+                        <div class="truncated">
+                          <p class="mb-0 see-more"><%= "#{answer.reactions.first.user.username} さんより#{answer.reactions.count}件のコメント"%></p>
+                        </div>
+                      <% end %>
+                      
+                      
+                      <div class="untruncated" style="display: none">
+                        <div class="list-group">
+                          <div class="list-group-item list-group-item-action">
+                            <% if user_signed_in? %>
+                              <div class="header-left d-flex align-items-center">
+                                <div class="user-image mr-1">
+                                  <% if current_user.image? %>
+                                    <%= link_to user_path(current_user.id) do%>
+                                      <%= image_tag current_user.image.url%>
+                                    <% end %>
+                                  <% else %>
+                                    <%= link_to user_path(current_user.user.id) do%>
+                                      <img src="/images/person2.png">
+                                    <% end %>
+                                  <% end %>
+                                </div>
+                                <%= form_with(model: answer,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
+                                <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
+                              </div>
+                            <%end%>
+                          </div>
+                          <% answer.reactions.each do |reaction| %>
+                            <div id="reaction<%=answer.id %>"></div>
+                            <div class="list-group-item list-group-item-action question-content" id="remove<%=reaction.id%>">
+                              <div class="q-header d-flex justify-content-between mb-1">
+                                <div class="header-left d-flex align-items-center">
+                                  <div class="user-image mr-1">
+                                    <% if reaction.user.image? %>
+                                      <%= link_to user_path(reaction.user.id) do%>
+                                        <%= image_tag reaction.user.image.url%>
+                                      <% end %>
+                                    <% else %>
+                                      <%= link_to user_path(reaction.user.id) do%>
+                                        <img src="/images/person2.png">
+                                      <% end %>
+                                    <% end %>
+                                  </div>
+                                  <div class="user-info">
+                                    <div class="user-info-top mb-0">
+                                      <span class="font-weight-bold question-user-name"><%= link_to reaction.user.username, user_path(reaction.user.id)%></span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="q-body">
+                                <div class="content-body mt-2 mb-2">
+                                  <%= raw Rinku.auto_link(simple_format(h(reaction.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
+                                </div>
+                                <div class="content-footer d-flex justify-content-between">
+                                  <p class="mb-0"><span><%= " #{time_ago_in_words(reaction.updated_at)}前に更新" %></span></p>
+                                  <% if user_signed_in?%>
+                                    <%if reaction.user.id == current_user.id %>
+                                      <p class="text-right mb-0"> <%= link_to "コメントを削除" , reaction_path(reaction.id),method: :delete ,remote: true,data: { confirm: "コメントを削除してもよろしいですか？" }%></p>
+                                    <%end%>
+                                  <% end %>
+                                </div>
+                              </div>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  <% else %>
+                  <div class="comment-content py-2">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-action">
+                        <% if user_signed_in? %>
+                          <div class="header-left d-flex align-items-center">
+                            <div class="user-image mr-1">
+                              <% if current_user.image? %>
+                                <%= link_to user_path(current_user.id) do%>
+                                  <%= image_tag current_user.image.url%>
+                                <% end %>
+                              <% else %>
+                                <%= link_to user_path(current_user.user.id) do%>
+                                  <img src="/images/person2.png">
+                                <% end %>
+                              <% end %>
+                            </div>
+                            <%= form_with(model: answer,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
+                            <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
+                          </div>
+                        <%end%>
+                      </div>
+                      <div id="reaction<%=answer.id %>"></div>
+                    </div>
+                  </div>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -642,9 +768,41 @@
       <div id="newanswer"></div>
     </div>
     <div class="col-4">
-      <p class="h6 font-weight-bold">関連する質問</p>
-      <% @question.related_questions.each do |question|%>
-        <%=question.title%>
+      <%if @question.related_questions.count > 3%>
+        <p class="h6 font-weight-bold">関連する質問</p>
+        <% @question.related_questions.each do |question|%>
+          <div class="relational-question">
+            <div class="mt-3 mb-3">
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+            </div>
+          </div>
+        <% end %>
+      <% elsif @question.related_questions.count > 0%>
+        <p class="h6 font-weight-bold">関連する質問</p>
+        <% @question.related_questions.each do |question|%>
+          <div class="relational-question">
+            <div class="mt-3 mb-3">
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+            </div>
+          </div>
+        <% end %>
+        <p class="h6 font-weight-bold mt-5">最近解決した質問</p>
+        <% Question.recentry_resolved_questions.each do |question| %>
+          <div class="relational-question">
+            <div class="mt-3 mb-3">
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+            </div>
+          </div>
+        <% end %>
+      <% elsif %>
+        <p class="h6 font-weight-bold">最近解決した質問</p>
+        <% Question.recentry_resolved_questions.each do |question| %>
+          <div class="relational-question">
+            <div class="mt-3 mb-3">
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+            </div>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>

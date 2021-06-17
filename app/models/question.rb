@@ -28,6 +28,10 @@ class Question < ApplicationRecord
     #インスタンスメソッド
     Question.where(country_id: self.country_id).where.not(id: self.id).order(updated_at: :desc).limit(5)
     # Question.where(country_id: self.country_id).where.not(id: self.id).or(Question.where(tag_id: self.tag_id).where.not(id: self.id)).order(updated_at: :desc).limit(5)
-    
+  end
+
+  def self.recentry_resolved_questions
+    #クラスメソッド
+    self.where.not(best_answer_id: nil).order(updated_at: :desc).limit(10)
   end
 end

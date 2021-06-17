@@ -309,6 +309,14 @@
           </div>
         </div>
       <% end %>
+      <p class="h6 font-weight-bold mt-5 pl-2">最近解決した質問</p>
+      <% @new_resolved.each do |question| %>
+        <div class="relational-question">
+          <div class="mt-3 mb-3">
+            <p class="pl-2"><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

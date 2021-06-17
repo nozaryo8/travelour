@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
     @continents = Continent.all
     @tags = Tag.all
     @ranks = Question.last_week
-   
+    @new_resolved = Question.recentry_resolved_questions
     if params[:q]
       @words = params[:q][:title_or_body_or_tag_name_or_country_name_cont].split(/[\p{blank}\s]+/)
       # @words = []

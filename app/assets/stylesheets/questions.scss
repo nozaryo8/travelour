@@ -641,10 +641,17 @@ $info_t1: #e0ffff;
 
 .ranking {
   border-bottom: 1px solid #ebebeb;
+  a {
+    color: #007bff !important;
+    &:hover {
+      background-color: transparent;
+      color: #007bff !important;
+    }
+  }
 }
 
 .less_4 {
-  width: 22px;
+  padding-right: 5px;
   margin-left: 5.5px;
 }
 
@@ -659,6 +666,9 @@ $info_t1: #e0ffff;
   }
   .list-group-item {
     border-top-width: 1px !important;
+    &:hover {
+      background-color: white;
+    }
   }
   .nav-link:hover {
     border-color: transparent !important;
@@ -796,4 +806,15 @@ $info_t1: #e0ffff;
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
+}
+
+.relational-question {
+  border-bottom: 1px solid #ebebeb;
+}
+
+.relational-question-content {
+  color: #007bff !important;
+  &:hover {
+    background-color: transparent;
+  }
 }
