@@ -4,45 +4,14 @@
       <div class="question-content">
         <div class="list-group mb-3">
           <div class="list-group-item list-group-item-action question-content mb-4">
+            <div class="show-top"><p class="mb-1"> <%= @question.country.name%> | <%= @question.tag.name %></p>
             <div class="q-header d-flex justify-content-between mb-1">
               <div class="header-left d-flex align-items-center">
-                <div class="user-image mr-1">
-                  <% if @question.user.image? %>
-                    <%= link_to user_path(@question.user.id) do%>
-                      <%= image_tag @question.user.image.url%>
-                    <% end %>
-                  <% else %>
-                    <%= link_to user_path(@question.user.id) do%>
-                      <img src="/images/person2.png">
-                    <% end %>
-                  <% end %>
-                </div>
-                <div class="user-info">
-                  <div class="user-info-top mb-0">
-                    <span class="font-weight-bold question-user-name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
-                    <% unless current_user == @question.user %>
-                      <!--フォロボタンを押すとUser画面に遷移するので編集-->
-                      <% if current_user.following?(@question.user) %>
-                        <span>・</span>
-                        <%= form_with(model: current_user.relationships.find_by(follow_id: @question.user.id), class: "form-follow",method: :delete ) do |f| %>
-                          <%= hidden_field_tag :follow_id, @question.user.id %>
-                          <%= f.submit 'フォロー解除', class: 'follow p-0' %>
-                        <% end %>
-                      <% else %>
-                        <span>・</span>
-                    
-                        <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
-                          <%= hidden_field_tag :follow_id, @question.user.id %>
-                          <%= f.submit 'フォロー', class: 'follow p-0 ' %>
-                        <% end %>
-                      <% end %>
-                    <% end %>
-                  </div>
                 
-                  <p class="user-info-bottom mb-0">
-                    <span> <%= @question.country.name%></span> | <span><%= @question.tag.name %></span>
-                  </p>
+                <div class="show-content-title">
+                  <h5 class="font-weight-bold"><%= @question.title%></h5>
                 </div>
+                
               </div>
               
               <div class="header-right d-flex align-items-center">
@@ -53,10 +22,49 @@
                 <% end %>
               </div>
             </div>
-            <div class="q-body">
-              <div class="content-title">
-                <%= link_to(@question.title, @question, class: "font-weight-bold h6")%>
+            <div class="show-top-bottom">
+
+            <div>
+            <div class="account d-flex align-items-center">
+              <div class="user-image mr-1">
+                <% if @question.user.image? %>
+                  <%= link_to user_path(@question.user.id) do%>
+                    <%= image_tag @question.user.image.url%>
+                  <% end %>
+                <% else %>
+                  <%= link_to user_path(@question.user.id) do%>
+                    <img src="/images/person2.png">
+                  <% end %>
+                <% end %>
               </div>
+              <div class="user-info">
+                <div class="user-info-top mb-0">
+                  <span class="font-weight-bold question-user-name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
+                  <% unless current_user == @question.user %>
+                    <!--フォロボタンを押すとUser画面に遷移するので編集-->
+                    <% if current_user.following?(@question.user) %>
+                      <span>・</span>
+                      <%= form_with(model: current_user.relationships.find_by(follow_id: @question.user.id), class: "form-follow",method: :delete ) do |f| %>
+                        <%= hidden_field_tag :follow_id, @question.user.id %>
+                        <%= f.submit 'フォロー解除', class: 'follow p-0' %>
+                      <% end %>
+                    <% else %>
+                      <span>・</span>
+                  
+                      <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                        <%= hidden_field_tag :follow_id, @question.user.id %>
+                        <%= f.submit 'フォロー', class: 'follow p-0 ' %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              
+                <p class="user-info-bottom mb-0">
+                  
+                </p>
+              </div>
+            </div>
+            <div class="q-body">
               <div class="content-body mb-2">
                 <%= raw Rinku.auto_link(simple_format(h(@question.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
               </div>
@@ -138,7 +146,7 @@
                   <div class="untruncated" style="display: none">
                     <div class="list-group">
                       <!--TODO: Ajaxでコメント送信ができないので実装する-->
-
+                      <!-- TODO: 「コメントする」を押すと全ての「コメントする」が消えるので修正する-->
                         <div class="list-group-item list-group-item-action">
                           <% if user_signed_in? %>
                             <div class="header-left d-flex align-items-center">
@@ -216,13 +224,13 @@
                               <% end %>
                             <% end %>
                           </div>
-                          <%= form_with(model: answer,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
-                          <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
+                          <%= form_with(model: @bestanswer,url: answer_reactions_path(@bestanswer.id),id: @bestanswer.id) do |form| %><%end%>
+                          <%= button_to 'コメントする', new_answer_reaction_path(@bestanswer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
                         </div>
                       <%end%>
                     </div>
                   </div>
-                  <div id="reaction<%=answer.id %>"></div>
+                  <div id="reaction<%=@bestanswer.id %>"></div>
                 </div>
               <% end %>
             </div>
