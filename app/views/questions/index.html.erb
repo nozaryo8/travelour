@@ -44,7 +44,7 @@
 
       <div class="card mb-2 ">
         <div class="card-title mb-0 overflow-auto">
-          <p class="text-center">&lt;国で絞り込む&gt;
+          <p class="text-center mt-2">&lt;国で絞り込む&gt;
           <p>
         </div>
         <div class="card-body pt-0">
@@ -78,7 +78,7 @@
       </div>
       <div class="card">
         <div class="card-title mb-0">
-          <p class="text-center">&lt;ジャンルで絞り込む&gt;
+          <p class="text-center mt-2">&lt;ジャンルで絞り込む&gt;
           <p>
         </div>
         <div class="card-body pt-0">
@@ -294,11 +294,11 @@
           <div class="d-flex align-items-center mt-3 mb-3">
             <% if i < 4 %>
               <% case i when 1 %>
-                <span class="gold mr-3"><%= i %></span>
+                <span class="gold mr-3 ranking-mark"><%= i %></span>
               <% when 2 %>
-                <span class="silver mr-3"><%= i %></span>
+                <span class="silver mr-3 ranking-mark"><%= i %></span>
               <% when 3 %>
-                <span class="bronze mr-3"><%= i %></span>
+                <span class="bronze mr-3 ranking-mark"><%= i %></span>
               <% end %>
             <% else %>
               <span class="mr-3 less_4"><%= i %></span>

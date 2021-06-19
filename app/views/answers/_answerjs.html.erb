@@ -9,16 +9,26 @@
       </ul>
     </div>
   <% end %>
- <div id= "sent"></div>
-  <div class="field">
-    <%= form.text_area :body , class: "form-control" ,placeholder: "質問に対する回答を入力してください"%>
-  </div>
- 
-  <!-- ここにもuser_idを入れておかないとparamsに入らない -->
+
   <%= form.hidden_field :user_id, value: current_user.id %>
- 
-  <div class="actions">
-    <%= form.submit "回答する",class: "btn btn-primary"%>
+  <div class="d-flex align-items-center">
+    <div class="FlexTextarea mr-3">
+      <div class="FlexTextarea__dummy" aria-hidden="true"></div>
+      <%= form.text_area :body ,id: "push-textarea", class: "push-textarea" ,placeholder: "回答を入力..." %>
+    </div>
+    <%= form.submit "回答する" ,class: "push-button" %>
   </div>
+
 <% end %>
  
+
+<script>
+function flexTextarea(el) {
+  const dummy = el.querySelector('.FlexTextarea__dummy')
+  el.querySelector('.push-textarea').addEventListener('input', e => {
+    dummy.textContent = e.target.value + '\u200b'
+  })
+}
+
+document.querySelectorAll('.FlexTextarea').forEach(flexTextarea)
+</script>

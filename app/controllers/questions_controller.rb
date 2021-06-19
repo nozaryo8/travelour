@@ -206,7 +206,7 @@ class QuestionsController < ApplicationController
     #before_action :set_tag
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to @question, notice: "質問を更新しました" }
+        format.html { redirect_to @question, notice: "更新しました" }
         format.json { render :show, status: :ok, location: @question }
       else
         format.html { render :edit, status: :unprocessable_entity }

@@ -4,8 +4,8 @@
       <div class="question-content">
         <div class="list-group mb-3">
           <div class="list-group-item list-group-item-action question-content mb-4">
-            <div class="show-top"><p class="mb-1"> <%= @question.country.name%> | <%= @question.tag.name %></p>
-            <div class="q-header d-flex justify-content-between mb-1">
+            <div class="show-top"><p class="mb-1"> <%= @question.country.name%> | <%= @question.tag.name %></p></div>
+            <div class="q-header d-flex justify-content-between ">
               <div class="header-left d-flex align-items-center">
                 
                 <div class="show-content-title">
@@ -22,10 +22,20 @@
                 <% end %>
               </div>
             </div>
-            <div class="show-top-bottom">
-
-            <div>
-            <div class="account d-flex align-items-center">
+            <div class="show-top-bottom d-flex">
+              <% if @bestanswer == nil%>
+                <% if @question.user.id != current_user.id %>
+                  <%= button_to new_question_answer_path(@question.id), :method => :get, :remote => true ,class: "respond-button px-1 py-2 mb-2 mr-2 d-flex align-items-center" do%>  
+                    <i class="far fa-edit"></i>回答する
+                  <% end %>
+                <% end %>
+                <%= button_to answer_request_path(id: @question.id), :method => :get, class: "respond-button px-1 py-2 mb-2 d-flex align-items-center" do%>
+                  <i class="fas fa-long-arrow-alt-right text-center"></i><i class="fas fa-user pr-1"></i>回答依頼
+                <% end %>
+              <% end %>
+            </div>
+            <%= form_with(model: @answer, url: question_answers_path(@question.id),id: "answer") do |form| %><% end%>
+            <div class="account d-flex align-items-center mb-2">
               <div class="user-image mr-1">
                 <% if @question.user.image? %>
                   <%= link_to user_path(@question.user.id) do%>
@@ -42,6 +52,7 @@
                   <span class="font-weight-bold question-user-name"><%= link_to @question.user.username, user_path(@question.user.id)%></span>
                   <% unless current_user == @question.user %>
                     <!--フォロボタンを押すとUser画面に遷移するので編集-->
+                    <!--<i class="fas fa-user-plus"></i>でフォローをボタンに変更する-->
                     <% if current_user.following?(@question.user) %>
                       <span>・</span>
                       <%= form_with(model: current_user.relationships.find_by(follow_id: @question.user.id), class: "form-follow",method: :delete ) do |f| %>
@@ -68,8 +79,18 @@
               <div class="content-body mb-2">
                 <%= raw Rinku.auto_link(simple_format(h(@question.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
               </div>
-              <div class="content-footer">
-                <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=@question.answers.count %> <i class="fas fa-thumbs-up"></i><%= @question.evaluations.count%> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p>
+              <div class="content-footer d-flex justify-content-between">
+                <div class="content-footer-left"><p class="mb-0"><i class="far fa-comment-alt icon"></i><%=@question.answers.count %> <i class="fas fa-thumbs-up"></i><%= @question.evaluations.count%> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p></div>
+                <div class="content-footer-right">
+                  <%if user_signed_in? %>
+                    <% if current_user.id == @question.user_id %>
+                      <p class="mb-0">
+                        <%= link_to '編集', edit_question_path(@question),class: "text-primary"%> |
+                        <%= link_to '投稿を削除する', @question , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %> 
+                      </p>
+                    <% end %>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>
@@ -81,7 +102,7 @@
         <hr>
         <div class="question-content">
           <div class="list-group mb-3">
-            <div class="list-group-item list-group-item-action question-content mb-4">
+            <div class="list-group-item list-group-item-action question-content mb-4 ">
               <div class="q-header d-flex justify-content-between mb-1">
                 <div class="header-left d-flex align-items-center">
                   <div class="user-image mr-1">
@@ -125,8 +146,17 @@
                 <div class="content-body mt-2 mb-2">
                   <%= raw Rinku.auto_link(simple_format(h(@bestanswer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
                 </div>
-                <div class="content-footer">
+                <div class="content-footer d-flex justify-content-between">
                   <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%><span>| <%= " #{time_ago_in_words(@bestanswer.updated_at)}前に更新" %></span></p>
+
+                  <%if user_signed_in? %>
+                    <% if @bestanswer.user.id == current_user.id %>
+                      <p class="mb-0">
+                        <%= link_to '編集', edit_answer_path(@bestanswer),class: "text-primary"%> |
+                        <%= link_to '投稿を削除する', @bestanswer , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %> 
+                      </p>
+                    <% end %>
+                  <% end %>
                 </div>
               </div>
 
@@ -147,7 +177,7 @@
                     <div class="list-group">
                       <!--TODO: Ajaxでコメント送信ができないので実装する-->
                       <!-- TODO: 「コメントする」を押すと全ての「コメントする」が消えるので修正する-->
-                        <div class="list-group-item list-group-item-action">
+                        <div class="list-group-item list-group-item-action first-comment p-2">
                           <% if user_signed_in? %>
                             <div class="header-left d-flex align-items-center">
                               <div class="user-image mr-1">
@@ -168,7 +198,7 @@
                         </div>
                       <% @bestanswer.reactions.each do |reaction| %>
                         <div id="reaction<%=@bestanswer.id %>"></div>
-                        <div class="list-group-item list-group-item-action question-content" id="remove<%=reaction.id%>">
+                        <div class="list-group-item list-group-item-action question-content p-2" id="remove<%=reaction.id%>">
                           <div class="q-header d-flex justify-content-between mb-1">
                             <div class="header-left d-flex align-items-center">
                               <div class="user-image mr-1">
@@ -210,7 +240,7 @@
               <% else %>
                 <div class="comment-content py-2">
                   <div class="list-group">
-                    <div class="list-group-item list-group-item-action">
+                    <div class="list-group-item list-group-item-action first-comment">
                       <% if user_signed_in? %>
                         <div class="header-left d-flex align-items-center">
                           <div class="user-image mr-1">
@@ -293,8 +323,16 @@
                     <div class="content-body mt-2 mb-2">
                       <%= raw Rinku.auto_link(simple_format(h(answer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
                     </div>
-                    <div class="content-footer">
+                    <div class="content-footer d-flex justify-content-between">
                       <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= answer.goods.count%><span>| <%= " #{time_ago_in_words(answer.updated_at)}前に更新" %></span></p>
+                      <%if user_signed_in? %>
+                        <% if @answer.user.id == current_user.id %>
+                          <p class="mb-0">
+                            <%= link_to '編集', edit_answer_path(answer),class: "text-primary"%> |
+                            <%= link_to '投稿を削除する', answer , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %> 
+                          </p>
+                        <% end %>
+                      <% end %>
                     </div>
                   </div>
                   <%if answer.reactions.count > 0 %>
@@ -375,7 +413,7 @@
                   <% else %>
                   <div class="comment-content py-2">
                     <div class="list-group">
-                      <div class="list-group-item list-group-item-action">
+                      <div class="list-group-item list-group-item-action first-comment p-2">
                         <% if user_signed_in? %>
                           <div class="header-left d-flex align-items-center">
                             <div class="user-image mr-1">
