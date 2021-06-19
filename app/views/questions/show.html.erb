@@ -1,6 +1,6 @@
 <div class="container mt-5 questions questions-show">
   <div class="row">
-    <div class="col-8">
+    <div class="col-9">
       <div class="question-content">
         <div class="list-group mb-3">
           <div class="list-group-item list-group-item-action question-content mb-4">
@@ -177,7 +177,7 @@
                     <div class="list-group">
                       <!--TODO: Ajaxでコメント送信ができないので実装する-->
                       <!-- TODO: 「コメントする」を押すと全ての「コメントする」が消えるので修正する-->
-                        <div class="list-group-item list-group-item-action first-comment p-2">
+                        <div class="list-group-item list-group-item-action p-2">
                           <% if user_signed_in? %>
                             <div class="header-left d-flex align-items-center">
                               <div class="user-image mr-1">
@@ -240,7 +240,7 @@
               <% else %>
                 <div class="comment-content py-2">
                   <div class="list-group">
-                    <div class="list-group-item list-group-item-action first-comment">
+                    <div class="list-group-item list-group-item-action first-comment p-2">
                       <% if user_signed_in? %>
                         <div class="header-left d-flex align-items-center">
                           <div class="user-image mr-1">
@@ -326,7 +326,7 @@
                     <div class="content-footer d-flex justify-content-between">
                       <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= answer.goods.count%><span>| <%= " #{time_ago_in_words(answer.updated_at)}前に更新" %></span></p>
                       <%if user_signed_in? %>
-                        <% if @answer.user.id == current_user.id %>
+                        <% if answer.user.id == current_user.id %>
                           <p class="mb-0">
                             <%= link_to '編集', edit_answer_path(answer),class: "text-primary"%> |
                             <%= link_to '投稿を削除する', answer , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %> 
@@ -350,7 +350,7 @@
                       
                       <div class="untruncated" style="display: none">
                         <div class="list-group">
-                          <div class="list-group-item list-group-item-action">
+                          <div class="list-group-item list-group-item-action p-2">
                             <% if user_signed_in? %>
                               <div class="header-left d-flex align-items-center">
                                 <div class="user-image mr-1">
@@ -365,7 +365,7 @@
                                   <% end %>
                                 </div>
                                 <%= form_with(model: answer,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
-                                <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
+                                <%= button_to 'コメントする' ,new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push" %>
                               </div>
                             <%end%>
                           </div>
@@ -813,7 +813,7 @@
       <%end%>
       <div id="newanswer"></div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <%if @question.related_questions.count > 3%>
         <p class="h6 font-weight-bold">関連する質問</p>
         <% @question.related_questions.each do |question|%>
@@ -864,23 +864,23 @@ $('.see-more').click(function() {
 
 
 <script>
-$(function() {
-  $('.comment-push').click(function() {
-    $answer_id = $(this).val();
-    $('.comment-push').remove();
+// $(function() {
+//   $('.comment-push').click(function() {
+//     $answer_id = $(this).val();
+//     $('.comment-push').remove();
     
     
-    $.ajax({
-      type: 'GET',
-      url: '/answers/'+ $answer_id + '/reactions/new',
-      // url: '/answers/:answer_id/reactions/new?answer_id=1',
-      dataType: 'json',
-      data: {
-        answer_id: $answer_id
-      }
-    }
-  }).done(function(){
+//     $.ajax({
+//       type: 'GET',
+//       url: '/answers/'+ $answer_id + '/reactions/new',
+//       // url: '/answers/:answer_id/reactions/new?answer_id=1',
+//       dataType: 'json',
+//       data: {
+//         answer_id: $answer_id
+//       }
+//     })
+//   }).done(function(){
     
-  });
-});
+//   });
+// });
 </script>

@@ -641,11 +641,10 @@ $info_t1: #e0ffff;
 
 .question-body {
   .list-group-item:first-child {
-    border-top-left-radius: 0%;
-    border-top-right-radius: 0%;
   }
   .list-group-item {
     border-top-width: 1px !important;
+    border-radius: inherit;
     &:hover {
       background-color: white;
     }
@@ -657,8 +656,7 @@ $info_t1: #e0ffff;
 }
 
 .first-comment.list-group-item:first-child {
-  border-top-left-radius: 0%;
-  border-top-right-radius: 0%;
+  border-radius: inherit;
 }
 .follow {
   border: none;
@@ -742,11 +740,36 @@ $info_t1: #e0ffff;
   resize: none;
   background-color: white;
 }
+.push-textarea-answer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  overflow: hidden;
+  box-sizing: border-box;
 
-.FlexTextarea {
-  position: relative;
-  font-size: 1rem;
-  line-height: 1.8;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-top: none;
+  border-bottom: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  resize: none;
+  background-color: white;
+}
+
+.form-textarea {
+  .FlexTextarea {
+    position: relative;
+    font-size: 1rem;
+    line-height: 1.8;
+    textarea:focus:not(.focus-visible) {
+      outline: none;
+    }
+  }
 }
 
 .FlexTextarea__dummy {
@@ -754,13 +777,15 @@ $info_t1: #e0ffff;
   visibility: hidden;
   box-sizing: border-box;
   padding: 5px 15px;
-  min-width: 450px;
-  min-height: calc(1.5em + 0.75rem);
+  min-width: 480px;
+  min-height: 200px;
   max-height: 480px;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
   border: 1px solid;
+  border-top: none;
+  border-bottom: none;
 }
 
 .push-textarea:focus {
@@ -829,4 +854,51 @@ $info_t1: #e0ffff;
 
 .fa-edit {
   color: blue;
+}
+
+.form-header,
+.form-footer {
+  background-color: #f7f7f8 !important;
+  &:hover {
+    background-color: #f7f7f8 !important;
+  }
+}
+
+.fa-image {
+  font-size: 30px;
+}
+
+.fa-map-marker-alt {
+  font-size: 22px;
+}
+
+.answer-form {
+  &:hover {
+  }
+  .form-header {
+    .user-image:hover,
+    .user-info:hover,
+    .user-name:hover,
+    .question-user-name:hover {
+      background-color: #f7f7f8 !important;
+    }
+  }
+
+  .form-textarea {
+  }
+
+  .form-footer {
+    .submit-button:hover {
+      background-color: #f7f7f8 !important;
+    }
+    .push-button:hover {
+      background-color: #87cefa !important;
+    }
+    .tool-area {
+      background-color: #f7f7f8 !important;
+      .fa-image:hover {
+        background-color: transparent !important;
+      }
+    }
+  }
 }

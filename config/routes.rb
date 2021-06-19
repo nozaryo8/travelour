@@ -17,13 +17,14 @@ Rails.application.routes.draw do
   get "questions/:question_id/answers/new" => "answers#new" , defaults: { format: 'js' }
   get "questions/resolved_question" => "questions#resolved_question"
   get "questions/all_question" => "questions#all_question"
-  get "questions/:question_id/answers" => "answers#create" ,defaults: { format: 'js' }
-  get "answers/:answer_id/reactions" => "reactions#create" ,defaults: { format: 'js' }
+  # TODO: format: js　をoffにしたので必要であれば元にもどす
+  get "questions/:question_id/answers" => "answers#create" #,defaults: { format: 'js' }
+  get "answers/:answer_id/reactions" => "reactions#create" #,defaults: { format: 'js' }
   get "users/:id/connections" => "users#connections", as: 'connections'
   get "questions/:id/answer_request" => "questions#answer_request", as: 'answer_request'
   post "questions/:id/answer_request" => "questions#create_request", as: 'create_request'
-  delete "reactions/:id" => "reactions#destroy" ,defaults: { format: 'js' }
-  delete "answers/:id" => "answers#destroy" ,defaults: { format: 'js' }
+  delete "reactions/:id" => "reactions#destroy" #,defaults: { format: 'js' }
+  delete "answers/:id" => "answers#destroy" #,defaults: { format: 'js' }
   resources :relationships, only: [:create, :destroy]
   resources :questions do
     resource :evaluation, only: [:create, :destroy] , defaults: { format: 'js' }
@@ -41,7 +42,7 @@ Rails.application.routes.draw do
   #shallow :trueにするとURLを短くしてアクセスできる。
   resources :questions, shallow: true do
     resources :answers, shallow: true do
-      resources :reactions , defaults: { format: 'js' }
+      resources :reactions #, defaults: { format: 'js' }
     end
   end
 
