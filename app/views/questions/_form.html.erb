@@ -3,15 +3,16 @@
 
 <%= form_with(model: question, remote: true) do |form| %>
   <div class="row">
-    <div class="col-sm-6">
-      <h6>エリア</h6>
-      <div class="form-row mb-3">
-        <!-- onchangeはとりあえず入れておく実際機能しているJavascriptは下部にあり-->
-        <%= @c.name if @c%>
-        <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6"})%>
-        <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select>
+    <div class="col-12">
+      <div class="form-country-area mt-2">
+        <h6>エリア</h6>
+        <div class="d-flex mb-3 ">
+          <!-- onchangeはとりあえず入れておく実際機能しているJavascriptは下部にあり-->
+          <%= @c.name if @c%>
+          <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6"})%>
+          <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select>
+        </div>
       </div>
-      
       <%# <%=form.collection_select(:country_id, @countries, :id, :name ,prompt: "選択してください" ) %>
       <%# <%=form.collection_select(:country_id, @countries, :id, :name ,{include_blank: true, :disabled => true})%> 
       <%# <%= render 'select_country', form: form%>
@@ -29,29 +30,36 @@
       <h6>質問の種類</h6><h6 style="color : #a45705">※内容に当てはまるものを1つだけ選んでください。</h6>
       <div class="form-group mt-3">
         <div class="field" id="checkbox">
-          <div class="card ">
-            <% @tags.each do |t| %>
-              <div class="form-check ">
-                <%= radio_button "question", "tag_id" ,t.id  %>
-                <%# <%= form.radio_button "tag_id" , t.id %>  
-                <%# <%= check_box_tag "question[tag_ids][]", t.id, @question.tags.include?(t) %> 
-                <%= form.label t.name %>
-                <br/>
-              </div>
-            <% end %>
+          <div class="card">
+            <div class="question-tag-container d-flex ml-3">
+              <% @tags.each do |t| %>
+                <!-- align-items-baselineでラジオボタンとタグの名前の位置を並べる -->
+                <!--TODO: Qiitaにラジオボタンとラベルの連携を行う-->
+                <div class="question-tag d-flex align-items-baseline mb-2">
+                  <%= radio_button "question", "tag_id" ,t.id,class: "mr-1"  %>
+                  <%# <%= form.radio_button "tag_id" , t.id %>  
+                  <%# <%= check_box_tag "question[tag_ids][]", t.id, @question.tags.include?(t) %> 
+                  <%= form.label :tag_id,t.name ,{value: t.id,class: "mb-0"}%>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-6 content">
+    
+    
       <div class="field" id="body">
         <h6>質問内容</h6><h6 style="color : #a45705">※回答者が回答しやすいよう、できるだけ具体的に書いてください。</h6>
-          <%= form.text_area :body ,  class: 'form-control', rows: 25%>
+          <%= form.text_area :body ,  class: 'form-control', rows: 10%>
       </div>
-    </div>
-  
-    <div class="actions" id="submit">
-      <%= form.submit class: "btn btn-primary"%>
+      
+      <div class="question-post-footer d-flex justify-content-between ">
+        <div class="actions mb-0 align-self-center" id="submit">
+          <%= form.submit  "投稿", class: "btn btn-primary"%>
+        </div>
+        <div class="d-flex align-items-center tool-area"><span class="respond-button p-2"><i class="far fa-image mx-3"></i></span> <span class="respond-button p-2"><i class="fas fa-map-marker-alt respond-button mx-3"></i></span></div>
+      </div>
+      
     </div>
   </div>
 <% end %>

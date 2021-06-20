@@ -961,3 +961,16 @@ $info_t1: #e0ffff;
     }
   }
 }
+
+.question-tag-container {
+  flex-wrap: wrap;
+}
+.question-tag {
+  width: 50%;
+}
+
+.question-post-container {
+  .card-body {
+    border-radius: calc(0.25rem - 1px);
+  }
+}

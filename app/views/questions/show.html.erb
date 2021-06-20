@@ -82,6 +82,7 @@
               <div class="content-body mb-2">
                 <%= raw Rinku.auto_link(simple_format(h(@question.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
               </div>
+              <!-- いいねボタンの変更-->
               <div class="content-footer d-flex justify-content-between">
                 <div class="content-footer-left"><p class="mb-0"><i class="far fa-comment-alt icon"></i><%=@question.answers.count %> <i class="fas fa-thumbs-up"></i><%= @question.evaluations.count%> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p></div>
                 <div class="content-footer-right">
