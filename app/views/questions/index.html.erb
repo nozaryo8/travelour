@@ -131,159 +131,107 @@
       </div>
 
       <div class="question-body">
-        <div class="row">
-          <div class="">
-            <div class="nav-item dropdown text-center nav nav-tabs d-flex justify-content-between">
-              <h6 class="text-muted nav-link dropdown-toggle mt-3 mb-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <% if params[:order] == "answers_desc" %>
-                回答数の多い順
-                <% elsif params[:order] == "answers_asc"%>
-                回答数の少ない順
-                <% elsif params[:order] == "evaluations_desc"%>
-                参考になった順
-                <% else %>
-                質問日時の新しい順
-                <% end %>
-              </h6>
-              <ul class="dropdown-menu mb-3">
-                <% if params[:q]%>
-                  <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode], country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
-                <% else %>
-                  <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode], country: params[:country]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
-                  <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
-                <% end %>
-              </ul>
-            </div>
-            <div class="list-group mb-3">
-              <% @questions.each do |question|%>
-                <div class="list-group-item list-group-item-action question-content mb-4">
-                  <div class="q-header d-flex justify-content-between mb-1">
-                    <div class="header-left d-flex align-items-center">
-                      <div class="user-image mr-1">
-                        <% if question.user.image? %>
-                          <%= link_to user_path(question.user.id) do%>
-                            <%= image_tag question.user.image.url%>
+        <div class="nav-item dropdown text-center nav nav-tabs d-flex justify-content-between">
+          <h6 class="text-muted nav-link dropdown-toggle mt-3 mb-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <% if params[:order] == "answers_desc" %>
+            回答数の多い順
+            <% elsif params[:order] == "answers_asc"%>
+            回答数の少ない順
+            <% elsif params[:order] == "evaluations_desc"%>
+            参考になった順
+            <% else %>
+            質問日時の新しい順
+            <% end %>
+          </h6>
+          <ul class="dropdown-menu mb-3">
+            <% if params[:q]%>
+              <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode], country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+              <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+              <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+              <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode] , country: params[:country],"q[title_or_body_or_tag_name_or_country_name_cont]": params[:q][:title_or_body_or_tag_name_or_country_name_cont]), class: "dropdown-item small"%></li>
+            <% else %>
+              <li><%=link_to "質問日時の新しい順",questions_path(order: "questions_new",mode: params[:mode], country: params[:country]), class: "dropdown-item small"%></li>
+              <li><%=link_to "回答数の多い順",questions_path(order: "answers_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
+              <li><%=link_to "回答数の少ない順",questions_path(order: "answers_asc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
+              <li><%=link_to "役に立った順",questions_path(order: "evaluations_desc",mode: params[:mode] , country: params[:country]), class: "dropdown-item small"%></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="list-group mb-3">
+          <% @questions.each do |question|%>
+            <div class="list-group-item list-group-item-action question-content mb-4 ">
+              <div class="q-header d-flex justify-content-between mb-1">
+                <div class="header-left d-flex align-items-center">
+                  <div class="user-image mr-1">
+                    <% if question.user.image? %>
+                      <%= link_to user_path(question.user.id) do%>
+                        <%= image_tag question.user.image.url%>
+                      <% end %>
+                    <% else %>
+                      <%= link_to user_path(question.user.id) do%>
+                        <img src="/images/person2.png">
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div class="user-info">
+                    
+                    <div class="user-info-top mb-0">
+                      <span class="font-weight-bold question-user-name"><%= link_to question.user.username, user_path(question.user.id)%></span>
+                      <% unless current_user == question.user %>
+                        <% if current_user.following?(question.user) %>
+                          <span>・</span>
+                          <%= form_with(model: current_user.relationships.find_by(follow_id: question.user.id), class: "form-follow",method: :delete ) do |f| %>
+                            <%= hidden_field_tag :follow_id, question.user.id %>
+                            <%= f.submit 'フォロー解除', class: 'follow p-0' %>
                           <% end %>
                         <% else %>
-                          <%= link_to user_path(question.user.id) do%>
-                            <img src="/images/person2.png">
+                          <span>・</span>
+                      
+                          <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                            <%= hidden_field_tag :follow_id, question.user.id %>
+                            <%= f.submit 'フォロー', class: 'follow p-0 ' %>
                           <% end %>
                         <% end %>
-                      </div>
-                      <div class="user-info">
-                        
-                        <div class="user-info-top mb-0">
-                          <span class="font-weight-bold question-user-name"><%= link_to question.user.username, user_path(question.user.id)%></span>
-                          <% unless current_user == question.user %>
-                            <% if current_user.following?(question.user) %>
-                              <span>・</span>
-                              <%= form_with(model: current_user.relationships.find_by(follow_id: question.user.id), class: "form-follow",method: :delete ) do |f| %>
-                                <%= hidden_field_tag :follow_id, question.user.id %>
-                                <%= f.submit 'フォロー解除', class: 'follow p-0' %>
-                              <% end %>
-                            <% else %>
-                              <span>・</span>
-                          
-                              <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
-                                <%= hidden_field_tag :follow_id, question.user.id %>
-                                <%= f.submit 'フォロー', class: 'follow p-0 ' %>
-                              <% end %>
-                            <% end %>
-                          <% end %>
-                        </div>
-                        
-                        <p class="user-info-bottom mb-0">
-                          <span> <%= question.country.name%></span> | <span><%= question.tag.name %></span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="header-right d-flex align-items-center">
-                      <% if question.best_answer_id == nil%>
-                        <div class="index-ribbon">未解決</div>
-                      <% else %>
-                        <div class="index-ribbon-done">締切済</div>
                       <% end %>
                     </div>
-                  </div>
-                  <div class="q-body">
-                    <div class="content-title">
-                      <%= link_to(question.title, question, class: "font-weight-bold h6")%>
-                    </div>
-                    <div class="content-body">
-                      <%if question.body.length > 200 %>
-                        <div class="truncated">
-                          <p class="mb-0"><%= question.body.truncate(200)%></p>
-                          <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
-                        </div>
-                        <div class="untruncated" style="display: none">
-                          <p class="mb-0"><%= simple_format(h(question.body), {}) %></p>
-                        </div>
-                      <%else%>
-                        <p class="mb-0"><%= simple_format(h(question.body), {})%></p>
-                      <%end%>
-                    </div>
-                    <div class="content-footer">
-                      <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> <span>| <%= " #{time_ago_in_words(question.created_at)}前に更新" %></span></p>
-                    </div>
+                    
+                    <p class="user-info-bottom mb-0">
+                      <span> <%= question.country.name%></span> | <span><%= question.tag.name %></span>
+                    </p>
                   </div>
                 </div>
-
-                  <%
-=begin%>
-                  <% @questions.each do |question|%>
-                  <%= link_to(question, class: "list-group-item list-group-item-action",'data-toggle': :tooltip,"title": :"#{question.user.username}さんの投稿") do%>
-                  <div class="q-header d-flex justify-content-between mb-1">
-                    <div class="header-left d-flex align-items-center">
-                      <div class="user-image mr-1">
-                        <%= image_tag question.user.image.url%>
-                      </div>
-                      <div class="user-info">
-                        <p class="user-info-top mb-0">
-                          <span class="font-weight-bold name"><%= question.user.username%></span>・<span>フォロー</span>
-                        </p>
-                        <p class="user-info-bottom mb-0">
-                          <span><%= question.tag.name %></span>|<span><%= " #{time_ago_in_words(question.created_at)}前に更新" %></span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="header-right d-flex align-items-center">
-                      <span><i class="far fa-times-circle"></i></span>
-                    </div>
-                  </div>
-                  <div class="q-body">
-                    <div class="content-title">
-                      <span class="font-weight-bold h6"><%= question.title%></span>
-                    </div>
-                    <div class="content-body">
+                <div class="header-right d-flex align-items-center">
+                  <% if question.best_answer_id == nil%>
+                    <div class="index-ribbon">未解決</div>
+                  <% else %>
+                    <div class="index-ribbon-done">締切済</div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="q-body">
+                <div class="content-title">
+                  <%= link_to(question.title, question, class: "font-weight-bold h6")%>
+                </div>
+                <div class="content-body">
+                  <%if question.body.length > 200 %>
+                    <div class="truncated">
                       <p class="mb-0"><%= question.body.truncate(200)%></p>
-                      <p class="text-right mb-0">&lt;もっと見る&gt;</p>
-
+                      <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
                     </div>
-                  </div>
-                  <%
-=end%>
-
-                  <%
-=begin%>
-                  <p class="mb-1"><%= question.tag.name %> | <%= question.country.name%></p>
-                  <h5 class="list-group-item-heading"><%= question.title%></h5>
-                  <p class="mb-0"><span class="indent"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> | <%="#{l(question.created_at)}"%></p></span>
-                  <%
-=end%>
-                  <%
-=begin%>
+                    <div class="untruncated" style="display: none">
+                      <p class="mb-0"><%= simple_format(h(question.body), {}) %></p>
+                    </div>
+                  <%else%>
+                    <p class="mb-0"><%= simple_format(h(question.body), {})%></p>
                   <%end%>
-                  <%
-=end%>
-                <%end%>
-              <div class="mx-auto"><%= paginate @questions%></div>
+                </div>
+                <div class="content-footer">
+                  <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> <span>| <%= " #{time_ago_in_words(question.created_at)}前に更新" %></span></p>
+                </div>
+              </div>
             </div>
-          </div>
+            <%end%>
+          <div class="mx-auto"><%= paginate @questions%></div>
         </div>
       </div>
     </div>

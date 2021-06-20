@@ -9,7 +9,7 @@
               <div class="header-left d-flex align-items-center">
                 
                 <div class="show-content-title">
-                  <h5 class="font-weight-bold"><%= @question.title%></h5>
+                  <h5 class="font-weight-bold mb-0"><%= @question.title%></h5>
                 </div>
                 
               </div>
@@ -35,6 +35,9 @@
               <% end %>
             </div>
             <%= form_with(model: @answer, url: question_answers_path(@question.id),id: "answer") do |form| %><% end%>
+            <hr class="mb-1 mt-0">
+            <div class="mb-1" id ="update3">回答数: <%=@question.answers.count %>件 </div>
+            <hr class="mb-3 mt-0">
             <div class="account d-flex align-items-center mb-2">
               <div class="user-image mr-1">
                 <% if @question.user.image? %>
@@ -267,12 +270,13 @@
           </div>
         </div>
       <% end %>
-
-      <%if @question.best_answer_id %>
-        <div id ="update2">他回答<%=@question.answers.count - 1 %>件 </div>
-      <% else %>
-        <div id ="update3">回答<%=@question.answers.count %>件 </div>
-      <% end %>
+      <div class="answers_count mb-3">
+        <%if @question.best_answer_id %>
+          <div id ="update2">他回答<%=@question.answers.count - 1 %>件 </div>
+        <% else %>
+          <div id ="update3">回答<%=@question.answers.count %>件 </div>
+        <% end %>
+      </div>
       <%if @question.answers.count != 0 %>
         <% @question.answers.includes(:user,:reactions).each do |answer| %>
           <% if answer.id != @question.best_answer_id%>
