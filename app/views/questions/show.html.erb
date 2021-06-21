@@ -1,3 +1,89 @@
+<h2>gmap</h2>
+
+  <input id="address" type="textbox" value="GeekSalon">
+  <input type="button" value="Encode" onclick="codeAddress()">
+  <!-- 下の1行を追加 -->
+  <div id="display">何かが表示される、、、、！</div>
+
+  <div id='map'></div>
+
+  <style>
+    #map {
+      height: 600px;
+      width: 600px;
+    }
+  </style>
+
+  <script>
+    let map
+    let geocoder
+    // 下の1行を追加 
+    const display = document.getElementById('display')
+
+    function initMap() {
+      geocoder = new google.maps.Geocoder()
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: <%= @question.latitude %>,
+          lng: <%= @question.longitude %>
+        },
+        zoom: 12,
+      });
+
+      marker = new google.maps.Marker({
+        position: {
+          lat: <%= @question.latitude %>,
+          lng: <%= @question.longitude %>
+        },
+        map: map,
+        label: {
+          text: "<%= @question.location_name %>",
+          color: '#ff0000',          //ラベル文字の色
+          fontFamily: 'sans-serif',  //フォント 
+          fontWeight: 'bold',        //フォントの太さ 
+          fontSize: '14px'       
+        }
+
+      });
+      geocoder.geocode({
+        // 'address': inputAddress
+        latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
+      }, function(results, status) {
+        if (status == 'OK') {
+          // map.setCenter(results[0].geometry.location);
+          // var marker = new google.maps.Marker({
+          //   map: map,
+          //   position: results[0].geometry.location
+          // });
+          // // 下の1行を追加 
+          // display.textContent = "検索結果：" + results[0].geometry.location
+           if (results[0].geometry) {
+
+          // 住所を取得(日本の場合だけ「日本, 」を削除)
+          var address = results[0].formatted_address;
+          // var address = results[0].formatted_address.replace(/^日本, /, '');
+          new google.maps.InfoWindow({
+            content: address + "<br>(Lat, Lng) = " + latlng
+          }).open(map, new google.maps.Marker({
+            position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
+            map: map
+          }));
+          }
+        } else {
+          alert('該当する結果がありませんでした：' + status);
+        }
+      });
+    }
+
+    function codeAddress() {
+      let inputAddress = document.getElementById('address').value;
+
+      
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
+
 <div class="container mt-5 questions questions-show">
   <div class="row">
     <div class="col-9">
@@ -124,7 +210,6 @@
                   <% end %>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
