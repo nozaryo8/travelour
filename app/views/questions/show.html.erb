@@ -82,9 +82,37 @@
               <div class="content-body mb-2">
                 <%= raw Rinku.auto_link(simple_format(h(@question.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
               </div>
-              <!-- いいねボタンの変更-->
-              <div class="content-footer d-flex justify-content-between">
-                <div class="content-footer-left"><p class="mb-0"><i class="far fa-comment-alt icon"></i><%=@question.answers.count %> <i class="fas fa-thumbs-up"></i><%= @question.evaluations.count%> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p></div>
+
+              <div class="content-infomation">
+                <p class="mb-0"> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p>
+              </div>
+              <!--TODO: いいねボタン、ブックマークの変更-->
+              <div class="question-content-footer d-flex justify-content-between align-items-center mt-1">
+                <div class="content-footer-left ">
+                  <div class="respond-button-evaluation-bookmark d-flex align-items-center">
+                    <% if user_signed_in? %>
+                      <%= react_component("EvaluationButton",{isalready: current_user.already_evaluation?(@question), questionid: @question.id ,questionscount: @question.evaluations.count})%>
+                    <% else %>
+                      <div><i class="far fa-thumbs-up"></i><%= @question.evaluations.count%></div>
+                    <% end %>
+                    <span class="border-right border-white" style="line-height: 20px"></span>
+                    <div class="bookmark-container">
+                      <% if current_user.bookmarked_by?(@question) %>
+                        <div class="bookmark py-2 px-3 ">
+                          <%= link_to question_bookmarks_path(@question), method: :delete do%>
+                            <i class="fas fa-bookmark"></i>
+                          <% end %>
+                        </div>
+                      <% else %>
+                        <div class="bookmark py-2 px-3 ">
+                          <%= link_to question_bookmarks_path(@question), method: :post do%>
+                            <i class="far fa-bookmark"></i>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
                 <div class="content-footer-right">
                   <%if user_signed_in? %>
                     <% if current_user.id == @question.user_id %>
@@ -96,6 +124,7 @@
                   <% end %>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -271,11 +300,11 @@
           </div>
         </div>
       <% end %>
-      <div class="answers_count mb-3">
+      <div class="answers_count mb-3 ml-2">
         <%if @question.best_answer_id %>
-          <div id ="update2">他回答<%=@question.answers.count - 1 %>件 </div>
+          <div id ="update2">他回答数: <%=@question.answers.count - 1 %>件 </div>
         <% else %>
-          <div id ="update3">回答<%=@question.answers.count %>件 </div>
+          <div id ="update3">回答数: <%=@question.answers.count %>件 </div>
         <% end %>
       </div>
       <%if @question.answers.count != 0 %>
@@ -416,30 +445,30 @@
                       </div>
                     </div>
                   <% else %>
-                  <div class="comment-content py-2">
-                    <div class="list-group">
-                      <div class="list-group-item list-group-item-action first-comment p-2">
-                        <% if user_signed_in? %>
-                          <div class="header-left d-flex align-items-center">
-                            <div class="user-image mr-1">
-                              <% if current_user.image? %>
-                                <%= link_to user_path(current_user.id) do%>
-                                  <%= image_tag current_user.image.url%>
+                    <div class="comment-content py-2">
+                      <div class="list-group">
+                        <div class="list-group-item list-group-item-action first-comment p-2">
+                          <% if user_signed_in? %>
+                            <div class="header-left d-flex align-items-center">
+                              <div class="user-image mr-1">
+                                <% if current_user.image? %>
+                                  <%= link_to user_path(current_user.id) do%>
+                                    <%= image_tag current_user.image.url%>
+                                  <% end %>
+                                <% else %>
+                                  <%= link_to user_path(current_user.user.id) do%>
+                                    <img src="/images/person2.png">
+                                  <% end %>
                                 <% end %>
-                              <% else %>
-                                <%= link_to user_path(current_user.user.id) do%>
-                                  <img src="/images/person2.png">
-                                <% end %>
-                              <% end %>
+                              </div>
+                              <%= form_with(model: answer,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
+                              <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
                             </div>
-                            <%= form_with(model: answer,url: answer_reactions_path(answer.id),id: answer.id) do |form| %><%end%>
-                            <%= button_to 'コメントする', new_answer_reaction_path(answer.id), :method => :get, :remote => true ,class: "comment-push push-button", id: "comment-push"%>
-                          </div>
-                        <%end%>
+                          <%end%>
+                        </div>
+                        <div id="reaction<%=answer.id %>"></div>
                       </div>
-                      <div id="reaction<%=answer.id %>"></div>
                     </div>
-                  </div>
                   <% end %>
                 </div>
               </div>
@@ -447,6 +476,7 @@
           <%end%>
         <%end%>
       <%end%>
+
       <%if @question.answers.count != 0 %>
         <% @question.answers.includes(:user,:reactions).each do |answer| %>
           <% if answer.id != @question.best_answer_id%>
@@ -815,7 +845,8 @@
             </div>
           <% end %>
         <% end %>
-      <%end%>
+      <%end%> 
+
       <div id="newanswer"></div>
     </div>
     <div class="col-3">

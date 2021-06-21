@@ -974,3 +974,54 @@ $info_t1: #e0ffff;
     border-radius: calc(0.25rem - 1px);
   }
 }
+
+.question-content-footer {
+  .fa-bookmark {
+    font-size: 25px;
+  }
+
+  .fa-thumbs-up {
+    font-size: 23px;
+    &:hover {
+      background-color: transparent !important;
+    }
+  }
+  .thumbs-up-container {
+    max-width: 100px;
+    cursor: pointer;
+  }
+}
+
+.respond-button-evaluation-bookmark {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  border: transparent;
+  border-radius: 1000px;
+  border-top-left-radius: 1000px;
+  border-top-right-radius: 1000px;
+  border-bottom-right-radius: 1000px;
+  border-bottom-left-radius: 1000px;
+  color: #495057;
+  font-size: 14px;
+  .thumbs-up {
+    &:hover {
+      border-top-left-radius: 1000px;
+      border-bottom-left-radius: 1000px;
+      background-color: #d3d3d3 !important;
+    }
+    .thumbs-up-count:hover {
+      background-color: transparent !important;
+    }
+  }
+  .bookmark {
+    .fa-bookmark {
+      &:hover {
+        background-color: #d3d3d3 !important;
+      }
+    }
+    &:hover {
+      border-top-right-radius: 1000px;
+      border-bottom-right-radius: 1000px;
+      background-color: #d3d3d3 !important;
+    }
+  }
+}

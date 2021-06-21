@@ -188,8 +188,9 @@ class QuestionsController < ApplicationController
     # respond_to: リクエストされるフォーマットがHTML形式の場合とJSON形式の場合で処理を分けることができる
     respond_to do |format|
       if @question.save
-        current_user.get_exp(10)
-        current_user.check_level_up
+        # TODO: 経験値機能の処理
+        # current_user.get_exp(10)
+        # current_user.check_level_up
         format.html { redirect_to @question, notice: "質問を投稿しました" }
         format.json { render :show, status: :created, location: @question }
       else

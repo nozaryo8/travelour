@@ -5,26 +5,30 @@
       <div class="col-7 mx-auto">
         <div class="user">
           <% if @user.image? %>
-          <%= image_tag @user.image.url  %>
+            <%= image_tag @user.image.url  %>
           <% else%>
-          <img src="/images/person2.png">
+            <img src="/images/person2.png">
           <% end %>
 
           <h2 class="mt-2"><%= @user.username %></h2>
           <p><%= @user.email %></p>
           <%if @user.email != "guest@gmail.com"%>
-          <% if @user.id == current_user.id %>
-          <%= link_to("編集", edit_user_path(current_user)) %>
-          <br>
-          <% end %>
+            <% if @user.id == current_user.id %>
+              <%= link_to("編集", edit_user_path(current_user)) %>
+              <br>
+            <% end %>
           <% end %>
           |フォロー(<%= @user.followings.count%>)|フォロワー(<%= @user.followers.count%>)|相互フォロー(<%= @user.matchers.count%>)|
           <br>
           <%= link_to('フォロー・フォロワー一覧',connections_path(@user.id))%>
         </div>
-        <br>
-        ランク<%= @user.rank %>
-        EXP <%= @user.exp%>
+      
+        <%
+=begin%>
+ ランク<%= @user.rank %>
+        EXP <%= @user.exp%> 
+<%
+=end%>
         <% unless current_user == @user %>
           <% if current_user.following?(@user) %>
             <%= form_for(current_user.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>

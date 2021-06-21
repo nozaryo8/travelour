@@ -36,15 +36,19 @@ class EvaluationButton extends React.Component {
     let evaluations;
     if (this.state.isEvaluated) {
       evaluations = (
-        <button onClick={(e) => { this.onClickButtonEvaluation(e, "DELETE") }} className={"btn btn-light btn-outline-secondary"}>
-          役に立った <i className={"fas fa-grin-squint smile"} /> {this.state.count}
-        </button>
+        <div className="thumbs-up-container">
+          <div onClick={(e) => { this.onClickButtonEvaluation(e, "DELETE") }} className="py-2 px-2 thumbs-up">
+            <i class="fas fa-thumbs-up" /> <span className="thumbs-up-count" style={{ fontSize: "16px" }}>{this.state.count}</span>
+          </div>
+        </div>
       );
     } else {
       evaluations = (
-        <button onClick={(e) => { this.onClickButtonEvaluation(e, "POST") }} className={"btn btn-light btn-outline-secondary"}>
-          役に立った <i className={"far fa-grin-squint smile"} /> {this.state.count}
-        </button>
+        <div className="thumbs-up-container">
+          <div onClick={(e) => { this.onClickButtonEvaluation(e, "POST") }} className="py-2 px-2 thumbs-up">
+            <i class="far fa-thumbs-up" /> <span className="thumbs-up-count" style={{ fontSize: "16px" }}>{this.state.count}</span>
+          </div>
+        </div>
       )
     }
     return (
