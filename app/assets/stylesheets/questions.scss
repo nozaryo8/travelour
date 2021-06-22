@@ -472,13 +472,6 @@ $info_t1: #e0ffff;
 .fa-thumbs-up {
   color: rgb(255, 136, 0);
 }
-.questions img {
-  width: 80px;
-  height: 80px;
-  border-radius: 20%;
-  box-shadow: 0 2px 6px #c1ced7;
-  object-fit: cover;
-}
 
 .map {
   display: none;
@@ -640,8 +633,6 @@ $info_t1: #e0ffff;
 }
 
 .question-body {
-  .list-group-item:first-child {
-  }
   .list-group-item {
     border-top-width: 1px !important;
     border-radius: inherit;
@@ -680,10 +671,13 @@ $info_t1: #e0ffff;
 }
 
 .questions-show {
-  .list-group :hover {
-    &:not(.gmap) {
+  .list-group-item {
+    &:hover {
       background-color: white;
     }
+    // & :hover {
+    //   background-color: red;
+    // }
   }
 
   .comment-content {
@@ -692,9 +686,9 @@ $info_t1: #e0ffff;
         border-top-width: 0px !important;
       }
       background-color: #f7f7f8;
-      &:hover {
-        background-color: #f7f7f8;
-      }
+      // &:hover {
+      //   background-color: #f7f7f8;
+      // }
     }
     // &hoverにすると優先順位が低くなったため別に書いた
     // TODO: コメントボタンに使うpush-buttonのhoverの調整

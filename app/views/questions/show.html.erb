@@ -94,46 +94,6 @@
                   }             
                 </style>
 
-                <script>
-                  let q_map
-                  let q_geocoder
-                  // const display = document.getElementById('display')
-
-                  function initMap() {
-                    q_geocoder = new google.maps.Geocoder()
-
-                    q_map = new google.maps.Map(document.getElementById('q-map'), {
-                      center: {
-                        lat: <%= @question.latitude %>,
-                        lng: <%= @question.longitude %>
-                      },
-                      zoom: 12,
-                    });
-
-                    q_geocoder.geocode({
-                      // 'address': inputAddress
-                      latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
-                
-                    }, function(results, status) {
-                      if (status == 'OK') {
-                        if (results[0].geometry) {
-
-                          var address = results[0].formatted_address
-                          
-                          new google.maps.InfoWindow({
-                            content: address 
-                          }).open(q_map, new google.maps.Marker({
-                            position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
-                            map: q_map
-                          }));
-                        }
-                      } else {
-                        alert('該当する結果がありませんでした：' + status);
-                      }
-                    });
-                  }
-                </script>
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
                 
               <% end %>
 
@@ -281,7 +241,7 @@
                       });
                     }
                   </script>
-                  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
+                  
                   
                 <% end %>
                 <div class="content-footer d-flex justify-content-between">
@@ -470,49 +430,7 @@
                           height: 600px;
                           width: 600px;
                         }
-                      </style>
-
-                      <script>
-                        let map<%=answer.id%>
-                        let geocoder<%=answer.id%>
-                        // var display = document.getElementById('display')
-
-                        function initMap() {
-                          geocoder = new google.maps.Geocoder()
-
-                          map<%=answer.id%> = new google.maps.Map(document.getElementById('map<%= answer.id%>'), {
-                            center: {
-                              lat: <%= answer.latitude %>,
-                              lng: <%= answer.longitude %>
-                            },
-                            zoom: 12,
-                          });
-
-                          geocoder.geocode({
-                            // 'address': inputAddress
-                            latLng: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>)
-                      
-                          }, function(results, status) {
-                            if (status == 'OK') {
-                              if (results[0].geometry) {
-
-                                var address = results[0].formatted_address
-                                
-                                new google.maps.InfoWindow({
-                                  content: address 
-                                }).open(map<%=answer.id%>, new google.maps.Marker({
-                                  position: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>),
-                                  map: map<%=answer.id%>
-                                }));
-                              }
-                            } else {
-                              alert('該当する結果がありませんでした：' + status);
-                            }
-                          });
-                        }
-                      </script>
-                      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
-                      
+                      </style>           
                     <% end %>
                     <div class="content-footer d-flex justify-content-between">
                       <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= answer.goods.count%><span>| <%= " #{time_ago_in_words(answer.updated_at)}前に更新" %></span></p>
@@ -1052,7 +970,82 @@ $('.see-more').click(function() {
   $(this).closest(".comment-content").find(".truncated").hide();
   $(this).closest(".comment-content").find(".untruncated").show();
 })
+
 </script>
+
+<script>
+let q_map
+let q_geocoder
+let map<%=answer.id%>
+let geocoder<%=answer.id%>
+
+function initMap() {
+  q_geocoder = new google.maps.Geocoder()
+
+  q_map = new google.maps.Map(document.getElementById('q-map'), {
+    center: {
+      lat: <%= @question.latitude %>,
+      lng: <%= @question.longitude %>
+    },
+    zoom: 12,
+  });
+
+  q_geocoder.geocode({
+    // 'address': inputAddress
+    latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
+
+  }, function(results, status) {
+    if (status == 'OK') {
+      if (results[0].geometry) {
+
+        var address = results[0].formatted_address
+        
+        new google.maps.InfoWindow({
+          content: address 
+        }).open(q_map, new google.maps.Marker({
+          position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
+          map: q_map
+        }));
+      }
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });
+
+  geocoder<%=answer.id%> = new google.maps.Geocoder()
+
+  map<%=answer.id%> = new google.maps.Map(document.getElementById('map<%= answer.id%>'), {
+    center: {
+      lat: <%= answer.latitude %>,
+      lng: <%= answer.longitude %>
+    },
+    zoom: 12,
+  });
+
+  geocoder<%=answer.id%>.geocode({
+    // 'address': inputAddress
+    latLng: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>)
+
+  }, function(results, status) {
+    if (status == 'OK') {
+      if (results[0].geometry) {
+
+        var address = results[0].formatted_address
+        
+        new google.maps.InfoWindow({
+          content: address 
+        }).open(map<%=answer.id%>, new google.maps.Marker({
+          position: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>),
+          map: map<%=answer.id%>
+        }));
+      }
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
 
 
 
@@ -1077,3 +1070,4 @@ $('.see-more').click(function() {
 //   });
 // });
 </script>
+

@@ -1,0 +1,72 @@
+<script>
+let q_map
+let q_geocoder
+let map<%=answer.id%>
+let geocoder<%=answer.id%>
+
+function initMap() {
+  q_geocoder = new google.maps.Geocoder()
+
+  q_map = new google.maps.Map(document.getElementById('q-map'), {
+    center: {
+      lat: <%= @question.latitude %>,
+      lng: <%= @question.longitude %>
+    },
+    zoom: 12,
+  });
+
+  q_geocoder.geocode({
+    // 'address': inputAddress
+    latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
+
+  }, function(results, status) {
+    if (status == 'OK') {
+      if (results[0].geometry) {
+
+        var address = results[0].formatted_address
+        
+        new google.maps.InfoWindow({
+          content: address 
+        }).open(q_map, new google.maps.Marker({
+          position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
+          map: q_map
+        }));
+      }
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });
+
+  geocoder<%=answer.id%> = new google.maps.Geocoder()
+
+                          map<%=answer.id%> = new google.maps.Map(document.getElementById('map<%= answer.id%>'), {
+                            center: {
+                              lat: <%= answer.latitude %>,
+                              lng: <%= answer.longitude %>
+                            },
+                            zoom: 12,
+                          });
+
+                          geocoder<%=answer.id%>.geocode({
+                            // 'address': inputAddress
+                            latLng: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>)
+                      
+                          }, function(results, status) {
+                            if (status == 'OK') {
+                              if (results[0].geometry) {
+
+                                var address = results[0].formatted_address
+                                
+                                new google.maps.InfoWindow({
+                                  content: address 
+                                }).open(map<%=answer.id%>, new google.maps.Marker({
+                                  position: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>),
+                                  map: map<%=answer.id%>
+                                }));
+                              }
+                            } else {
+                              alert('該当する結果がありませんでした：' + status);
+                            }
+                          });
+}
+</script>
