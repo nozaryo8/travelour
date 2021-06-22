@@ -40,6 +40,7 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     #has_manyでquestion.answersが使える
     @answer = @question.answers.build(answer_params)
+
     respond_to do |format|
       if @answer.save
         format.html { redirect_to @question, notice: "回答を送信しました" }
@@ -50,7 +51,7 @@ class AnswersController < ApplicationController
         Notification.new(user_id: @question.user.id,message: "#{@answer.user.username}さんが、あなたの質問に回答しました。",
           url: "/questions/#{@question.id}").save
       else
-        format.html { render @question }
+        format.html { redirect_to @question , alert: "回答を送信できませんでした。" }
         format.json { render json: @answer.errors, status: :unprocessable_entity }
       end
     end
@@ -89,6 +90,6 @@ class AnswersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def answer_params
-      params.require(:answer).permit(:user_id, :question_id, :body)
+      params.require(:answer).permit(:user_id, :question_id, :body , :image,:image_cache)
     end
 end

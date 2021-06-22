@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_22_083228) do
+ActiveRecord::Schema.define(version: 2021_06_22_151321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2021_06_22_083228) do
     t.float "latitude"
     t.float "longitude"
     t.string "location_name"
+    t.string "image"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(version: 2021_06_22_083228) do
     t.float "latitude"
     t.float "longitude"
     t.string "location_name"
+    t.string "image"
     t.index ["country_id"], name: "index_questions_on_country_id"
     t.index ["tag_id"], name: "index_questions_on_tag_id"
     t.index ["user_id"], name: "index_questions_on_user_id"

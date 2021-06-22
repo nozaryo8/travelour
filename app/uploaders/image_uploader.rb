@@ -24,8 +24,9 @@ class ImageUploader < CarrierWave::Uploader::Base
       config.fog_attributes = { cache_control: "public, max-age=#{365.days.to_i}" }
     end
   end
+    
   #上限変更
-    process :resize_to_limit => [200, 200]
+    process :resize_to_limit => [1000, 1000]
 
   #JPGで保存
     process :convert => 'jpg'
@@ -43,9 +44,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   #ファイル名を変更し拡張子を同じにする
-  def filename
-    super.chomp(File.extname(super)) + '.jpg' 
-  end
+  
 
   #日付で保存
   def filename

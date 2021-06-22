@@ -10,7 +10,7 @@
               <div class="header-left d-flex align-items-center">
                 
                 <div class="show-content-title">
-                  <h5 class="font-weight-bold mb-0"><%= @question.title%></h5>
+                  <h5 class="font-weight-bold mb-1"><%= @question.title%></h5>
                 </div>
                 
               </div>
@@ -86,7 +86,7 @@
               
               <% if @question.latitude && @question.longitude %>
               
-                <div class='gmap' id='q-map'></div>
+                <div class='gmap my-4 mx-auto' id='q-map'></div>
                 <style>
                   #q-map {
                     height: 600px;
@@ -194,55 +194,14 @@
                 </div>
                 <% if @bestanswer.latitude && @bestanswer.longitude %>
               
-                  <div class='gmap' id='bestanswer-map'></div>
+                  <div class='gmap my-4 mx-auto' id='map<%= @bestanswer.id %>'></div>
                   <style>
-                    #bestanswer-map {
+                    #map<%= @bestanswer.id %> {
                       height: 600px;
                       width: 600px;
                     }
                   </style>
 
-                  <script>
-                    let map
-                    let geocoder
-                    const display = document.getElementById('display')
-
-                    function initMap() {
-                      geocoder = new google.maps.Geocoder()
-
-                      map = new google.maps.Map(document.getElementById('bestanswer-map'), {
-                        center: {
-                          lat: <%= @bestanswer.latitude %>,
-                          lng: <%= @bestanswer.longitude %>
-                        },
-                        zoom: 12,
-                      });
-
-                      geocoder.geocode({
-                        // 'address': inputAddress
-                        latLng: new google.maps.LatLng(<%= @bestanswer.latitude %>, <%= @bestanswer.longitude %>)
-                  
-                      }, function(results, status) {
-                        if (status == 'OK') {
-                          if (results[0].geometry) {
-
-                            var address = results[0].formatted_address
-                            
-                            new google.maps.InfoWindow({
-                              content: address 
-                            }).open(map, new google.maps.Marker({
-                              position: new google.maps.LatLng(<%= @bestanswer.latitude %>, <%= @bestanswer.longitude %>),
-                              map: map
-                            }));
-                          }
-                        } else {
-                          alert('該当する結果がありませんでした：' + status);
-                        }
-                      });
-                    }
-                  </script>
-                  
-                  
                 <% end %>
                 <div class="content-footer d-flex justify-content-between">
                 <!-- TODO: いいねボタンをつける-->
@@ -367,10 +326,9 @@
         </div>
       <% end %>
       <div class="answers_count mb-3 ml-2">
+        
         <%if @question.best_answer_id %>
           <div id ="update2">他回答数: <%=@question.answers.count - 1 %>件 </div>
-        <% else %>
-          <div id ="update3">回答数: <%=@question.answers.count %>件 </div>
         <% end %>
       </div>
       <%if @question.answers.count != 0 %>
@@ -423,8 +381,13 @@
                     <div class="content-body mt-2 mb-2">
                       <%= raw Rinku.auto_link(simple_format(h(answer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
                     </div>
+                    <% if answer.image?%>
+                      <div class="q-image-container d-flex justify-content-center">
+                        <%= image_tag answer.image.url ,class: "my-2 "%>
+                      </div>
+                    <% end %>
                     <% if answer.latitude && answer.longitude %>
-                      <div class='gmap' id='map<%= answer.id%>'></div>
+                      <div class='gmap my-4 mx-auto' id='map<%= answer.id%>'></div>
                       <style>
                         #map<%= answer.id%> {
                           height: 600px;
@@ -974,76 +937,86 @@ $('.see-more').click(function() {
 </script>
 
 <script>
-let q_map
-let q_geocoder
-let map<%=answer.id%>
-let geocoder<%=answer.id%>
 
 function initMap() {
-  q_geocoder = new google.maps.Geocoder()
+  <% if @question.latitude && @question.longitude %>
+    let q_map
+    let q_geocoder
+    q_geocoder = new google.maps.Geocoder()
 
-  q_map = new google.maps.Map(document.getElementById('q-map'), {
-    center: {
-      lat: <%= @question.latitude %>,
-      lng: <%= @question.longitude %>
-    },
-    zoom: 12,
-  });
+    q_map = new google.maps.Map(document.getElementById('q-map'), {
+      center: {
+        lat: <%= @question.latitude %>,
+        lng: <%= @question.longitude %>
+      },
+      zoom: 12,
+    });
 
-  q_geocoder.geocode({
-    // 'address': inputAddress
-    latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
+    q_geocoder.geocode({
+      // 'address': inputAddress
+      latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
 
-  }, function(results, status) {
-    if (status == 'OK') {
-      if (results[0].geometry) {
+    }, function(results, status) {
+      if (status == 'OK') {
+        if (results[0].geometry) {
 
-        var address = results[0].formatted_address
-        
-        new google.maps.InfoWindow({
-          content: address 
-        }).open(q_map, new google.maps.Marker({
-          position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
-          map: q_map
-        }));
+          var address = results[0].formatted_address
+          
+          new google.maps.InfoWindow({
+            content: address 
+          }).open(q_map, new google.maps.Marker({
+            position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
+            map: q_map
+          }));
+        }
+      } else {
+        alert('該当する結果がありませんでした：' + status);
       }
-    } else {
-      alert('該当する結果がありませんでした：' + status);
-    }
-  });
+    });
+  <% end %>
 
-  geocoder<%=answer.id%> = new google.maps.Geocoder()
+  <% if @question.answers%>
+    <% @question.answers.each do |answer| %>
+      <% if answer.latitude && answer.longitude %>
+       
+        let map<%=answer.id%>
+        let geocoder<%=answer.id%>
+        geocoder<%=answer.id%> = new google.maps.Geocoder()
 
-  map<%=answer.id%> = new google.maps.Map(document.getElementById('map<%= answer.id%>'), {
-    center: {
-      lat: <%= answer.latitude %>,
-      lng: <%= answer.longitude %>
-    },
-    zoom: 12,
-  });
+        map<%=answer.id%> = new google.maps.Map(document.getElementById('map<%= answer.id%>'), {
+          center: {
+            lat: <%= answer.latitude %>,
+            lng: <%= answer.longitude %>
+          },
+          zoom: 12,
+        });
 
-  geocoder<%=answer.id%>.geocode({
-    // 'address': inputAddress
-    latLng: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>)
+        geocoder<%=answer.id%>.geocode({
+          // 'address': inputAddress
+          latLng: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>)
 
-  }, function(results, status) {
-    if (status == 'OK') {
-      if (results[0].geometry) {
+        }, function(results, status) {
+          if (status == 'OK') {
+            if (results[0].geometry) {
 
-        var address = results[0].formatted_address
-        
-        new google.maps.InfoWindow({
-          content: address 
-        }).open(map<%=answer.id%>, new google.maps.Marker({
-          position: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>),
-          map: map<%=answer.id%>
-        }));
-      }
-    } else {
-      alert('該当する結果がありませんでした：' + status);
-    }
-  });
+              var address = results[0].formatted_address
+              
+              new google.maps.InfoWindow({
+                content: address 
+              }).open(map<%=answer.id%>, new google.maps.Marker({
+                position: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>),
+                map: map<%=answer.id%>
+              }));
+            }
+          } else {
+            alert('該当する結果がありませんでした：' + status);
+          }
+        });
+      <% end %>
+    <% end %>
+  <% end %>
 }
+
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
 
