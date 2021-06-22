@@ -38,7 +38,7 @@ class EvaluationButton extends React.Component {
       evaluations = (
         <div className="thumbs-up-container">
           <div onClick={(e) => { this.onClickButtonEvaluation(e, "DELETE") }} className="py-2 px-2 thumbs-up">
-            <i class="fas fa-thumbs-up" /> <span className="thumbs-up-count" style={{ fontSize: "16px" }}>{this.state.count}</span>
+            <i className="fas fa-thumbs-up" /> <span className="thumbs-up-count" style={{ fontSize: "16px" }}>{this.state.count}</span>
           </div>
         </div>
       );
@@ -46,7 +46,7 @@ class EvaluationButton extends React.Component {
       evaluations = (
         <div className="thumbs-up-container">
           <div onClick={(e) => { this.onClickButtonEvaluation(e, "POST") }} className="py-2 px-2 thumbs-up">
-            <i class="far fa-thumbs-up" /> <span className="thumbs-up-count" style={{ fontSize: "16px" }}>{this.state.count}</span>
+            <i className="far fa-thumbs-up" /> <span className="thumbs-up-count" style={{ fontSize: "16px" }}>{this.state.count}</span>
           </div>
         </div>
       )
