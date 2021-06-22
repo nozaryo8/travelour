@@ -58,17 +58,18 @@
           // });
           // // 下の1行を追加 
           // display.textContent = "検索結果：" + results[0].geometry.location
-           if (results[0].geometry) {
+          if (results[0].geometry) {
 
-          // 住所を取得(日本の場合だけ「日本, 」を削除)
-          var address = results[0].formatted_address;
-          // var address = results[0].formatted_address.replace(/^日本, /, '');
-          new google.maps.InfoWindow({
-            content: address + "<br>(Lat, Lng) = " + latlng
-          }).open(map, new google.maps.Marker({
-            position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
-            map: map
-          }));
+            // 住所を取得(日本の場合だけ「日本, 」を削除)
+            var address = results[0].formatted_address;
+            console.log(address)
+            // var address = results[0].formatted_address.replace(/^日本, /, '');
+            new google.maps.InfoWindow({
+              content: address + "<br>(Lat, Lng) = " + latLng
+            }).open(map, new google.maps.Marker({
+              position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
+              map: map
+            }));
           }
         } else {
           alert('該当する結果がありませんでした：' + status);
