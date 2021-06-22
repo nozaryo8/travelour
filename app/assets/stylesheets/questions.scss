@@ -681,7 +681,9 @@ $info_t1: #e0ffff;
 
 .questions-show {
   .list-group :hover {
-    background-color: white;
+    &:not(.gmap) {
+      background-color: white;
+    }
   }
 
   .comment-content {

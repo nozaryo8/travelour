@@ -1,94 +1,4 @@
-  <%
-=begin%>
- <input id="address" type="textbox" value="GeekSalon">
-  <input type="button" value="Encode" onclick="codeAddress()"> 
-<%
-=end%>
-
-  <div id='map'></div>
-
-  <style>
-    #map {
-      height: 600px;
-      width: 600px;
-    }
-  </style>
-
-  <script>
-    let map
-    let geocoder
-    // 下の1行を追加 
-    const display = document.getElementById('display')
-
-    function initMap() {
-      geocoder = new google.maps.Geocoder()
-
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-          lat: <%= @question.latitude %>,
-          lng: <%= @question.longitude %>
-        },
-        zoom: 12,
-      });
-
-      // marker = new google.maps.Marker({
-      //   position: {
-      //     lat: <%= @question.latitude %>,
-      //     lng: <%= @question.longitude %>
-      //   },
-      //   map: map,
-      //   label: {
-      //           text: "<%= @question.location_name %>",
-      //           color: '#ff0000',          //ラベル文字の色
-      //           fontFamily: 'sans-serif',  //フォント 
-      //           fontWeight: 'bold',        //フォントの太さ 
-      //           fontSize: '14px'       
-      //         }
-
-      // });
-
-      geocoder.geocode({
-        // 'address': inputAddress
-        latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
-  
-      }, function(results, status) {
-        if (status == 'OK') {
-          // map.setCenter(results[0].geometry.location);
-          // var marker = new google.maps.Marker({
-          //   map: map,
-          //   position: results[0].geometry.location
-          // });
-          // // 下の1行を追加 
-          // display.textContent = "検索結果：" + results[0].geometry.location
-          if (results[0].geometry) {
-
-            var address = results[0].formatted_address
-
-            // ↓場所名を入れた場合
-            // var address = results[0].formatted_address + "<br>" +"<%= @question.location_name %>";
-            // var address = results[0].formatted_address.replace(/^日本, /, '');
-            
-            new google.maps.InfoWindow({
-              content: address 
-            }).open(map, new google.maps.Marker({
-              position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
-              map: map
-            }));
-          }
-        } else {
-          alert('該当する結果がありませんでした：' + status);
-        }
-      });
-    }
-
-    function codeAddress() {
-      let inputAddress = document.getElementById('address').value;
-
-      
-    }
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
-
+ 
 <div class="container mt-5 questions questions-show">
   <div class="row">
     <div class="col-9">
@@ -173,6 +83,59 @@
               <div class="content-body mb-2">
                 <%= raw Rinku.auto_link(simple_format(h(@question.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
               </div>
+              
+              <% if @question.latitude && @question.longitude %>
+              
+                <div class='gmap' id='q-map'></div>
+                <style>
+                  #q-map {
+                    height: 600px;
+                    width: 600px;
+                  }             
+                </style>
+
+                <script>
+                  let q_map
+                  let q_geocoder
+                  // const display = document.getElementById('display')
+
+                  function initMap() {
+                    q_geocoder = new google.maps.Geocoder()
+
+                    q_map = new google.maps.Map(document.getElementById('q-map'), {
+                      center: {
+                        lat: <%= @question.latitude %>,
+                        lng: <%= @question.longitude %>
+                      },
+                      zoom: 12,
+                    });
+
+                    q_geocoder.geocode({
+                      // 'address': inputAddress
+                      latLng: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>)
+                
+                    }, function(results, status) {
+                      if (status == 'OK') {
+                        if (results[0].geometry) {
+
+                          var address = results[0].formatted_address
+                          
+                          new google.maps.InfoWindow({
+                            content: address 
+                          }).open(q_map, new google.maps.Marker({
+                            position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
+                            map: q_map
+                          }));
+                        }
+                      } else {
+                        alert('該当する結果がありませんでした：' + status);
+                      }
+                    });
+                  }
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
+                
+              <% end %>
 
               <div class="content-infomation">
                 <p class="mb-0"> <i class="far fa-eye"></i><%=@question.impressionist_count %> <span>| <%= " #{time_ago_in_words(@question.created_at)}前に更新" %></span></p>
@@ -269,7 +232,60 @@
                 <div class="content-body mt-2 mb-2">
                   <%= raw Rinku.auto_link(simple_format(h(@bestanswer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
                 </div>
+                <% if @bestanswer.latitude && @bestanswer.longitude %>
+              
+                  <div class='gmap' id='bestanswer-map'></div>
+                  <style>
+                    #bestanswer-map {
+                      height: 600px;
+                      width: 600px;
+                    }
+                  </style>
+
+                  <script>
+                    let map
+                    let geocoder
+                    const display = document.getElementById('display')
+
+                    function initMap() {
+                      geocoder = new google.maps.Geocoder()
+
+                      map = new google.maps.Map(document.getElementById('bestanswer-map'), {
+                        center: {
+                          lat: <%= @bestanswer.latitude %>,
+                          lng: <%= @bestanswer.longitude %>
+                        },
+                        zoom: 12,
+                      });
+
+                      geocoder.geocode({
+                        // 'address': inputAddress
+                        latLng: new google.maps.LatLng(<%= @bestanswer.latitude %>, <%= @bestanswer.longitude %>)
+                  
+                      }, function(results, status) {
+                        if (status == 'OK') {
+                          if (results[0].geometry) {
+
+                            var address = results[0].formatted_address
+                            
+                            new google.maps.InfoWindow({
+                              content: address 
+                            }).open(map, new google.maps.Marker({
+                              position: new google.maps.LatLng(<%= @bestanswer.latitude %>, <%= @bestanswer.longitude %>),
+                              map: map
+                            }));
+                          }
+                        } else {
+                          alert('該当する結果がありませんでした：' + status);
+                        }
+                      });
+                    }
+                  </script>
+                  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
+                  
+                <% end %>
                 <div class="content-footer d-flex justify-content-between">
+                <!-- TODO: いいねボタンをつける-->
                   <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= @bestanswer.goods.count%><span>| <%= " #{time_ago_in_words(@bestanswer.updated_at)}前に更新" %></span></p>
 
                   <%if user_signed_in? %>
@@ -447,6 +463,57 @@
                     <div class="content-body mt-2 mb-2">
                       <%= raw Rinku.auto_link(simple_format(h(answer.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
                     </div>
+                    <% if answer.latitude && answer.longitude %>
+                      <div class='gmap' id='map<%= answer.id%>'></div>
+                      <style>
+                        #map<%= answer.id%> {
+                          height: 600px;
+                          width: 600px;
+                        }
+                      </style>
+
+                      <script>
+                        let map<%=answer.id%>
+                        let geocoder<%=answer.id%>
+                        // var display = document.getElementById('display')
+
+                        function initMap() {
+                          geocoder = new google.maps.Geocoder()
+
+                          map<%=answer.id%> = new google.maps.Map(document.getElementById('map<%= answer.id%>'), {
+                            center: {
+                              lat: <%= answer.latitude %>,
+                              lng: <%= answer.longitude %>
+                            },
+                            zoom: 12,
+                          });
+
+                          geocoder.geocode({
+                            // 'address': inputAddress
+                            latLng: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>)
+                      
+                          }, function(results, status) {
+                            if (status == 'OK') {
+                              if (results[0].geometry) {
+
+                                var address = results[0].formatted_address
+                                
+                                new google.maps.InfoWindow({
+                                  content: address 
+                                }).open(map<%=answer.id%>, new google.maps.Marker({
+                                  position: new google.maps.LatLng(<%= answer.latitude %>, <%= answer.longitude %>),
+                                  map: map<%=answer.id%>
+                                }));
+                              }
+                            } else {
+                              alert('該当する結果がありませんでした：' + status);
+                            }
+                          });
+                        }
+                      </script>
+                      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=initMap" async defer></script>
+                      
+                    <% end %>
                     <div class="content-footer d-flex justify-content-between">
                       <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= answer.goods.count%><span>| <%= " #{time_ago_in_words(answer.updated_at)}前に更新" %></span></p>
                       <%if user_signed_in? %>
