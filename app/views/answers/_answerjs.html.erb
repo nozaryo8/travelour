@@ -38,16 +38,17 @@
       <div class="form-footer list-group-item d-flex align-items-center justify-content-between p-2">
         <div class="submit-button"><%= form.submit "投稿" ,class: "push-button" %></div> 
         <div class="d-flex align-items-center tool-area">
-          <span class="respond-button p-2">
+          <span class="respond-button p-2 ">
             <!-- TODO: 画像アイコンが表示されないので編集-->
-            <%= form.file_field :image, class: "image", accept: "image/jpeg,image/png" do %>
-              <i class="far fa-image mx-3"></i>
+            <%= form.file_field :image, class: "image", accept: "image/jpeg,image/png",style: "display: none" %>
+            <%= form.label :image, class: "image mb-0 mt-1" do%>
+              <i class="far fa-image mx-3"></i><p id ="p"></p>
             <% end %>
             <%= form.hidden_field :image_cache , class: "image", accept: "image/jpeg,image/png"%>
           </span> 
           <span class="respond-button p-2">
             <div type="button" data-toggle="modal" data-target="#exampleModal">
-              <i class="fas fa-map-marker-alt respond-button mx-3"></i>
+              <div class="d-flex" id="map-button"><i class="fas fa-map-marker-alt respond-button mx-3"></i></div>
             </div>
           </span>
           <%= form.hidden_field :latitude, id: "answer_latitude" %>

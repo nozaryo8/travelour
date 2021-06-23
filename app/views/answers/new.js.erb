@@ -1,2 +1,3 @@
 $("#answer").html("<%= escape_javascript(render :partial => 'answers/answerjs')%>") 
 $('.answer-push').remove()
+$("#answer-button").prop("disabled", true);

@@ -3,21 +3,25 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <input id="address" type="textbox" value="GeekSalon">
-        <input type="button" value="Encode" onclick="codeAddress()">
-        
-        <div id="display">何かが表示される、、、、！</div>
+        <p class="mb-0" style="color : #a45705">・以下の検索フォームで場所を検索し地図にマーカーをおきましょう</p>
+        <div class="map-search_form d-flex align-items-center">
+          <input id="address" type="textbox" placeholder="場所を入力" class="my-2 map-search-textbox">
+          <input type="button" class= "map-search-button py-1 px-3 ml-2" value="探す" onclick="codeAddress()">
+        </div>
+
+        <!-- <div id="display">何かが表示される、、、、！</div> -->
         <div id='map'></div>
 
         <style>
           #map {
-            height: 600px;
-            width: 600px;
+            height: 500px;
+            width: 465px;
           }
         </style>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        <button type="button" class="map-close-button" data-dismiss="modal">閉じる</button>
+        <button type="button" class="push-button" data-dismiss="modal" onClick="setId()" >この場所にする</button>
       </div>
     </div>
   </div>
@@ -49,7 +53,7 @@
             <div class="show-top-bottom d-flex">
               <% if @bestanswer == nil%>
                 <% if @question.user.id != current_user.id %>
-                  <%= button_to new_question_answer_path(@question.id), :method => :get, :remote => true ,class: "respond-button px-1 py-2 mb-2 mr-2 d-flex align-items-center" do%>  
+                  <%= button_to new_question_answer_path(@question.id), :method => :get, :remote => true ,id: "answer-button" ,class: "respond-button px-1 py-2 mb-2 mr-2 d-flex align-items-center" do%>  
                     <i class="far fa-edit"></i>回答する
                   <% end %>
                 <% end %>
@@ -974,7 +978,18 @@
 $('.see-more').click(function() {
   $(this).closest(".comment-content").find(".truncated").hide();
   $(this).closest(".comment-content").find(".untruncated").show();
-})
+});
+
+$(document).on('change', '.image',function(){
+  if ($('.image').prop("files")[0] == null){
+    $('#p').text("")
+    console.log($('#p'))
+  }else{
+    $('#p').append($('.image').prop("files")[0].name);
+    console.log($('#p'))
+  }
+  
+});
 
 </script>
 
@@ -982,6 +997,14 @@ $('.see-more').click(function() {
 let map
 let geocoder
 let marker
+let latitude
+let longitude
+
+function setId(){
+  document.getElementById("answer_latitude").value = latitude
+  document.getElementById("answer_longitude").value = longitude
+  $("#map-button").append("選択済")
+}
 
 function codeAddress() {
   let inputAddress = document.getElementById('address').value;
@@ -996,7 +1019,7 @@ function codeAddress() {
         position: results[0].geometry.location
       });
       // 下の1行を追加 
-      display.textContent = "検索結果：" + results[0].geometry.location
+      // display.textContent = "検索結果：" + results[0].geometry.location
     } else {
       alert('該当する結果がありませんでした：' + status);
     }
@@ -1005,7 +1028,7 @@ function codeAddress() {
 
 function initMap() {
   geocoder = new google.maps.Geocoder()
-  const display = document.getElementById('display')
+  // const display = document.getElementById('display')
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -1023,8 +1046,12 @@ function initMap() {
     },
     map: map
   });
+  latitude = 40.7828
+  longitude = -73.9653
   
-  google.maps.event.addListener(map,"dblclick",clickMap);
+  google.maps.event.addListener(map,"click",clickMap);
+  // google.maps.event.addListener(map,"dblclick",clickMap);
+
   function clickMap(e){
     marker.setMap(null);
     marker = null;
@@ -1035,9 +1062,11 @@ function initMap() {
       },
       map: map
     });
-    document.getElementById("answer_latitude").value = e.latLng.lat();
-    document.getElementById("answer_longitude").value = e.latLng.lng();
+    latitude = e.latLng.lat();
+    longitude = e.latLng.lng();
+
   }
+
 
   <% if @question.latitude && @question.longitude %>
     let q_map
