@@ -45,11 +45,19 @@
             <% end %>
             <%= form.hidden_field :image_cache , class: "image", accept: "image/jpeg,image/png"%>
           </span> 
-          <span class="respond-button p-2"><i class="fas fa-map-marker-alt respond-button mx-3"></i></span>
+          <span class="respond-button p-2">
+            <div type="button" data-toggle="modal" data-target="#exampleModal">
+              <i class="fas fa-map-marker-alt respond-button mx-3"></i>
+            </div>
+          </span>
+          <%= form.hidden_field :latitude, id: "answer_latitude" %>
+          <%= form.hidden_field :longitude, id: "answer_longitude" %>
         </div>
       </div>
     </div>
   <% end %>
+  
+  
 </div>
 
 
