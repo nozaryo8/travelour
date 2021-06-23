@@ -691,7 +691,6 @@ $info_t1: #e0ffff;
       // }
     }
     // &hoverにすると優先順位が低くなったため別に書いた
-    // TODO: コメントボタンに使うpush-buttonのhoverの調整
     .list-group-item :hover {
       background-color: #f7f7f8;
       .push-button {
