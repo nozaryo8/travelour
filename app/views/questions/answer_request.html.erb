@@ -1,3 +1,4 @@
+<!-- TODO: 回答リクエスト画面の編集-->
 <% @users.each do |user|%>
 <%= link_to user.username, create_request_path(user_id: user.id,message: "#{@question.user.username}さんが、あなたに回答リクエストを送信しました。",
   url: "/questions/#{@question.id}"), method: :post%>

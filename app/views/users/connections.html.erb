@@ -1,25 +1,26 @@
+<!-- TODO: フォロー画面の編集-->
 <%= @user.username%>のフォロー・フォロワー一覧
 <div class="container mt-5">
-    <ul class="nav nav-tabs">
-      <li class="nav-item col-4 text-center">
-        <%= link_to "フォロー", connections_path(mode: "followings") ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'followings' || params[:mode] == nil} "%>
-      </li>
-      <li class="nav-item col-4 text-center ">
-        <%= link_to "フォロワー", connections_path(mode: "followers"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'followers'}" %>
-      </li>
-      <li class="nav-item col-4 text-center">
-        <%= link_to "相互フォロー",connections_path(mode: "matchers"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'matchers'}" %>
-      </li>
-    </ul>
-    <div class="row">
-      <div class="col-12 mx-auto">
-        <ul class="w-full px-6">
-          <li class="flex my-auto py-2 border-b">
-            <% @connections.each do |connection|%>
-              <%= connection.username%>
-            <% end %>
-          </li>
-        </ul>
-      </div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item col-4 text-center">
+      <%= link_to "フォロー", connections_path(mode: "followings") ,class: "nav-link h6 a_tag #{'active' if params[:mode] == 'followings' || params[:mode] == nil} "%>
+    </li>
+    <li class="nav-item col-4 text-center ">
+      <%= link_to "フォロワー", connections_path(mode: "followers"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'followers'}" %>
+    </li>
+    <li class="nav-item col-4 text-center">
+      <%= link_to "相互フォロー",connections_path(mode: "matchers"),class: "nav-link h6 a_tag #{'active' if params[:mode] == 'matchers'}" %>
+    </li>
+  </ul>
+  <div class="row">
+    <div class="col-12 mx-auto">
+      <ul class="w-full px-6">
+        <li class="flex my-auto py-2 border-b">
+          <% @connections.each do |connection|%>
+            <%= connection.username%>
+          <% end %>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>

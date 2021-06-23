@@ -1,3 +1,4 @@
+<!--TODO: サインアップ画面編集-->
 <div class="forms-container f-f-monospace">
   <br><br>
 
@@ -35,8 +36,12 @@
         <%= f.password_field :password_confirmation, autocomplete: "new-password" , class: "w-100 p-2 mb-4 rounded form"%>
       </div>
 
-      <%= f.hiddden_field :exp, 0%>
-      <%= f.hiddden_field :rank, 1%>
+      <%
+=begin%>
+ <%= f.hidden_field :exp, value: 0 %>
+      <%= f.hidden_field :rank, value: 1 %> 
+<%
+=end%>
 
       <div class="actions">
         <%= f.submit "サインアップ", class: "btn btn-info "%>

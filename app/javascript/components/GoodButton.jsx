@@ -36,15 +36,19 @@ class GoodButton extends React.Component {
     let goods;
     if (this.state.isGooded) {
       goods = (
-        <button onClick={(e) => { this.onClickButtonGood(e, "DELETE") }} className={"btn btn-light btn-outline-secondary"}>
-          参考になった <i className={"fas fa-thumbs-up"} /> {this.state.count}
-        </button>
+        <div className="thumbs-up-container">
+          <div onClick={(e) => { this.onClickButtonGood(e, "DELETE") }} className={"py-2 px-2 good-thumbs-up"}>
+            <i className={"fas fa-thumbs-up"} /> <span className="thumbs-up-count" style={{ fontSize: "16px" }}> {this.state.count} </span>
+          </div>
+        </div>
       );
     } else {
       goods = (
-        <button onClick={(e) => { this.onClickButtonGood(e, "POST") }} className={"btn btn-light btn-outline-secondary"}>
-          参考になった <i className={"far fa-thumbs-up"} /> {this.state.count}
-        </button>
+        <div className="thumbs-up-container">
+          <div onClick={(e) => { this.onClickButtonGood(e, "POST") }} className={"py-2 px-2 good-thumbs-up"}>
+            <span className="thumbs-up-count" style={{ fontSize: "16px" }}> <i className={"far fa-thumbs-up"} /> {this.state.count} </span>
+          </div>
+        </div>
       )
     }
     return (

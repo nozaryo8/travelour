@@ -57,7 +57,14 @@
         <div class="actions mb-0 align-self-center" id="submit">
           <%= form.submit  "投稿", class: "btn btn-primary"%>
         </div>
-        <div class="d-flex align-items-center tool-area"><span class="respond-button p-2"><i class="far fa-image mx-3"></i></span> <span class="respond-button p-2"><i class="fas fa-map-marker-alt respond-button mx-3"></i></span></div>
+        <div class="d-flex align-items-center tool-area">
+          <span class="respond-button p-2">
+            <%= form.file_field :image, class: "image", accept: "image/jpeg,image/png" do %>
+              <i class="far fa-image mx-3"></i>
+            <% end %>
+          </span> 
+          <span class="respond-button p-2"><i class="fas fa-map-marker-alt respond-button mx-3"></i></span>
+        </div>
       </div>
       
     </div>

@@ -84,6 +84,12 @@
                 <%= raw Rinku.auto_link(simple_format(h(@question.body),wrapper_tag: "p",class: "mb-2"),:all,'target="_blank"') %>
               </div>
               
+              <% if @question.image?%>
+                <div class="q-image-container d-flex justify-content-center">
+                  <%= image_tag @question.image.url , class: "my-2"%>
+                </div>
+              <% end %>
+
               <% if @question.latitude && @question.longitude %>
               
                 <div class='gmap my-4 mx-auto' id='q-map'></div>
@@ -395,16 +401,29 @@
                         }
                       </style>           
                     <% end %>
+                    <div class="content-infomation">
+                      <p class="mb-0"><span><%= " #{time_ago_in_words(answer.updated_at)}前に更新" %></span></p>
+                    </div>
                     <div class="content-footer d-flex justify-content-between">
-                      <p class="mb-0"><i class="fas fa-thumbs-up"></i><%= answer.goods.count%><span>| <%= " #{time_ago_in_words(answer.updated_at)}前に更新" %></span></p>
-                      <%if user_signed_in? %>
-                        <% if answer.user.id == current_user.id %>
-                          <p class="mb-0">
-                            <%= link_to '編集', edit_answer_path(answer),class: "text-primary"%> |
-                            <%= link_to '投稿を削除する', answer , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %> 
-                          </p>
+                      <div class="content-footer-left ">
+                        <div class="respond-button-evaluation-bookmark">
+                          <% if user_signed_in? %>
+                            <%= react_component("GoodButton",{isalready: current_user.already_good?(answer), answerid: answer.id ,answerscount: answer.goods.count})%>
+                          <% else %>
+                            <div><i class="far fa-thumbs-up"></i><%= answer.goods.count%></div>
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class="content-footer-right">
+                        <%if user_signed_in? %>
+                          <% if answer.user.id == current_user.id %>
+                            <p class="mb-0">
+                              <%= link_to '編集', edit_answer_path(answer),class: "text-primary"%> |
+                              <%= link_to '投稿を削除する', answer , method: :delete, data: { confirm: '本当によろしいですか？'},class: "text-primary" %> 
+                            </p>
+                          <% end %>
                         <% end %>
-                      <% end %>
+                      </div>
                     </div>
                   </div>
                   <%if answer.reactions.count > 0 %>
