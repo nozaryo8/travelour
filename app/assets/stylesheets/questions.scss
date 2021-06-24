@@ -1110,3 +1110,19 @@ $info_t1: #e0ffff;
     background-color: rgba(0, 0, 0, 0.03) !important;
   }
 }
+
+.q-setChecked {
+  content: "";
+  width: 23px;
+  height: 13px;
+  border-left: 4px solid #25af01;
+  border-bottom: 4px solid #25af01;
+  transform: rotate(-45deg);
+  position: absolute;
+  top: 22%;
+  left: 36%;
+}
+
+.button-relative {
+  position: relative; /*相対配置*/
+}

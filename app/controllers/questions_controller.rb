@@ -246,6 +246,6 @@ class QuestionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def question_params
       # ここを修正
-      params.require(:question).permit(:user_id, :title, :body, :best_answer_id,:country_id,:tag_id,:image)
+      params.require(:question).permit(:user_id, :title, :body, :best_answer_id,:country_id,:tag_id,:image,:latitude,:longitude)
     end
 end

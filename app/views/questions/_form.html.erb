@@ -1,6 +1,37 @@
 <%= render 'error', question: @question%>
 
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p class="mb-0" style="color : #a45705">・以下の検索フォームで場所を検索し地図にマーカーをおきましょう</p>
+        <div class="map-search_form d-flex align-items-center">
+          <input id="address" type="textbox" placeholder="場所を入力" class="my-2 map-search-textbox">
+          <input type="button" class= "map-search-button py-1 px-3 ml-2" value="探す" onclick="codeAddress()">
+        </div>
 
+        <!-- <div id="display">何かが表示される、、、、！</div> -->
+        <div id='map'></div>
+
+        <style>
+          #map {
+            height: 500px;
+            width: 465px;
+          }
+        </style>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <div class="modal-footer-left">
+          <button type="button" class="map-close-button" data-dismiss="modal" >閉じる</button>
+        </div>
+        <div class="modal-footer-right d-flex">
+          <button type="button" class="map-cancel-button d-flex mr-2" data-dismiss="modal" onClick="cancelMap()">キャンセル</button>
+          <button type="button" class="push-button" data-dismiss="modal" onClick="setId()" >この場所にする</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <%= form_with(model: question, remote: true) do |form| %>
   <div class="row">
     <div class="col-12">
@@ -58,12 +89,22 @@
           <%= form.submit  "投稿", class: "btn btn-primary"%>
         </div>
         <div class="d-flex align-items-center tool-area">
-          <span class="respond-button p-2">
-            <%= form.file_field :image, class: "image", accept: "image/jpeg,image/png" do %>
+          <span id ="push-image"></span>
+          <span class="respond-button p-2 ">
+            <%= form.file_field :image, class: "image", accept: "image/jpeg,image/png",style: "display: none" %>
+            <%= form.label :image, class: "image mb-0 mt-1 " do%>
               <i class="far fa-image mx-3"></i>
             <% end %>
-          </span> 
-          <span class="respond-button p-2"><i class="fas fa-map-marker-alt respond-button mx-3"></i></span>
+            <%= form.hidden_field :image_cache , class: "image", accept: "image/jpeg,image/png"%>
+          </span>
+
+          <span class="respond-button p-2 button-relative">
+            <div type="button" data-toggle="modal" data-target="#exampleModal">
+              <div class="d-flex "><i class="fas fa-map-marker-alt respond-button mx-3 "></i></div><div id="map-button" class="q-setCheck"></div>
+            </div>
+          </span>
+          <%= form.hidden_field :latitude, id: "question_latitude" %>
+          <%= form.hidden_field :longitude, id: "question_longitude" %>
         </div>
       </div>
       
@@ -88,4 +129,96 @@ $(function() {
     })
   });
 });
+
+$(document).on('change', '.image',function(){
+  if ($('.image').prop("files")[0] == null){
+    $('#push-image').text("")
+  }else{
+    $('#push-image').append($('.image').prop("files")[0].name);
+  }
+});
+
+// showページと変数名がかぶるとエラーになるためnewをつけオリジナルの変数にした
+let new_map
+let new_geocoder
+let new_marker
+let new_latitude
+let new_longitude
+
+function setId(){
+  document.getElementById("question_latitude").value = new_latitude
+  document.getElementById("question_longitude").value = new_longitude
+  
+  $("#map-button").removeClass("q-setCheck")
+  $("#map-button").addClass("q-setChecked")
+}
+function cancelMap(){
+  document.getElementById("question_latitude").value = null
+  document.getElementById("question_longitude").value = null
+  $("#map-button").removeClass("q-setChecked")
+  $("#map-button").addClass("q-setCheck")
+}
+
+function codeAddress() {
+  let inputAddress = document.getElementById('address').value;
+
+  new_geocoder.geocode({
+    'address': inputAddress
+  }, function(results, status) {
+    if (status == 'OK') {
+      new_map.setCenter(results[0].geometry.location);
+      new_marker = new google.maps.Marker({
+        map: new_map,
+        position: results[0].geometry.location
+      });
+      // 下の1行を追加 
+      // display.textContent = "検索結果：" + results[0].geometry.location
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });
+}
+
+function questionInitMap() {
+  new_geocoder = new google.maps.Geocoder()
+  // const display = document.getElementById('display')
+
+  new_map = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: 40.7828,
+      lng: -73.9653
+    },
+    zoom: 12,
+    disableDoubleClickZoom: true
+  });
+
+  new_marker = new google.maps.Marker({
+    position: {
+      lat: 40.7828,
+      lng: -73.9653
+    },
+    map: new_map
+  });
+  new_latitude = 40.7828
+  new_longitude = -73.9653
+  
+  google.maps.event.addListener(new_map,"click",clickMap);
+  // google.maps.event.addListener(map,"dblclick",clickMap);
+
+  function clickMap(e){
+    new_marker.setMap(null);
+    new_marker = null;
+    new_marker = new google.maps.Marker({
+      position:{
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng()
+      },
+      map: new_map
+    });
+    new_latitude = e.latLng.lat();
+    new_longitude = e.latLng.lng();
+
+  }
+}
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=questionInitMap" async defer></script>
