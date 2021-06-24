@@ -19,9 +19,14 @@
           }
         </style>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="map-close-button" data-dismiss="modal">閉じる</button>
-        <button type="button" class="push-button" data-dismiss="modal" onClick="setId()" >この場所にする</button>
+      <div class="modal-footer d-flex justify-content-between">
+        <div class="modal-footer-left">
+          <button type="button" class="map-close-button" data-dismiss="modal" >閉じる</button>
+        </div>
+        <div class="modal-footer-right d-flex">
+          <button type="button" class="map-cancel-button d-flex mr-2" data-dismiss="modal" onClick="cancelMap()">キャンセル</button>
+          <button type="button" class="push-button" data-dismiss="modal" onClick="setId()" >この場所にする</button>
+        </div>
       </div>
     </div>
   </div>
@@ -982,11 +987,9 @@ $('.see-more').click(function() {
 
 $(document).on('change', '.image',function(){
   if ($('.image').prop("files")[0] == null){
-    $('#p').text("")
-    console.log($('#p'))
+    $('#push-image').text("")
   }else{
-    $('#p').append($('.image').prop("files")[0].name);
-    console.log($('#p'))
+    $('#push-image').append($('.image').prop("files")[0].name);
   }
   
 });
@@ -1003,8 +1006,17 @@ let longitude
 function setId(){
   document.getElementById("answer_latitude").value = latitude
   document.getElementById("answer_longitude").value = longitude
-  $("#map-button").append("選択済")
+  
+  $("#map-button").removeClass("setCheck")
+  $("#map-button").addClass("setChecked")
 }
+function cancelMap(){
+  document.getElementById("answer_latitude").value = null
+  document.getElementById("answer_longitude").value = null
+  $("#map-button").removeClass("setChecked")
+  $("#map-button").addClass("setCheck")
+}
+
 
 function codeAddress() {
   let inputAddress = document.getElementById('address').value;
