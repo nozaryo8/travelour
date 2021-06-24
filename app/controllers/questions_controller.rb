@@ -33,10 +33,6 @@ class QuestionsController < ApplicationController
       #   @words.append(w)
       # end
       # @w = params[:q][:title_or_body_or_tag_name_or_country_name_cont].split(/[\p{blank}\s]+/)
-    else
-      
-    
-
     end
     #application_controllerにset_searchを記述
     if params[:mode] == "index" || params[:mode] == nil
@@ -116,6 +112,11 @@ class QuestionsController < ApplicationController
 
   # GET /questions/1 or /questions/1.json
   def show
+    #TODO: Qiita 記事がない場合はrouteを変えて飛ばす
+    if @question == nil
+      render "questions/delete_question"
+      return
+    end
     # before_action :set_question
     if @question.best_answer_id
       @bestanswer = Answer.find(@question.best_answer_id)
@@ -226,10 +227,16 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def delete_question
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
-      @question = Question.find(params[:id])
+      # TODO: Qiita findは指定のIDが見つからなかった場合例外を出す
+      @question = Question.find_by(id: params[:id])
+      # @question = Question.by(params[:id])
     end
 
     def set_tag

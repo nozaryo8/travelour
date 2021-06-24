@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   # before_action :authenticate_user!
   before_action :set_search
   before_action :search_params , only:[:set_search]
-
+  before_action :set_notification 
   def after_sign_in_path_for(resource)
     questions_path
   end
@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
   end
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_path
+  end
+
+  def set_notification
+    if user_signed_in?
+      @set_notifications = Notification.where(user_id: current_user.id).order(created_at: "DESC")
+    end
   end
 
   def set_search

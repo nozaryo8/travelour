@@ -36,8 +36,8 @@ class UsersController < ApplicationController
   end
 
   def notifications
-    notifications = Notification.where(user_id: current_user.id).order(created_at: "DESC")
-    @notifications= Kaminari.paginate_array(notifications).page(params[:page]).per(10)
+    # notifications = Notification.where(user_id: current_user.id).order(created_at: "DESC")
+    @notifications= Kaminari.paginate_array(@set_notifications).page(params[:page]).per(10)
   end
 
   def evaluations

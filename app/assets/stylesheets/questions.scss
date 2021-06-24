@@ -1090,7 +1090,7 @@ $info_t1: #e0ffff;
   right: 26px;
 }
 
-.content-footer {
+.thumbs-up-container {
   .fa-thumbs-up {
     font-size: 23px;
   }
@@ -1125,4 +1125,18 @@ $info_t1: #e0ffff;
 
 .button-relative {
   position: relative; /*相対配置*/
+}
+
+.unread-notification {
+  width: 10px;
+  height: 10px;
+  border-radius: 22px;
+  background-color: #e82a2a;
+  right: 0%;
+  top: 20%;
+  position: absolute;
+}
+
+.notification-container {
+  position: relative;
 }

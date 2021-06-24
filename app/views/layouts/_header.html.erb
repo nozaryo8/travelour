@@ -49,9 +49,9 @@
                 <i class="fas fa-copy"></i>質問一覧
               <% end %>
             </li>
-            <li class="nav-item">
-              <%= link_to '/notifications', class: "nav-link text-white margin-0 a_tag a_header" do%>
-                <i class="fas fa-bell"></i>通知
+            <li class="nav-item ">
+              <%= link_to '/notifications', class: "nav-link text-white margin-0 a_tag a_header notification-container" do%>
+                <i class="fas fa-bell"></i>通知 <span class="<%="unread-notification" if check_has_notification%>"></span>
               <% end %>
             </li>
 
