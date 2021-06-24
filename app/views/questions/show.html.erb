@@ -1034,7 +1034,40 @@ let marker
 let latitude
 let longitude
 
+function setId(){
+  document.getElementById("answer_latitude").value = latitude
+  document.getElementById("answer_longitude").value = longitude
+  
+  $("#map-button").removeClass("setCheck")
+  $("#map-button").addClass("setChecked")
+}
+function cancelMap(){
+  document.getElementById("answer_latitude").value = null
+  document.getElementById("answer_longitude").value = null
+  $("#map-button").removeClass("setChecked")
+  $("#map-button").addClass("setCheck")
+}
 
+
+function codeAddress() {
+  let inputAddress = document.getElementById('address').value;
+
+  geocoder.geocode({
+    'address': inputAddress
+  }, function(results, status) {
+    if (status == 'OK') {
+      map.setCenter(results[0].geometry.location);
+      marker = new google.maps.Marker({
+        map: map,
+        position: results[0].geometry.location
+      });
+      // 下の1行を追加 
+      // display.textContent = "検索結果：" + results[0].geometry.location
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });
+}
 
 function initMap() {
   geocoder = new google.maps.Geocoder()
@@ -1077,40 +1110,6 @@ function initMap() {
 
   }
 
-  function setId(){
-  document.getElementById("answer_latitude").value = latitude
-  document.getElementById("answer_longitude").value = longitude
-  
-  $("#map-button").removeClass("setCheck")
-  $("#map-button").addClass("setChecked")
-}
-function cancelMap(){
-  document.getElementById("answer_latitude").value = null
-  document.getElementById("answer_longitude").value = null
-  $("#map-button").removeClass("setChecked")
-  $("#map-button").addClass("setCheck")
-}
-
-
-function codeAddress() {
-  let inputAddress = document.getElementById('address').value;
-
-  geocoder.geocode({
-    'address': inputAddress
-  }, function(results, status) {
-    if (status == 'OK') {
-      map.setCenter(results[0].geometry.location);
-      marker = new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location
-      });
-      // 下の1行を追加 
-      // display.textContent = "検索結果：" + results[0].geometry.location
-    } else {
-      alert('該当する結果がありませんでした：' + status);
-    }
-  });
-}
 
   <% if @question.latitude && @question.longitude %>
     let q_map
