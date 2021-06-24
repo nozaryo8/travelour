@@ -1089,3 +1089,24 @@ $info_t1: #e0ffff;
   top: 21px;
   right: 26px;
 }
+
+.content-footer {
+  .fa-thumbs-up {
+    font-size: 23px;
+  }
+}
+
+.best-answer-button {
+  background-color: transparent;
+  border: transparent;
+  border-radius: 1000px;
+  border-top-left-radius: 1000px;
+  border-top-right-radius: 1000px;
+  border-bottom-right-radius: 1000px;
+  border-bottom-left-radius: 1000px;
+
+  font-size: 16px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03) !important;
+  }
+}
