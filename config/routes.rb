@@ -47,7 +47,7 @@ Rails.application.routes.draw do
   end
 
   get "users/:id/evaluations" => "users#evaluations"
-  
+  get "questions/delete_question" => "questions#delete_question"
   resources :answers do
     resource :goods, only: [:create, :destroy] , defaults: { format: 'js' }
   end
