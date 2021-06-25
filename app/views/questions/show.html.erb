@@ -98,6 +98,8 @@
                   
                       <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
                         <%= hidden_field_tag :follow_id, @question.user.id %>
+                        <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。"%>
+                        <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
                         <%= f.submit 'フォロー', class: 'follow p-0 ' %>
                       <% end %>
                     <% end %>
@@ -212,6 +214,8 @@
                       
                           <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
                             <%= hidden_field_tag :follow_id, @bestanswer.user.id %>
+                            <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。"%>
+                            <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
                             <%= f.submit 'フォロー', class: 'follow p-0 ' %>
                           <% end %>
                         <% end %>
@@ -405,14 +409,17 @@
                               <span>・</span>
                               <%= form_with(model: current_user.relationships.find_by(follow_id: answer.user.id), class: "form-follow",method: :delete ) do |f| %>
                                 <%= hidden_field_tag :follow_id, answer.user.id %>
-                                <%= f.submit 'フォロー解除', class: 'follow p-0' %>
+                                <%= f.submit 'フォロー解除', class: 'follow p-0' ,remote: false %>
                               <% end %>
                             <% else %>
                               <span>・</span>
                           
-                              <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                              <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow" ) do |f| %>
                                 <%= hidden_field_tag :follow_id, answer.user.id %>
-                                <%= f.submit 'フォロー', class: 'follow p-0 ' %>
+                                <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。"%>
+                                <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
+                            
+                                <%= f.submit 'フォロー', class: 'follow p-0 ' ,remote: false %>
                               <% end %>
                             <% end %>
                           <% end %>
@@ -435,7 +442,7 @@
 <%
 =end%>
                             <%= button_tag type: "submit", class: "best-answer-button p-2" do %>
-                              <i class="fas fa-ribbon"></i> ベストアンサーにする
+                              <i class="fas fa-ribbon"></i> <span style="color: #007bff">ベストアンサーにする</span>
                             <% end %>
                           <% end %>    
                         
@@ -973,7 +980,7 @@
         <% @question.related_questions.each do |question|%>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" , data: {"turbolinks"=>false}%></p>
             </div>
           </div>
         <% end %>
@@ -982,7 +989,7 @@
         <% @question.related_questions.each do |question|%>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" , data: {"turbolinks"=>false}%></p>
             </div>
           </div>
         <% end %>
@@ -990,7 +997,7 @@
         <% Question.recentry_resolved_questions.each do |question| %>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content", data: {"turbolinks"=>false} %></p>
             </div>
           </div>
         <% end %>
@@ -999,7 +1006,7 @@
         <% Question.recentry_resolved_questions.each do |question| %>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content"%></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content", data: {"turbolinks"=>false} %></p>
             </div>
           </div>
         <% end %>

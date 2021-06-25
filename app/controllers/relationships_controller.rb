@@ -4,11 +4,14 @@ class RelationshipsController < ApplicationController
   def create
     following = current_user.follow(@user)
     if following.save
+      notification = Notification.new(user_id: params[:follow_id],message: params[:message],url: params[:url])
+      notification.save
+    
       flash[:success] = 'ユーザーをフォローしました'
-      redirect_to @user
+      redirect_back fallback_location: root_path , notice: "ユーザーをフォローしました"
     else
       flash.now[:alert] = 'ユーザーのフォローに失敗しました'
-      redirect_to @user
+      redirect_back fallback_location: root_path , notice: "ユーザーをフォローに失敗しました"
     end
   end
 
@@ -16,10 +19,10 @@ class RelationshipsController < ApplicationController
     following = current_user.unfollow(@user)
     if following.destroy
       flash[:success] = 'ユーザーのフォローを解除しました'
-      redirect_to @user
+      redirect_back fallback_location: root_path , notice: 'ユーザーのフォローを解除しました'
     else
       flash.now[:alert] = 'ユーザーのフォロー解除に失敗しました'
-      redirect_to @user
+      redirect_back fallback_location: root_path , notice: 'ユーザーのフォロー解除に失敗しました'
     end
   end
 
