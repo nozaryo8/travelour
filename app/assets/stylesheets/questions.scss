@@ -1140,3 +1140,15 @@ $info_t1: #e0ffff;
 .notification-container {
   position: relative;
 }
+
+.alert-top {
+  top: 10px;
+  width: 100%;
+  display: none;
+  text-align: center;
+  margin-bottom: 0;
+  padding: 10px;
+}
+.buttons {
+  margin: 30px;
+}

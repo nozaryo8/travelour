@@ -101,16 +101,36 @@
     <!-- TODO: メッセージの出し方を変える-->
     <div id="added-message"></div>
     <% if flash[:notice]%>
-      <div class="alert alert-primary" role="alert"><%= notice %></div>
+      <div class="alert alert-info alert-top" role="alert" id="info">
+        <%= notice %>
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     <% end %>
     <% if flash[:alert] %>
-      <div class="alert alert-danger" role="alert"><%= alert %></div>
+      <div class="alert alert-danger alert-top" role="alert">
+        <%= alert %>
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     <% end %>
 
   </div>
 </div>
 </header>
-
+<script>
+$(function() {
+  // TODO: Qiita フェードアウトするメッセージ
+  if ($('#info').length) {
+    $('#info').fadeIn(1000).delay(2000).fadeOut(2000);
+  }
+  $('.close').click(function() {
+   $(this).parents('.alert').hide();
+  });
+});
+</script>
 <!--
 # <header>
 # <nav>

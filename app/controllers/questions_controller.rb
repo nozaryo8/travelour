@@ -146,7 +146,6 @@ class QuestionsController < ApplicationController
     else
       #saveできなかった場合
       format.html { render question, status: :unprocessable_entity }
-     
     end
   end
 

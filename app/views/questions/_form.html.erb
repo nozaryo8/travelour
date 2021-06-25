@@ -1,5 +1,5 @@
 <%= render 'error', question: @question%>
-
+<!--TODO: 投稿が失敗したときにエラーを表示させる-->
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -65,7 +65,6 @@
             <div class="question-tag-container d-flex ml-3 mt-2">
               <% @tags.each do |t| %>
                 <!-- align-items-baselineでラジオボタンとタグの名前の位置を並べる -->
-                <!--TODO: Qiitaにラジオボタンとラベルの連携を行う-->
                 <div class="question-tag d-flex align-items-baseline mb-2">
                   <%= radio_button "question", "tag_id" ,t.id,class: "mr-1"  %>
                   <%# <%= form.radio_button "tag_id" , t.id %>  
