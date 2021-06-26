@@ -1,3 +1,64 @@
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="profile-header d-flex align-items-center mb-2">
+        <div class="p-user-image mr-2">
+          <% if @user.image? %>
+            <%= image_tag @user.image.url  %>
+          <% else%>
+            <img src="/images/person2.png">
+          <% end %>
+        </div>
+        <div class="p-user-info">
+          <h3 class="font-weight-bold"><%= @user.username %></h3>
+          
+        </div>
+      </div>
+      <div class="profile-introduction">
+        <% if @user.profile? %>
+          <h6><%= @user.profile%></h6>
+        <%end %>
+      </div>
+      <div class="follow_button">
+        <% unless current_user == @user %>
+          <% if current_user.following?(@user) %>
+            <%= form_with(model: current_user.relationships.find_by(follow_id: @user.id), class: "form-follow",method: :delete ) do |f| %>
+              <%= hidden_field_tag :follow_id, @user.id %>
+              <%= f.submit 'フォロー解除', class: 'follow p-0 h6 ' %>
+            <% end %>
+          <% else %>
+            <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+              <%= hidden_field_tag :follow_id, @user.id %>
+              <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。" %>
+              <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
+              <%= f.submit 'フォロー', class: 'follow p-0 h6 ml-3' %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <ul class="user-tabs ">
+        <li class="<%='active' if params[:mode] == 'show' || params[:mode] == nil %>">
+          <%= link_to "質問数", user_path(mode: "show") %>
+        </li>
+        <li class="<%='active' if params[:mode] == 'show' || params[:mode] == nil %>">
+          <%= link_to "回答数", user_path(mode: "show") %>
+        </li>
+        <li class="<%='active' if params[:mode] == 'evaluations' %>">
+          <%= link_to "いいね", user_path(mode: "evaluations") %>
+        </li>
+
+        <li class="<%='active' if params[:mode] == 'bookmarks' %>">
+          <%= link_to "ブックマーク", user_path(mode: "bookmarks") %>
+        </li>
+      </ul>
+    </div>
+    <div class="col-4">
+    
+    </div>
+  </div>
+</div>
+
 <%# <%= image_tag @country.image ,class: "country" if @country.image? %>
 <div class="main user-show">
   <div class="container mt-5 user">

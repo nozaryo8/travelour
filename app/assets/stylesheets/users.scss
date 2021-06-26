@@ -89,7 +89,7 @@
 .user-tabs {
   margin-top: 40px;
   margin-bottom: 0px;
-  background-color: white;
+  background-color: transparent;
   overflow: hidden;
   padding-left: 0px;
   box-shadow: 0 2px 6px #c1ced7;
@@ -101,6 +101,10 @@
   list-style-type: none;
   margin: 0;
   display: list-item;
+  width: 100px;
+  height: 50px;
+  text-align: center;
+  padding-top: 15px;
 }
 
 .user-tabs li.active {
@@ -114,7 +118,7 @@
 
 .user-tabs a {
   display: inline-block;
-  padding: 16px 30px;
+
   color: #afb6bf;
 }
 
@@ -131,6 +135,13 @@
 .user-image img {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px #c1ced7;
+  object-fit: cover;
+}
+.p-user-image img {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   box-shadow: 0 2px 6px #c1ced7;
   object-fit: cover;
