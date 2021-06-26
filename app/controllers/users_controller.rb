@@ -5,20 +5,31 @@ class UsersController < ApplicationController
   def show
 
     @user = User.find(params[:id])
-    if params[:mode] == "show" || params[:mode] == nil
-      @questions = @user.questions
+    if params[:mode] == "question" || params[:mode] == nil
+      @questions = @user.questions.page(params[:page]).per(10)
+
+    elsif params[:mode] == "answer"
+      
+      @answers = @user.answers.page(params[:page]).per(10)
+     
+
     elsif params[:mode] == "evaluations"
       evaluations =  @user.evaluations
-      @questions = []
+      questions = []
       evaluations.each do |evaluation|
-        @questions.push(evaluation.question)
+        questions.push(evaluation.question)
       end
+      @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+      
     elsif params[:mode] == "bookmarks"
       bookmarks = @user.bookmarks
-      @questions = []
+      questions = []
       bookmarks.each do |bookmark|
-        @questions.push(bookmark.question)
+        questions.push(bookmark.question)
       end
+      @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
+    
+    
     end
     
   end

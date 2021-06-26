@@ -89,7 +89,7 @@
 .user-tabs {
   margin-top: 40px;
   margin-bottom: 0px;
-  background-color: transparent;
+  background-color: white;
   overflow: hidden;
   padding-left: 0px;
   box-shadow: 0 2px 6px #c1ced7;
@@ -153,4 +153,33 @@
 
 .content-title {
   color: black;
+}
+
+.user-profile {
+  .list-group-item:first-child {
+    border-radius: unset;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    box-shadow: 0 2px 6px #c1ced7;
+  }
+  .list-group-item {
+    border-radius: unset;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    box-shadow: 0 2px 6px #c1ced7;
+    a {
+      color: black;
+    }
+  }
+  .list-group-item-action:hover {
+    z-index: 0;
+    background-color: white;
+  }
+}
+.user-profile {
+  min-height: 600px;
 }

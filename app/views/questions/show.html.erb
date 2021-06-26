@@ -244,8 +244,8 @@
                   <div class='gmap my-4 mx-auto' id='map<%= @bestanswer.id %>'></div>
                   <style>
                     #map<%= @bestanswer.id %> {
-                      height: 500px;
-                      width: 465px;
+                      height: 300px;
+                      width: 100%;
                     }
                   </style>
 
@@ -1031,6 +1031,7 @@ $('.see-more').click(function() {
   $(this).closest(".comment-content").find(".untruncated").show();
 });
 
+// 画像を選択したときに画像名を入れる
 $(document).on('change', '.image',function(){
   if ($('.image').prop("files")[0] == null){
     $('#push-image').text("")
