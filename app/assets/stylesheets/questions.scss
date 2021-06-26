@@ -1152,3 +1152,12 @@ $info_t1: #e0ffff;
 .buttons {
   margin: 30px;
 }
+
+.q-image-container {
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: rgb(215, 210, 192);
+  height: 350px;
+  width: 100%;
+}

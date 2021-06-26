@@ -120,9 +120,9 @@
         <div class="col-12 mx-auto posts-index-item">
           <div class="d-flex mr-auto align-items-center">
             <% if question.user.image? %>
-            <%= image_tag question.user.image.url%>
+              <%= image_tag question.user.image.url%>
             <% else%>
-            <img src="/images/person2.png">
+              <img src="/images/person2.png">
             <% end %>
             <div class="">
               <h6 class="text-left mr-auto px-3 mb-0"><%= question.user.username%></h6>
