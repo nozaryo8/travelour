@@ -49,7 +49,7 @@
           <% end %>
         </li>
         <li class="<%='active' if params[:mode] == 'evaluations' %>">
-          <%= link_to "いいね", user_path(mode: "evaluations") %>
+          <%= link_to "いいねした記事", user_path(mode: "evaluations") %>
         </li>
         
         <% if @user == current_user%>
@@ -200,7 +200,7 @@
                       <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
                     </div>
                     <div class="untruncated" style="display: none">
-                      <p class="mb-0"><%= simple_format(h(answer.question.body), {}) %></p>
+                      <p class="mb-0"><%= simple_format(h(answer.body), {}) %></p>
                     </div>
                   <%else%>
                     <p class="mb-0"><%= simple_format(h(answer.body), {})%></p>
@@ -300,8 +300,8 @@
 
 <script>
 $('.see-more').click(function() {
-  $(this).closest(".comment-content").find(".truncated").hide();
-  $(this).closest(".comment-content").find(".untruncated").show();
-});
+  $(this).closest(".content-body").find(".truncated").hide();
+  $(this).closest(".content-body").find(".untruncated").show();
+})
 
 </script>
