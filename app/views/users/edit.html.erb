@@ -29,7 +29,9 @@
           <%= @c.name if @c%>
           <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6"})%>
           <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select>
-          <%= f.text_area :country_history, class: "image", accept: "image/jpeg,image/png"%>
+
+          <%= f.text_area :country_history %>
+          <%= f.text_area :country_history %>
         </div>
         <div class="form-group">
           <label>プロフィール画像</label><br>

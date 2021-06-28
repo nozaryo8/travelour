@@ -939,9 +939,6 @@ $info_t1: #e0ffff;
     }
   }
 
-  .form-textarea {
-  }
-
   .form-footer {
     .submit-button:hover {
       background-color: #f7f7f8 !important;
@@ -1089,6 +1086,14 @@ $info_t1: #e0ffff;
   position: absolute;
   top: 21px;
   right: 26px;
+}
+.check {
+  width: 23px;
+  height: 13px;
+  border-left: 4px solid #25af01;
+  border-bottom: 4px solid #25af01;
+  transform: rotate(-45deg);
+  position: absolute;
 }
 
 .thumbs-up-container {

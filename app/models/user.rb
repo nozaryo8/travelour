@@ -20,8 +20,8 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :profile, length: { maximum: 200 } 
 
-  #cocoonの記述
-  accepts_nested_attributes_for :children, allow: true
+
+  
   mount_uploader :image, ImageUploader
   has_one_attached :image
   def self.find_for_oauth(auth)
