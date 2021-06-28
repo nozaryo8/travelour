@@ -15,11 +15,13 @@ class User < ApplicationRecord
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverse_of_relationships, source: :user
   has_many :bookmarks, dependent: :destroy
-
+  has_many :country_histories, dependent: :destroy
   validates :username, presence: true , length: { maximum: 20 } 
   validates :email, presence: true
   validates :profile, length: { maximum: 200 } 
 
+  #cocoonの記述
+  accepts_nested_attributes_for :children, allow: true
   mount_uploader :image, ImageUploader
   has_one_attached :image
   def self.find_for_oauth(auth)
@@ -95,6 +97,13 @@ class User < ApplicationRecord
       end
     end
   end
+
+  #TODO: 国ごとにグルーピングする
+  def grouping_country
+    Question.where(user_id: self.id).group(:country_id).count
+  end
+
+
   # def self.from_omniauth(auth)
   #   find_or_create_by(provider: auth["provider"], uid: auth["uid"]) do |user|
   #     user.provider = auth["provider"]

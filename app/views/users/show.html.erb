@@ -231,6 +231,11 @@
       <div class="career" >
         <div style="border-bottom: 1px solid #ebebeb;">経歴</div>
         <%= @user.created_at.strftime('%m/%d')%>に参加
+        
+        <% @user.grouping_country.each do |key,value| %>
+          <%= Country.find(key).name%>
+          <%= value%>
+        <% end %>
       </div>
     </div>
 

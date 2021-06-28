@@ -38,7 +38,7 @@ gem 'react-rails'
 gem 'rubocop', require:false
 gem 'rubocop-rails', require:false
 gem 'impressionist'
-
+gem 'cocoon'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

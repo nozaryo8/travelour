@@ -1,5 +1,5 @@
 <div class="answer-form mb-2">
-  <%= form_with(model: @answer, url: question_answers_path,remote: true,id: "answer") do |form| %>
+  <%= form_with(model: @answer, url: question_answers_path,remote: true,id: "answers") do |form| %>
     <% if @answer.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@answer.errors.count, "error") %> </h2>
@@ -10,6 +10,7 @@
         </ul>
       </div>
     <% end %>
+    
     <div class="list-group">
       <div class="form-header d-flex list-group-item align-items-center p-2">
         <div class="user-image mr-1">

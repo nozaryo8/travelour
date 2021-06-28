@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:username, :email,:profile,:image, :remove_image, :rank)
+      params.require(:user).permit(:username, :email,:profile,:image, :remove_image, :rank,:country_history)
     end
 
     def correct_user

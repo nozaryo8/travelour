@@ -709,9 +709,10 @@
               </div>
             </div>
           <% end %>
+          <div id="newanswer"></div>
         <% end %>
       <%end%>
-      <div id="newanswer"></div>
+      
       
 
       <div class="card bg-info border-info top">
@@ -864,7 +865,7 @@
                   <% if @question.user.id != current_user.id %>
                     <% if @bestanswer == nil%>
                       <hr>
-                      <%= form_with(model: @answer, url: question_answers_path(@question.id),id: "answer") do |form| %><% end%>
+                      <%= form_with(model: @answer, url: question_answers_path(@question.id),id: "") do |form| %><% end%>
                       <%= button_to 'この質問に回答する',  new_question_answer_path(@question.id), :method => :get, :remote => true ,class: "form-control btn btn-primary answer-push"%>
                       
                     <% end %>
@@ -877,9 +878,9 @@
       </div>
       <div class="mt-5 questions">
         <%if @question.best_answer_id %>
-          <div id ="update2">他回答<%=@question.answers.count - 1 %>件 </div>
+          <div id ="">他回答<%=@question.answers.count - 1 %>件 </div>
         <% else %>
-          <div id ="update3">回答<%=@question.answers.count %>件 </div>
+          <div id ="">回答<%=@question.answers.count %>件 </div>
         <% end %>
       </div>
       <%if @question.answers.count != 0 %>
@@ -980,9 +981,10 @@
             </div>
           <% end %>
         <% end %>
+        <div id="newanswer"></div>
       <%end%> 
 
-      <div id="newanswer"></div>
+     
     </div>
     <div class="col-3 d-none d-md-block">
       <%if @question.related_questions.count > 3%>
