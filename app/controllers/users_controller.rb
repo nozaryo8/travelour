@@ -6,11 +6,11 @@ class UsersController < ApplicationController
 
     @user = User.find(params[:id])
     if params[:mode] == "question" || params[:mode] == nil
-      @questions = @user.questions.page(params[:page]).per(10)
+      @questions = @user.questions.page(params[:page]).per(10).order(created_at: "DESC")
 
     elsif params[:mode] == "answer"
       
-      @answers = @user.answers.page(params[:page]).per(10)
+      @answers = @user.answers.page(params[:page]).per(10).order(created_at: "DESC")
      
 
     elsif params[:mode] == "evaluations"
@@ -28,7 +28,6 @@ class UsersController < ApplicationController
         questions.push(bookmark.question)
       end
       @questions = Kaminari.paginate_array(questions).page(params[:page]).per(10)
-    
     
     end
     

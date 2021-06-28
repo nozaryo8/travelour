@@ -1,17 +1,27 @@
 <div class="container user-profile">
   <div class="row">
     <div class="col-8">
-      <div class="profile-header d-flex align-items-center mb-2">
-        <div class="p-user-image mr-2">
-          <% if @user.image? %>
-            <%= image_tag @user.image.url  %>
-          <% else%>
-            <img src="/images/person2.png">
-          <% end %>
+      <div class="profile-header d-flex align-items-center justify-content-between mb-2">
+        <div class="header-left d-flex align-items-center">
+          <div class="p-user-image mr-2">
+            <% if @user.image? %>
+              <%= image_tag @user.image.url  %>
+            <% else%>
+              <img src="/images/person2.png">
+            <% end %>
+          </div>
+          <div class="p-user-info ">   
+            <h3 class="font-weight-bold"><%= @user.username %></h3>
+          </div>
         </div>
-        <div class="p-user-info">
-          <h3 class="font-weight-bold"><%= @user.username %></h3>
-          
+        <div class="header-right">
+          <%if @user.email != "guest@gmail.com"%>
+            <% if @user.id == current_user.id %>
+              <%= link_to(edit_user_path(current_user),class: "mr-3 h4 respond-button py-2" ,style: "padding-right: 13.5px !important; padding-left: 1rem;") do %>
+                <i class="fas fa-external-link-alt"></i>
+              <% end %>
+            <% end %>
+          <% end %>
         </div>
       </div>
       <div class="profile-introduction">
@@ -19,6 +29,7 @@
           <h6><%= @user.profile%></h6>
         <%end %>
       </div>
+      <%= link_to('フォロー・フォロワー一覧',connections_path(@user.id))%>
       <div class="follow_button">
         <% unless current_user == @user %>
           <% if current_user.following?(@user) %>
@@ -217,8 +228,12 @@
       </div>
     </div>
     <div class="col-4">
-    
+      <div class="career" >
+        <div style="border-bottom: 1px solid #ebebeb;">経歴</div>
+        <%= @user.created_at.strftime('%m/%d')%>に参加
+      </div>
     </div>
+
   </div>
 
 <%

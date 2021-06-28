@@ -1152,6 +1152,7 @@ function initMap() {
           
           new google.maps.InfoWindow({
             content: address 
+            
           }).open(q_map, new google.maps.Marker({
             position: new google.maps.LatLng(<%= @question.latitude %>, <%= @question.longitude %>),
             map: q_map
@@ -1188,7 +1189,6 @@ function initMap() {
             if (results[0].geometry) {
 
               var address = results[0].formatted_address
-              
               new google.maps.InfoWindow({
                 content: address 
               }).open(map<%=answer.id%>, new google.maps.Marker({
