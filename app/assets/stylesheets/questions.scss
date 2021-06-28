@@ -1172,3 +1172,20 @@ $info_t1: #e0ffff;
     color: black !important;
   }
 }
+
+.request-button {
+  background-color: transparent;
+  border: transparent;
+  border-radius: 1000px;
+  border-top-left-radius: 1000px;
+  border-top-right-radius: 1000px;
+  border-bottom-right-radius: 1000px;
+  border-bottom-left-radius: 1000px;
+  color: #007bff !important;
+
+  font-size: 14px;
+  &:hover {
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.03) !important;
+  }
+}
