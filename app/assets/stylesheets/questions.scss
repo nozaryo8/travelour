@@ -1162,3 +1162,13 @@ $info_t1: #e0ffff;
   height: 350px;
   width: 100%;
 }
+
+.user-profile {
+  .nav-link {
+    &:hover {
+      text-decoration: underline !important;
+      background-color: #fff !important;
+    }
+    color: black !important;
+  }
+}
