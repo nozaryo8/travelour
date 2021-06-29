@@ -1,4 +1,4 @@
-<header>
+<header class="<%= 'mb-0' if current_page?(root_path) %>" >
 <!-- Navigation -->
 <div class="travelour-title pb-5">
   <div class="fixed-top">
@@ -7,7 +7,7 @@
         <% if user_signed_in? %>
           <%= link_to "TravelOur", "/questions", id: "logo" ,class: "a_tag" %>
         <% else %>
-          <%= link_to "TravelOur", "/questions/top", id: "logo" %>
+          <%= link_to "TravelOur", root_path, id: "logo" %>
         <% end %> 
 
         <% if user_signed_in? %>

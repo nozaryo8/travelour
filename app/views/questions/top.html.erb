@@ -8,42 +8,52 @@
   </div> 
 <%
 =end%>
-<div class="container">
-  <div class="col-12 mx-auto">
-    <div class="discription text-center">
-      <h2>TravelOurとは</h2>
-      <p style="font-size: 1rem;">海外生活もしくは海外旅行に関する質問・回答(Q&A)するサービスです<br>
+
+    <div class="top-title fadeUp">
+    </div>
+  
+    <div class="discription text-center my-5 py-4 fadeUp">
+      <h2 class="mb-3 ">TravelOurとは</h2>
+      <p style="font-size: 1rem;">海外生活もしくは海外旅行に関する質問・回答(Q&A)するサービスです<br><br>
         困ったことがあればトラベラーのみなさんに質問してみましょう!
       </p>
     </div>
-    <div class="feature text-center">
-      <h2>TravelOurの特徴</h2>
+    <div class="feature text-center py-5 fadeUp" style="background-color: #f0e8df;">
+      <h2 class="mb-5">TravelOurの特徴</h2>
       <div class="d-flex justify-content-around">
         <div class="col-3">
-          <div class="feature_component text-center">
+          <div class="feature_component text-center mb-3">
             <span>質問機能</span>
           </div>
-          海外生活もしくは海外旅行に関する質問を投稿することができます。
-          位置情報と画像も一緒に投稿できます
+          <p style="font-size: 1rem;">
+          海外生活もしくは海外旅行に関する質問を投稿することができます。<br>
+          位置情報と画像も一緒に投稿することでより詳細な質問をすることができます。
+          </p>
         </div>
         <div class="col-3">
-          <div class="feature_component text-center">
+          <div class="feature_component text-center mb-3">
             <span>回答機能</span>
           </div>
-          回答者は質問一覧から質問を選び回答することができます。
-          こちらも位置情報と画像も一緒に投稿できます
+          <p style="font-size: 1rem;">
+          回答者は質問一覧から質問を選び回答することができます。<br>
+          回答する場合も位置情報と画像も一緒に投稿できます
+          </p>
         </div>
         <div class="col-3">
-          <div class="feature_component text-center">
+          <div class="feature_component text-center mb-3">
             <span>フォロー機能</span>
           </div>
-          
+          <p style="font-size: 1rem;">
+          ユーザーとフォローし合うことで回答依頼を送ることができます。
+          </p>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
+
+<%
+=begin%>
+ 
 <div class="container">
   <div class="col-11 mx-auto">
     <div class="slide-content row mb-5 pb-5">
@@ -70,7 +80,9 @@
     </div>
   </div>
   
-</div>
+</div> 
+<%
+=end%>
 
 
 <%= javascript_include_tag "particleText" %>

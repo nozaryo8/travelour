@@ -263,9 +263,9 @@
           <% end %>
         <% end %>
         
-        <% if @user.grouping_country.count != 0 %>    
-          <div style="border-bottom: 1px solid #ebebeb;">国ごとの回答数</div>
-          <% @user.grouping_country.each do |key,value| %>
+        <% if @user.grouping_question_country.count != 0 %>    
+          <div style="border-bottom: 1px solid #ebebeb;" class="mt-3">国ごとの回答数</div>
+          <% @user.grouping_question_country.each do |key,value| %>
             <div class="">
               <%= Country.find(key).name%>
               <%= value %>件
