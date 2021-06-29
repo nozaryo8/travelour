@@ -1,41 +1,50 @@
 <!-- TODO: 回答リクエスト画面の編集-->
 <div class="container mt-5 col-8 user-profile">
+  <h5 class="mb-3">回答依頼を送る</h5>
   <div class="list-group mb-3">
-    <% @users.each do |user|%>
-      <div class="list-group-item list-group-item-action question-content ">
-        <div class="following-followers d-flex justify-content-between">
-          <div class="following-followers-left d-flex">
-            <div class="d-flex align-items-center" style="width: 220px">
-              <div class="user-image mr-1">
-                <% if user.image? %>
-                  <%= link_to user_path(user.id) do%>
-                    <%= image_tag user.image.url%>
+    <% if @users.count != 0%>
+      <% @users.each do |user|%>
+        <div class="list-group-item list-group-item-action question-content ">
+          <div class="following-followers d-flex justify-content-between">
+            <div class="following-followers-left d-flex">
+              <div class="d-flex align-items-center" style="width: 220px">
+                <div class="user-image mr-1">
+                  <% if user.image? %>
+                    <%= link_to user_path(user.id) do%>
+                      <%= image_tag user.image.url%>
+                    <% end %>
+                  <% else %>
+                    <%= link_to user_path(user.id) do%>
+                      <img src="/images/person2.png">
+                    <% end %>
                   <% end %>
-                <% else %>
-                  <%= link_to user_path(user.id) do%>
-                    <img src="/images/person2.png">
-                  <% end %>
-                <% end %>
+                </div>
+                <%= link_to(user.username, user_path(user.id) )%>
               </div>
-              <%= link_to(user.username, user_path(user.id) )%>
-            </div>
-            <div class="q-a-count d-flex">
-              <div class="q-count mr-2">
-                <div class="q-header-top">質問</div>
-                <div class="q-count-bottom text-center"><%= user.questions.count%></div>
-              </div>
-              <div class="a-count">
-                <div class="q-header-top">回答</div>
-                <div class="q-count-bottom text-center"><%= user.answers.count%></div>
+              <div class="q-a-count d-flex">
+                <div class="q-count mr-2">
+                  <div class="q-header-top px-2">Q</div>
+                  <div class="q-count-bottom text-center"><%= user.questions.count%></div>
+                </div>
+                <div class="a-count">
+                  <div class="a-header-top px-2">A</div>
+                  <div class="a-count-bottom text-center"><%= user.answers.count%></div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="following-followers-left follow_button d-flex align-items-center">
-            <%= link_to "回答リクエストを送る", create_request_path(user_id: user.id,message: "#{@question.user.username}さんが、あなたに回答リクエストを送信しました。",
-              url: "/questions/#{@question.id}"), class: "request-button p-2" ,method: :post %>
+            <div class="following-followers-left follow_button d-flex align-items-center">
+              <%= link_to "回答リクエストを送る", create_request_path(user_id: user.id,message: "#{@question.user.username}さんが、あなたに回答リクエストを送信しました。",
+                url: "/questions/#{@question.id}"), class: "request-button p-2" ,method: :post %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
+    <% else %>
+    <div class="mt-5 no-post" >
+      <img src="https://img.icons8.com/windows/96/000000/no-user.png" style="width: 150px" class="mx-auto"/>
+      <span class="text-center">まだ回答依頼を送れるユーザがいません</span>
+      <span class="text-center" style="color : #a45705">※ 相互フォローすると回答依頼を送れます</span>
+    </div>
     <% end %>
   </div>
 </div>

@@ -20,7 +20,7 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :profile, length: { maximum: 200 } 
 
-
+  accepts_nested_attributes_for :country_histories, allow_destroy: true
   
   mount_uploader :image, ImageUploader
   has_one_attached :image
@@ -99,7 +99,12 @@ class User < ApplicationRecord
   end
 
   #TODO: 国ごとにグルーピングする
-  def grouping_country
+  def grouping_question_country
+    Question.where(user_id: self.id).group(:country_id).count
+  end
+
+  #TODO: 答えごとに国をグルーピングする
+  def grouping_answer_country
     Question.where(user_id: self.id).group(:country_id).count
   end
 

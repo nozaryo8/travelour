@@ -56,6 +56,7 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
+    @country_histories = @user.country_histories.build
   end
 
   def update
@@ -74,7 +75,7 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:username, :email,:profile,:image, :remove_image, :rank,:country_history)
+      params.require(:user).permit(:username, :email,:profile,:image, :remove_image, :rank,country_histories_attributes: [:id,:country_id,:city_name,:stay_begin,:stay_end,:_destroy])
     end
 
     def correct_user

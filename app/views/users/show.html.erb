@@ -71,159 +71,181 @@
       </ul>
       <div class="list-group mb-3">
         <% if params[:mode] != "answer"%>
-          <% @questions.each do |question|%>
-            <div class="list-group-item list-group-item-action question-content ">
-              <div class="q-header d-flex justify-content-between mb-1">
-                <div class="header-left d-flex align-items-center">
-                  <div class="user-image mr-1">
-                    <% if question.user.image? %>
-                      <%= link_to user_path(question.user.id) do%>
-                        <%= image_tag question.user.image.url%>
-                      <% end %>
-                    <% else %>
-                      <%= link_to user_path(question.user.id) do%>
-                        <img src="/images/person2.png">
-                      <% end %>
-                    <% end %>
-                  </div>
-                  <div class="user-info">
-                    
-                    <div class="user-info-top mb-0">
-                      <span class="font-weight-bold question-user-name"><%= link_to question.user.username, user_path(question.user.id)%></span>
-                      <% unless current_user == question.user %>
-                        <% if current_user.following?(question.user) %>
-                          <span>・</span>
-                          <%= form_with(model: current_user.relationships.find_by(follow_id: question.user.id), class: "form-follow",method: :delete ) do |f| %>
-                            <%= hidden_field_tag :follow_id, question.user.id %>
-                            <%= f.submit 'フォロー解除', class: 'follow p-0' %>
-                          <% end %>
-                        <% else %>
-                          <span>・</span>
-                      
-                          <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
-                            <%= hidden_field_tag :follow_id, question.user.id %>
-                            <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。"%>
-                            <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
-                            <%= f.submit 'フォロー', class: 'follow p-0' %>
-                          <% end %>
+          <% if @questions.count != 0 %>
+            <% @questions.each do |question|%>
+              <div class="list-group-item list-group-item-action question-content ">
+                <div class="q-header d-flex justify-content-between mb-1">
+                  <div class="header-left d-flex align-items-center">
+                    <div class="user-image mr-1">
+                      <% if question.user.image? %>
+                        <%= link_to user_path(question.user.id) do%>
+                          <%= image_tag question.user.image.url%>
+                        <% end %>
+                      <% else %>
+                        <%= link_to user_path(question.user.id) do%>
+                          <img src="/images/person2.png">
                         <% end %>
                       <% end %>
                     </div>
-                    
-                    <p class="user-info-bottom mb-0">
-                      <span> <%= question.country.name%></span> | <span><%= question.tag.name %></span>
-                    </p>
+                    <div class="user-info">
+                      
+                      <div class="user-info-top mb-0">
+                        <span class="font-weight-bold question-user-name"><%= link_to question.user.username, user_path(question.user.id)%></span>
+                        <% unless current_user == question.user %>
+                          <% if current_user.following?(question.user) %>
+                            <span>・</span>
+                            <%= form_with(model: current_user.relationships.find_by(follow_id: question.user.id), class: "form-follow",method: :delete ) do |f| %>
+                              <%= hidden_field_tag :follow_id, question.user.id %>
+                              <%= f.submit 'フォロー解除', class: 'follow p-0' %>
+                            <% end %>
+                          <% else %>
+                            <span>・</span>
+                        
+                            <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                              <%= hidden_field_tag :follow_id, question.user.id %>
+                              <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。"%>
+                              <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
+                              <%= f.submit 'フォロー', class: 'follow p-0' %>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                      </div>
+                      
+                      <p class="user-info-bottom mb-0">
+                        <span> <%= question.country.name%></span> | <span><%= question.tag.name %></span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="header-right d-flex align-items-center">
+                    <% if question.best_answer_id == nil%>
+                      <div class="index-ribbon">未解決</div>
+                    <% else %>
+                      <div class="index-ribbon-done">締切済</div>
+                    <% end %>
                   </div>
                 </div>
-                <div class="header-right d-flex align-items-center">
-                  <% if question.best_answer_id == nil%>
-                    <div class="index-ribbon">未解決</div>
-                  <% else %>
-                    <div class="index-ribbon-done">締切済</div>
-                  <% end %>
+                <div class="q-body">
+                  <div class="content-title">
+                    <%= link_to(question.title, question, class: "font-weight-bold h6",data: {"turbolinks"=>false})%>
+                  </div>
+                  <div class="content-body">
+                    <%if question.body.length > 200 %>
+                      <div class="truncated">
+                        <p class="mb-0"><%= question.body.truncate(200)%></p>
+                        <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
+                      </div>
+                      <div class="untruncated" style="display: none">
+                        <p class="mb-0"><%= simple_format(h(question.body), {}) %></p>
+                      </div>
+                    <%else%>
+                      <p class="mb-0"><%= simple_format(h(question.body), {})%></p>
+                    <%end%>
+                  </div>
+                  <div class="content-footer">
+                    <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> <span>| <%= " #{time_ago_in_words(question.created_at)}前に更新" %></span></p>
+                  </div>
                 </div>
               </div>
-              <div class="q-body">
-                <div class="content-title">
-                  <%= link_to(question.title, question, class: "font-weight-bold h6",data: {"turbolinks"=>false})%>
-                </div>
-                <div class="content-body">
-                  <%if question.body.length > 200 %>
-                    <div class="truncated">
-                      <p class="mb-0"><%= question.body.truncate(200)%></p>
-                      <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
-                    </div>
-                    <div class="untruncated" style="display: none">
-                      <p class="mb-0"><%= simple_format(h(question.body), {}) %></p>
-                    </div>
-                  <%else%>
-                    <p class="mb-0"><%= simple_format(h(question.body), {})%></p>
-                  <%end%>
-                </div>
-                <div class="content-footer">
-                  <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=question.answers.count %> <i class="fas fa-thumbs-up"></i><%= question.evaluations.count%> <i class="far fa-eye"></i><%=question.impressionist_count %> <span>| <%= " #{time_ago_in_words(question.created_at)}前に更新" %></span></p>
-                </div>
-              </div>
+            <%end%>
+            <div class="mx-auto"><%= paginate @questions if @questions != []%></div>
+          <% else %>
+            <div class="mt-5 no-post" >
+              <% if params[:mode] == "question" || params[:mode] == nil %>
+                <img src="/images/nopost.png" style="width: 100px" class="mx-auto">
+                <span class="text-center">まだ何も投稿していません</span>
+              <% elsif params[:mode] == "evaluations" %>
+                <img src="/images/nopost.png" style="width: 100px" class="mx-auto">
+                <span class="text-center">まだ何もいいねをしていません</span>
+              <% elsif params[:mode] == "bookmarks" %>
+                <img src="/images/nopost.png" style="width: 100px" class="mx-auto">
+                <span class="text-center">まだ何もブックマークを登録していません</span>
+              <% end %>
             </div>
-          <%end%>
-          <div class="mx-auto"><%= paginate @questions if @questions != []%></div>
+          <% end %>
         <% else %>
-          <% @answers.each do |answer|%>
-            <div class="list-group-item list-group-item-action question-content ">
-              <div class="q-header d-flex justify-content-between mb-1">
-                <div class="header-left d-flex align-items-center">
-                  <div class="user-image mr-1">
-                    <% if answer.user.image? %>
-                      <%= link_to user_path(answer.user.id) do%>
-                        <%= image_tag answer.user.image.url%>
-                      <% end %>
-                    <% else %>
-                      <%= link_to user_path(answer.user.id) do%>
-                        <img src="/images/person2.png">
-                      <% end %>
-                    <% end %>
-                  </div>
-                  <div class="user-info">
-                    
-                    <div class="user-info-top mb-0">
-                      <span class="font-weight-bold question-user-name"><%= link_to answer.user.username, user_path(answer.user.id)%></span>
-                      <% unless current_user == answer.user %>
-                        <% if current_user.following?(answer.user) %>
-                          <span>・</span>
-                          <%= form_with(model: current_user.relationships.find_by(follow_id: answer.user.id), class: "form-follow",method: :delete ) do |f| %>
-                            <%= hidden_field_tag :follow_id, answer.user.id %>
-                            <%= f.submit 'フォロー解除', class: 'follow p-0' %>
-                          <% end %>
-                        <% else %>
-                          <span>・</span>
-                      
-                          <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
-                            <%= hidden_field_tag :follow_id, answer.user.id %>
-                            <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。"%>
-                            <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
-                            <%= f.submit 'フォロー', class: 'follow p-0' %>
-                          <% end %>
+          <% if @answers.count != 0 %>
+            <% @answers.each do |answer|%>
+              <div class="list-group-item list-group-item-action question-content ">
+                <div class="q-header d-flex justify-content-between mb-1">
+                  <div class="header-left d-flex align-items-center">
+                    <div class="user-image mr-1">
+                      <% if answer.user.image? %>
+                        <%= link_to user_path(answer.user.id) do%>
+                          <%= image_tag answer.user.image.url%>
+                        <% end %>
+                      <% else %>
+                        <%= link_to user_path(answer.user.id) do%>
+                          <img src="/images/person2.png">
                         <% end %>
                       <% end %>
                     </div>
-                    
-                    <p class="user-info-bottom mb-0">
-                      <span> <%= answer.question.country.name%></span> | <span><%= answer.question.tag.name %></span>
-                    </p>
+                    <div class="user-info">
+                      
+                      <div class="user-info-top mb-0">
+                        <span class="font-weight-bold question-user-name"><%= link_to answer.user.username, user_path(answer.user.id)%></span>
+                        <% unless current_user == answer.user %>
+                          <% if current_user.following?(answer.user) %>
+                            <span>・</span>
+                            <%= form_with(model: current_user.relationships.find_by(follow_id: answer.user.id), class: "form-follow",method: :delete ) do |f| %>
+                              <%= hidden_field_tag :follow_id, answer.user.id %>
+                              <%= f.submit 'フォロー解除', class: 'follow p-0' %>
+                            <% end %>
+                          <% else %>
+                            <span>・</span>
+                        
+                            <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                              <%= hidden_field_tag :follow_id, answer.user.id %>
+                              <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。"%>
+                              <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
+                              <%= f.submit 'フォロー', class: 'follow p-0' %>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                      </div>
+                      
+                      <p class="user-info-bottom mb-0">
+                        <span> <%= answer.question.country.name%></span> | <span><%= answer.question.tag.name %></span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="header-right d-flex align-items-center">
+                    <% if answer.question.best_answer_id == nil%>
+                      <div class="index-ribbon">未解決</div>
+                    <% else %>
+                      <div class="index-ribbon-done">締切済</div>
+                    <% end %>
                   </div>
                 </div>
-                <div class="header-right d-flex align-items-center">
-                  <% if answer.question.best_answer_id == nil%>
-                    <div class="index-ribbon">未解決</div>
-                  <% else %>
-                    <div class="index-ribbon-done">締切済</div>
-                  <% end %>
+                <div class="q-body">
+                  <div class="content-title">
+                    <%= link_to(answer.question.title, answer.question, class: "font-weight-bold h6",data: {"turbolinks"=>false})%>
+                  </div>
+                  <div class="content-body">
+                    <%if answer.body.length > 200 %>
+                      <div class="truncated">
+                        <p class="mb-0"><%= answer.body.truncate(200)%></p>
+                        <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
+                      </div>
+                      <div class="untruncated" style="display: none">
+                        <p class="mb-0"><%= simple_format(h(answer.body), {}) %></p>
+                      </div>
+                    <%else%>
+                      <p class="mb-0"><%= simple_format(h(answer.body), {})%></p>
+                    <%end%>
+                  </div>
+                  <div class="content-footer">
+                    <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=answer.question.answers.count %> <i class="fas fa-thumbs-up"></i><%= answer.goods.count%> <i class="far fa-eye"></i><%=answer.question.impressionist_count %> <span>| <%= " #{time_ago_in_words(answer.created_at)}前に更新" %></span></p>
+                  </div>
                 </div>
               </div>
-              <div class="q-body">
-                <div class="content-title">
-                  <%= link_to(answer.question.title, answer.question, class: "font-weight-bold h6",data: {"turbolinks"=>false})%>
-                </div>
-                <div class="content-body">
-                  <%if answer.body.length > 200 %>
-                    <div class="truncated">
-                      <p class="mb-0"><%= answer.body.truncate(200)%></p>
-                      <p class="text-right mb-0 see-more">&lt;もっと見る&gt;</p>
-                    </div>
-                    <div class="untruncated" style="display: none">
-                      <p class="mb-0"><%= simple_format(h(answer.body), {}) %></p>
-                    </div>
-                  <%else%>
-                    <p class="mb-0"><%= simple_format(h(answer.body), {})%></p>
-                  <%end%>
-                </div>
-                <div class="content-footer">
-                  <p class="mb-0"><i class="far fa-comment-alt icon"></i><%=answer.question.answers.count %> <i class="fas fa-thumbs-up"></i><%= answer.goods.count%> <i class="far fa-eye"></i><%=answer.question.impressionist_count %> <span>| <%= " #{time_ago_in_words(answer.created_at)}前に更新" %></span></p>
-                </div>
-              </div>
+            <%end%>
+            <div class="mx-auto"><%= paginate @answers if @answer != []%></div>
+          <% else %>
+            <div class="mt-5 no-post" >
+              <img src="/images/nopost.png" style="width: 100px" class="mx-auto">
+              <span class="text-center">まだ何も回答していません</span>
             </div>
-          <%end%>
-          <div class="mx-auto"><%= paginate @answers if @answer != []%></div>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -231,10 +253,24 @@
       <div class="career" >
         <div style="border-bottom: 1px solid #ebebeb;">経歴</div>
         <%= @user.created_at.strftime('%m/%d')%>に参加
+        <% if @user.country_histories.count != 0 %>
+          <div style="border-bottom: 1px solid #ebebeb;" class="mt-3">滞在履歴</div>
+          <% @user.country_histories.each do |history| %>
+            <%= history.country.name%>
+            <%= history.city_name %>
+            <%= history.stay_begin.strftime('%y/%m') %> ~
+            <%= history.stay_end.strftime('%y/%m') %>
+          <% end %>
+        <% end %>
         
-        <% @user.grouping_country.each do |key,value| %>
-          <%= Country.find(key).name%>
-          <%= value%>
+        <% if @user.grouping_country.count != 0 %>    
+          <div style="border-bottom: 1px solid #ebebeb;">国ごとの回答数</div>
+          <% @user.grouping_country.each do |key,value| %>
+            <div class="">
+              <%= Country.find(key).name%>
+              <%= value %>件
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>

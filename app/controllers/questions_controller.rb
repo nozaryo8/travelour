@@ -163,6 +163,7 @@ class QuestionsController < ApplicationController
   def get_body
     @continent = Continent.find(params[:continent_id])
     @countries = @continent.countries
+    @index = params[:index]
     respond_to do |format|
       format.js
     end

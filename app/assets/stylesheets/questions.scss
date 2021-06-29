@@ -1194,3 +1194,41 @@ $info_t1: #e0ffff;
     background-color: rgba(0, 0, 0, 0.03) !important;
   }
 }
+
+.q-count {
+  .q-header-top {
+    border: 2px solid;
+    border-color: #87cefa;
+    border-radius: 1000px;
+    border-top-left-radius: 1000px;
+    border-top-right-radius: 1000px;
+    border-bottom-right-radius: 1000px;
+    border-bottom-left-radius: 1000px;
+    color: #87cefa;
+  }
+  .q-count-bottom {
+    color: #87cefa;
+  }
+}
+
+.a-count {
+  .a-header-top {
+    border: 2px solid;
+    border-color: #e9606d;
+    border-radius: 1000px;
+    border-top-left-radius: 1000px;
+    border-top-right-radius: 1000px;
+    border-bottom-right-radius: 1000px;
+    border-bottom-left-radius: 1000px;
+    color: #e9606d;
+  }
+  .a-count-bottom {
+    color: #e9606d;
+  }
+}
+
+.feature_component {
+  border: 3px solid orange;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}

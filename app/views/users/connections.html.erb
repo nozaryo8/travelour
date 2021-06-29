@@ -13,53 +13,70 @@
     </li>
   </ul>
   <div class="list-group mb-3">
-    <% @connections.each do |connection|%>
-      <div class="list-group-item list-group-item-action question-content ">
-        <div class="following-followers d-flex justify-content-between">
-          <div class="following-followers-left d-flex">
-            <div class="d-flex align-items-center" style="width: 220px">
-              <div class="user-image mr-1">
-                <% if connection.image? %>
-                  <%= link_to user_path(connection.id) do%>
-                    <%= image_tag connection.image.url%>
+    <%if @connections.count != 0%>
+      <% @connections.each do |connection|%>
+        <div class="list-group-item list-group-item-action question-content ">
+          <div class="following-followers d-flex justify-content-between">
+            <div class="following-followers-left d-flex">
+              <div class="d-flex align-items-center" style="width: 220px">
+                <div class="user-image mr-1">
+                  <% if connection.image? %>
+                    <%= link_to user_path(connection.id) do%>
+                      <%= image_tag connection.image.url%>
+                    <% end %>
+                  <% else %>
+                    <%= link_to user_path(connection.id) do%>
+                      <img src="/images/person2.png">
+                    <% end %>
+                  <% end %>
+                </div>
+                <%= link_to(connection.username, user_path(connection.id) )%>
+              </div>
+              <div class="q-a-count d-flex">
+                <div class="q-count mr-2">
+                  <div class="q-header-top px-2">Q</div>
+                  <div class="q-count-bottom text-center"><%= connection.questions.count%></div>
+                </div>
+                <div class="a-count">
+                  <div class="a-header-top px-2">A</div>
+                  <div class="a-count-bottom text-center"><%= connection.answers.count%></div>
+                </div>
+              </div>
+            </div>
+            <div class="following-followers-left follow_button d-flex align-items-center">
+              <% if current_user == @user %>
+                <% if current_user.following?(connection) %>
+                  <%= form_with(model: current_user.relationships.find_by(follow_id: connection.id), class: "form-follow",method: :delete ) do |f| %>
+                    <%= hidden_field_tag :follow_id, connection.id %>
+                    <%= f.submit 'フォロー解除', class: 'follow p-0 h6 ' %>
                   <% end %>
                 <% else %>
-                  <%= link_to user_path(connection.id) do%>
-                    <img src="/images/person2.png">
+                  <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                    <%= hidden_field_tag :follow_id, connection.id %>
+                    <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。" %>
+                    <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
+                    <%= f.submit 'フォロー', class: 'follow p-0 h6 ml-3' %>
                   <% end %>
                 <% end %>
-              </div>
-              <%= link_to(connection.username, user_path(connection.id) )%>
-            </div>
-            <div class="q-a-count d-flex">
-              <div class="q-count mr-2">
-                <div class="q-header-top">質問</div>
-                <div class="q-count-bottom text-center"><%= connection.questions.count%></div>
-              </div>
-              <div class="a-count">
-                <div class="q-header-top">回答</div>
-                <div class="q-count-bottom text-center"><%= connection.answers.count%></div>
-              </div>
-            </div>
-          </div>
-          <div class="following-followers-left follow_button d-flex align-items-center">
-            <% if current_user == @user %>
-              <% if current_user.following?(connection) %>
-                <%= form_with(model: current_user.relationships.find_by(follow_id: connection.id), class: "form-follow",method: :delete ) do |f| %>
-                  <%= hidden_field_tag :follow_id, connection.id %>
-                  <%= f.submit 'フォロー解除', class: 'follow p-0 h6 ' %>
-                <% end %>
-              <% else %>
-                <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
-                  <%= hidden_field_tag :follow_id, connection.id %>
-                  <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。" %>
-                  <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
-                  <%= f.submit 'フォロー', class: 'follow p-0 h6 ml-3' %>
-                <% end %>
               <% end %>
-            <% end %>
+            </div>
           </div>
         </div>
+      <% end %>
+    <% else %>
+      <div class="mt-5 no-post" >
+        <% if params[:mode] == 'followings' || params[:mode] == nil %>
+          <img src="https://img.icons8.com/windows/96/000000/no-user.png" style="width: 150px" class="mx-auto"/>
+          <span class="text-center">フォローしているユーザーはまだいません</span>
+        <% elsif params[:mode] == 'followers'%>
+          <img src="https://img.icons8.com/windows/96/000000/no-user.png" style="width: 150px" class="mx-auto"/>
+          <span class="text-center">フォロワーはまだいません</span>
+          
+        <% else params[:mode] == 'matchers'%>
+          <img src="https://img.icons8.com/windows/96/000000/no-user.png" style="width: 150px" class="mx-auto"/>
+          <span class="text-center">相互フォローしているユーザーはまだいません</span>
+          
+        <% end %>
       </div>
     <% end %>
   </div>

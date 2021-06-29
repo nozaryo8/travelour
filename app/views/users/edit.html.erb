@@ -26,12 +26,19 @@
         </div>
         <div class="form-group">
           <label>経歴</label><br>
-          <%= @c.name if @c%>
-          <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6"})%>
-          <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select>
-
-          <%= f.text_area :country_history %>
-          <%= f.text_area :country_history %>
+          <div class="parents">
+            <%= f.fields_for :country_histories do |s| %>
+              <%= render "country_histories_fields", f: s %>
+            <% end %>
+            <%= link_to_add_association "経歴を追加", f, :country_histories, partial: "country_histories_fields" %>
+          </div>
+          <%
+=begin%>
+ <%= f.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6"})%>
+          <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select> 
+<%
+=end%>
+          
         </div>
         <div class="form-group">
           <label>プロフィール画像</label><br>
@@ -67,19 +74,22 @@
   });
 
   $(function() {
-  $('#question_continent').change(function() {
-    continent_id = $(this).val();
-    if (continent_id == ""){
-      document.getElementById('question_country_id').innerHTML = '<option>国・地域を選択してください</option>';
-      return;
-    }
-    $.ajax({
-      type: 'GET',
-      url: '/questions/get_body',
-      data: {
-        continent_id: continent_id
+    $('.select_continent').change(function() {
+      continent_id = $(this).val();
+      index = $(this).data("index");
+      if (continent_id == ""){
+        $(this).closest(".nested-fields").find(".select_country").html('<option>国・地域を選択してください</option>');
+        // document.getElementById('question_country_id').innerHTML = '<option>国・地域を選択してください</option>';
+        return;
       }
-    })
+      $.ajax({
+        type: 'GET',
+        url: '/questions/get_body',
+        data: {
+          continent_id: continent_id,
+          index: index
+        }
+      })
+    });
   });
-});
 </script>
