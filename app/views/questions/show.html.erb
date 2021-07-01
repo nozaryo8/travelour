@@ -303,7 +303,7 @@
                                     <%= image_tag current_user.image.url%>
                                   <% end %>
                                 <% else %>
-                                  <%= link_to user_path(current_user.user.id) do%>
+                                  <%= link_to user_path(current_user.id) do%>
                                     <img src="/images/person2.png">
                                   <% end %>
                                 <% end %>
@@ -366,7 +366,7 @@
                                 <%= image_tag current_user.image.url%>
                               <% end %>
                             <% else %>
-                              <%= link_to user_path(current_user.user.id) do%>
+                              <%= link_to user_path(current_user.id) do%>
                                 <img src="/images/person2.png">
                               <% end %>
                             <% end %>
@@ -528,7 +528,7 @@
                                       <%= image_tag current_user.image.url%>
                                     <% end %>
                                   <% else %>
-                                    <%= link_to user_path(current_user.user.id) do%>
+                                    <%= link_to user_path(current_user.id) do%>
                                       <img src="/images/person2.png">
                                     <% end %>
                                   <% end %>
