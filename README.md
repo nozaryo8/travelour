@@ -8,9 +8,9 @@
 ## URL
 https://www.travelour.net/
 
-http://3.114.182.148/ ←現在はこちらからご覧になることができます
+http://3.114.182.148/ ←現在はこちらからご覧になれます
 
-<img width="1277" alt="スクリーンショット 2021-04-18 20 33 31" src="https://user-images.githubusercontent.com/73025214/115144062-7f31d980-a085-11eb-9636-ec7aefdb5b2c.png">
+<img width="1275" alt="スクリーンショット 2021-07-01 15 06 21" src="https://user-images.githubusercontent.com/73025214/124074412-6af35b00-da7e-11eb-924a-c4aa46c58edb.png">
 
 ## 作成の背景
 私は一度の渡航経験がきっかけに海外旅行が好きになりました。  
@@ -45,6 +45,7 @@ TravelOurのメイン機能は以下の2つです。
 * 画像投稿(carrierwave,Rmagick)
 * 管理者機能
 * 質問投稿
+* Google Maps APIによる位置情報投稿機能
 * 質問に対する回答 ajax(jQuery)
 * 質問に対する役に立ったボタン ajax(React)
 * 回答に対するコメント ajax(jQuery)返信者のみ：削除可能
