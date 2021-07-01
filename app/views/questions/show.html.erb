@@ -620,7 +620,7 @@
         <% @question.related_questions.each do |question|%>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" , data: {"turbolinks"=>false}%></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
             </div>
           </div>
         <% end %>
@@ -629,7 +629,7 @@
         <% @question.related_questions.each do |question|%>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" , data: {"turbolinks"=>false}%></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
             </div>
           </div>
         <% end %>
@@ -637,7 +637,7 @@
         <% Question.recentry_resolved_questions.each do |question| %>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content", data: {"turbolinks"=>false} %></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
             </div>
           </div>
         <% end %>
@@ -646,7 +646,7 @@
         <% Question.recentry_resolved_questions.each do |question| %>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content", data: {"turbolinks"=>false} %></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
             </div>
           </div>
         <% end %>

@@ -126,7 +126,7 @@
                 </div>
                 <div class="q-body">
                   <div class="content-title">
-                    <%= link_to(question.title, question, class: "font-weight-bold h6",data: {"turbolinks"=>false})%>
+                    <%= link_to(question.title, question, class: "font-weight-bold h6")%>
                   </div>
                   <div class="content-body">
                     <%if question.body.length > 200 %>
@@ -218,7 +218,7 @@
                 </div>
                 <div class="q-body">
                   <div class="content-title">
-                    <%= link_to(answer.question.title, answer.question, class: "font-weight-bold h6",data: {"turbolinks"=>false})%>
+                    <%= link_to(answer.question.title, answer.question, class: "font-weight-bold h6")%>
                   </div>
                   <div class="content-body">
                     <%if answer.body.length > 200 %>
@@ -352,6 +352,11 @@
 </div> 
 <%
 =end%>
+
+<!-- TurbolinksをOFFにする -->
+<% content_for(:body_attributes) do %>
+    data-turbolinks="false"
+<% end %>
 </div>
 
 <script>
