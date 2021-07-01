@@ -45,6 +45,7 @@ TravelOurのメイン機能は以下の2つです。
 * 画像投稿(carrierwave,Rmagick)
 * 管理者機能
 * 質問投稿
+* Google Maps APIによる位置情報投稿機能
 * 質問に対する回答 ajax(jQuery)
 * 質問に対する役に立ったボタン ajax(React)
 * 回答に対するコメント ajax(jQuery)返信者のみ：削除可能
