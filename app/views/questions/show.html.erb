@@ -1,3 +1,4 @@
+ 
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -30,10 +31,11 @@
     </div>
   </div>
 </div>
+<!-- TurbolinksをOFFにする -->
 <% content_for(:body_attributes) do %>
   data-turbolinks="false"
 <% end %>
-<div class="container mt-5 questions questions-show">
+<div class="container questions questions-show">
   <div class="row">
     <!-- col-md-9でmd以上の時にcol9になる -->
     <div class="col-12 col-md-9">
@@ -622,7 +624,7 @@
         <% @question.related_questions.each do |question|%>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" , data: {"turbolinks"=>false}%></p>
             </div>
           </div>
         <% end %>
@@ -631,7 +633,7 @@
         <% @question.related_questions.each do |question|%>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" , data: {"turbolinks"=>false}%></p>
             </div>
           </div>
         <% end %>
@@ -639,7 +641,7 @@
         <% Question.recentry_resolved_questions.each do |question| %>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content", data: {"turbolinks"=>false} %></p>
             </div>
           </div>
         <% end %>
@@ -648,7 +650,7 @@
         <% Question.recentry_resolved_questions.each do |question| %>
           <div class="relational-question">
             <div class="mt-3 mb-3">
-              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content" %></p>
+              <p><%= link_to question.title.truncate(50) ,question ,class: "relational-question-content", data: {"turbolinks"=>false} %></p>
             </div>
           </div>
         <% end %>

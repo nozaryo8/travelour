@@ -1250,6 +1250,17 @@ $info_t1: #e0ffff;
 
 .was-validated .custom-control-input:valid:checked ~ .custom-control-label::before,
 .custom-control-input.is-valid:checked ~ .custom-control-label::before {
+  color: #fff !important;
+  border-color: #007bff !important;
+  background-color: #007bff !important;
+}
+
+.delete_question {
+  margin-top: 20px;
+  margin-bottom: 450px;
+}
+
+.was-validated .custom-control-input:valid ~ .custom-control-label::before,
+.custom-control-input.is-valid ~ .custom-control-label::before {
   border-color: black !important;
-  background-color: black !important;
 }

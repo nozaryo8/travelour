@@ -1,4 +1,6 @@
 <%= render 'error', question: @question%>
+
+<!-- TurbolinksをOFFにする -->
 <% content_for(:body_attributes) do %>
   data-turbolinks="false"
 <% end %>
@@ -43,26 +45,24 @@
         <h6>エリア</h6>
         <div class="d-flex mb-3 ">
           <!-- onchangeはとりあえず入れておく実際機能しているJavascriptは下部にあり-->
-          <%= @c.name if @c%>
           <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6" ,required: true})%>
-          <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select>
+          <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id" required ><option value="" style="display: none;" >国・地域を選択してください</option></select>
         </div>
         <div class="invalid-feedback">
           方面・国を選択してください
         </div>
-        
       </div>
       <%# <%=form.collection_select(:country_id, @countries, :id, :name ,prompt: "選択してください" ) %>
       <%# <%=form.collection_select(:country_id, @countries, :id, :name ,{include_blank: true, :disabled => true})%> 
       <%# <%= render 'select_country', form: form%>
 
       <!-- 質問投稿のフィールドを用意する-->
-      <div class="field", id="title">
+      <div class="field mb-3", id="title">
         <h6>タイトル(40字以内)</h6>
         <h6 style="color : #a45705">※内容が分かるよう、具体的なタイトルをつけましょう</h6>
-        <%= form.text_field :title ,class: "form-control mb-3" ,maxlength: "40" ,required: true %>
+        <%= form.text_field :title ,class: "form-control" ,maxlength: "40" ,required: true %>
         <div class="invalid-feedback">
-          Please choose a username.
+          タイトルを入力してください
         </div>
       </div>
       
@@ -83,18 +83,19 @@
                   <%= form.label :tag_id,t.name ,{value: t.id,class: "mb-0 custom-control-label"}%>
                 </div>
               <% end %>
-              <div class="invalid-feedback">
-                Please choose a username.
-              </div>
             </div>
           </div>
         </div>
       </div>
+      
     
     
       <div class="field" id="body">
         <h6>質問内容</h6><h6 style="color : #a45705">※回答者が回答しやすいよう、できるだけ具体的に書いてください。</h6>
           <%= form.text_area :body ,  class: 'form-control', rows: 10,required: true %>
+          <div class="invalid-feedback">
+            質問内容を入力してください
+          </div>
       </div>
       
       <div class="question-post-footer d-flex justify-content-between ">
@@ -123,9 +124,6 @@
       
     </div>
   </div>
-
-  <!-- TurbolinksをOFFにする -->
-  
 <% end %>
 
 <script>
@@ -146,7 +144,6 @@ $(function() {
   });
 });
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
 (function() {
   'use strict';
   window.addEventListener('load', function() {

@@ -212,7 +212,7 @@
               </div>
               <div class="q-body">
                 <div class="content-title">
-                  <%= link_to(question.title, question, class: "font-weight-bold h6")%>
+                  <%= link_to(question.title, question, class: "font-weight-bold h6",data: {"turbolinks"=>false})%>
                 </div>
                 <div class="content-body">
                   <%if question.body.length > 200 %>
