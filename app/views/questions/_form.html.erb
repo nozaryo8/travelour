@@ -1,5 +1,9 @@
 <%= render 'error', question: @question%>
+<% content_for(:body_attributes) do %>
+  data-turbolinks="false"
+<% end %>
 <!--TODO: 投稿が失敗したときにエラーを表示させる-->
+
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -32,7 +36,7 @@
     </div>
   </div>
 </div>
-<%= form_with(model: question, remote: true) do |form| %>
+<%= form_with(model: question, remote: true,html: {novalidate: true },class: "needs-validation") do |form| %>
   <div class="row">
     <div class="col-12">
       <div class="form-country-area mt-2">
@@ -40,9 +44,13 @@
         <div class="d-flex mb-3 ">
           <!-- onchangeはとりあえず入れておく実際機能しているJavascriptは下部にあり-->
           <%= @c.name if @c%>
-          <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6"})%>
+          <%= form.collection_select(:continent, Continent.all, :id, :name ,{prompt: "方面を選択してください"},{:onchange => "select_country($(this).val())",class: "form-control col-sm-6" ,required: true})%>
           <select class="form-control col-sm-6" name="question[country_id]" id="question_country_id"><option>国・地域を選択してください</option></select>
         </div>
+        <div class="invalid-feedback">
+          方面・国を選択してください
+        </div>
+        
       </div>
       <%# <%=form.collection_select(:country_id, @countries, :id, :name ,prompt: "選択してください" ) %>
       <%# <%=form.collection_select(:country_id, @countries, :id, :name ,{include_blank: true, :disabled => true})%> 
@@ -52,7 +60,10 @@
       <div class="field", id="title">
         <h6>タイトル(40字以内)</h6>
         <h6 style="color : #a45705">※内容が分かるよう、具体的なタイトルをつけましょう</h6>
-        <%= form.text_field :title ,class: "form-control mb-3" ,maxlength: "40"%>
+        <%= form.text_field :title ,class: "form-control mb-3" ,maxlength: "40" ,required: true %>
+        <div class="invalid-feedback">
+          Please choose a username.
+        </div>
       </div>
       
       
@@ -65,13 +76,16 @@
             <div class="question-tag-container d-flex ml-3 mt-2">
               <% @tags.each do |t| %>
                 <!-- align-items-baselineでラジオボタンとタグの名前の位置を並べる -->
-                <div class="question-tag d-flex align-items-baseline mb-2">
-                  <%= radio_button "question", "tag_id" ,t.id,class: "mr-1"  %>
+                <div class="question-tag d-flex align-items-baseline mb-2 custom-control custom-radio">
+                  <%= radio_button "question", "tag_id" ,t.id,class: "mr-1 custom-control-input" ,required: true %>
                   <%# <%= form.radio_button "tag_id" , t.id %>  
                   <%# <%= check_box_tag "question[tag_ids][]", t.id, @question.tags.include?(t) %> 
-                  <%= form.label :tag_id,t.name ,{value: t.id,class: "mb-0"}%>
+                  <%= form.label :tag_id,t.name ,{value: t.id,class: "mb-0 custom-control-label"}%>
                 </div>
               <% end %>
+              <div class="invalid-feedback">
+                Please choose a username.
+              </div>
             </div>
           </div>
         </div>
@@ -80,12 +94,12 @@
     
       <div class="field" id="body">
         <h6>質問内容</h6><h6 style="color : #a45705">※回答者が回答しやすいよう、できるだけ具体的に書いてください。</h6>
-          <%= form.text_area :body ,  class: 'form-control', rows: 10%>
+          <%= form.text_area :body ,  class: 'form-control', rows: 10,required: true %>
       </div>
       
       <div class="question-post-footer d-flex justify-content-between ">
         <div class="actions mb-0 align-self-center" id="submit">
-          <%= form.submit  "投稿", class: "btn btn-primary"%>
+          <%= form.submit "投稿", class: "btn btn-primary"%>
         </div>
         <div class="d-flex align-items-center tool-area">
           <span id ="push-image"></span>
@@ -111,9 +125,7 @@
   </div>
 
   <!-- TurbolinksをOFFにする -->
-  <% content_for(:body_attributes) do %>
-    data-turbolinks="false"
-  <% end %>
+  
 <% end %>
 
 <script>
@@ -133,6 +145,25 @@ $(function() {
     })
   });
 });
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
 
 $(document).on('change', '.image',function(){
   if ($('.image').prop("files")[0] == null){
@@ -224,5 +255,6 @@ function questionInitMap() {
 
   }
 }
+
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCB9VF2bwI1ewTkQaltzMffsfot47xa7AA&callback=questionInitMap" async defer></script>

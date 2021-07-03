@@ -1242,3 +1242,14 @@ $info_t1: #e0ffff;
   width: 100%;
   height: 350px;
 }
+
+.was-validated .custom-control-input:valid ~ .custom-control-label,
+.custom-control-input.is-valid ~ .custom-control-label {
+  color: black !important;
+}
+
+.was-validated .custom-control-input:valid:checked ~ .custom-control-label::before,
+.custom-control-input.is-valid:checked ~ .custom-control-label::before {
+  border-color: black !important;
+  background-color: black !important;
+}

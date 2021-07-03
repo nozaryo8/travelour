@@ -17,15 +17,16 @@
   </head>
 
   <body>
-    <%= render "layouts/header" %>
-    
-    <%= yield %>
-
     <!-- turbolinksをOFFにする-->
-    <% if content_for?(:body_attributes) %>
+    <div 
+    　<% if content_for?(:body_attributes) %>  
       <%= yield(:body_attributes) %>
-    <% end %>
-
-    <%= render "layouts/footer" %>
+    　<% end %>
+    >
+      <%= render "layouts/header" %>
+    　<%= yield %>
+      <%= render "layouts/footer" %>
+    </div>
+    
   </body>
 </html>

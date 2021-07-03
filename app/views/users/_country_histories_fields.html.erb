@@ -1,12 +1,12 @@
 <div class="nested-fields">
   <div class="row mx-auto">
-    <select class="select_continent form-control col-sm-6" data-index="<%= f.index%>">
+    <select required class="select_continent form-control col-sm-6" data-index="<%= f.index%>">
       <option value="">方面を選択してください</option>
       <% Continent.all.each do |continent| %>
         <option value="<%= continent.id %>"> <%=continent.name%></option>
       <% end %>
     </select>
-    <select class="form-control col-sm-6" name="user[country_histories_attributes][<%= f.index%>][country_id]" id="select_country<%= f.index%>"><option>国・地域を選択してください</option></select> 
+    <select required class="form-control col-sm-6" name="user[country_histories_attributes][<%= f.index%>][country_id]" id="select_country<%= f.index%>"><option>国・地域を選択してください</option></select> 
   </div>
   <%= f.label :city_name ,"詳細な地域"%>
   <%= f.text_field :city_name %>

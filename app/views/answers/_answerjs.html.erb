@@ -33,7 +33,7 @@
         <div class="FlexTextarea ">
           <div class="FlexTextarea__dummy" aria-hidden="true"></div>
             <%= form.hidden_field :user_id, value: current_user.id %>
-            <%= form.text_area :body ,id: "push-textarea-answer", class: "push-textarea-answer" ,placeholder: "回答を入力..." %>
+            <%= form.text_area :body ,id: "push-textarea-answer", class: "push-textarea-answer" ,placeholder: "回答を入力..." ,required: true %>
           </div>
         </div>
       <div class="form-footer list-group-item d-flex align-items-center justify-content-between p-2">
