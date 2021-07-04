@@ -14,11 +14,11 @@ class Question < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   def self.last_week # 先週のいいねの数が多い順に取得
-    evaluation = Question.joins(:evaluations).where(evaluations: { created_at: 0.days.ago.prev_week(:sunday)..0.days.ago}).group(:id).order("count(*) desc").limit(10)
+    evaluation = Question.joins(:evaluations).where(evaluations: { created_at: 0.days.ago.prev_week..0.days.ago}).group(:id).order("count(*) desc").limit(10)
     # もしいいねが見つからなかった場合見つかるまで1週間づつ戻って探す
     if evaluation == [] || evaluation.size < 5
       1.step do |i|
-        evaluation = Question.joins(:evaluations).where(evaluations: { created_at: i.weeks.ago.prev_week..i.weeks.ago.prev_week(:sunday)}).group(:id).order("count(*) desc").limit(10)
+        evaluation = Question.joins(:evaluations).where(evaluations: { created_at: (i+1).weeks.ago.prev_week..i.weeks.ago.prev_week}).group(:id).order("count(*) desc").limit(10)
         return evaluation if evaluation != [] && evaluation.size >= 5
       end
     end
