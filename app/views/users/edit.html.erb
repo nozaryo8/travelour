@@ -11,7 +11,7 @@
   </div>
 <% end %>
 
-<div class="container mt-5">
+<div class="container">
   <div class="row">
     <div class="col-6 mx-auto">
       <h2>ユーザー編集</h2>
@@ -25,14 +25,13 @@
           <%= f.text_field :email, class: "form-control" ,required: true %>
         </div>
         <div class="form-group">
-          <label>経歴</label><br>
+          <label>滞在履歴</label><br>
           <div class="parents">
             <%= f.fields_for :country_histories do |s| %>
               <%= render "country_histories_fields", f: s %>
 
             <% end %>
-            
-            <%= link_to_add_association "経歴を追加", f, :country_histories, partial: "country_histories_fields" %>
+            <p><%= link_to_add_association "滞在履歴を新たに追加", f, :country_histories, partial: "country_histories_fields" %></p>
           </div>
           <%
 =begin%>
@@ -71,7 +70,6 @@
     let count = $('.nested-fields').length;
     for(let i = 0; i < count; i++) {
       let country_id = $(`#user_country_histories_attributes_${i}_country_id`).attr("value");
-      console.log(country_id)
       $.ajax({
         type: 'GET',
         url: '/users/get_options',
@@ -110,4 +108,6 @@
       })
     });
   });
+
+  
 </script>

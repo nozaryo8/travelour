@@ -257,25 +257,29 @@
     </div>
     <div class="col-4">
       <div class="career" >
-        <div style="border-bottom: 1px solid #ebebeb;">経歴</div>
-        <%= @user.created_at.strftime('%m/%d')%>に参加
+        <div style="border-bottom: 1px solid #ebebeb;" class="mb-1" >経歴</div>
+        <p style="color: #495057;"><%= @user.created_at.strftime('%m/%d')%>に参加</p>
         <% if @user.country_histories.count != 0 %>
-          <div style="border-bottom: 1px solid #ebebeb;" class="mt-3">滞在履歴</div>
+          <div style="border-bottom: 1px solid #ebebeb;" class="mt-3 mb-1">滞在履歴</div>
           <% @user.country_histories.each do |history| %>
-            <%= history.country.name%>
-            <%= history.city_name %>
-            <%= history.stay_begin.strftime('%y/%m') %> ~
-            <%= history.stay_end.strftime('%y/%m') %>
+            <p style="color: #495057;" class="mb-0">
+              <i class="fas fa-globe-americas"></i>
+              <%= history.country.name%>
+              <%= history.city_name %>
+              <%= history.stay_begin.strftime('%y/%m') %> ~
+              <%= history.stay_end.strftime('%y/%m') %>
+            </p>
           <% end %>
         <% end %>
         
         <% if @user.grouping_question_country.count != 0 %>    
-          <div style="border-bottom: 1px solid #ebebeb;" class="mt-3">国ごとの質問数</div>
+          <div style="border-bottom: 1px solid #ebebeb;" class="mt-3 mb-1">国ごとの質問数</div>
           <% @user.grouping_question_country.each do |key,value| %>
-            <div class="">
+            <p style="color: #495057;" class="mb-0">
+              <i class="fas fa-globe-americas"></i>
               <%= Country.find(key).name%>
               <%= value %>件
-            </div>
+            </p>
           <% end %>
         <% end %>
       </div>

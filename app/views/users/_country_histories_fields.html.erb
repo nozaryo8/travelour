@@ -1,29 +1,54 @@
-<div class="nested-fields">
+<div class="nested-fields mb-4">
   <%= f.hidden_field :country_id , name: nil %>
   
-  <div class="row mx-auto">
-    <select required class="select_continent form-control col-sm-6" data-index="<%= f.index%>" id="select_continent<%= f.index%>">
+  <div class="row mx-auto mb-2">
+    <select class="select_continent form-control col-6" data-index="<%= f.index%>" id="select_continent<%= f.index%>">
       <option value="">方面を選択してください</option>
       <% Continent.all.each do |continent| %>
         <option value="<%= continent.id%>" > <%=continent.name%></option>
       <% end %>
     </select>
     
-    <select required class="form-control col-sm-6" name="user[country_histories_attributes][<%= f.index%>][country_id]" id="select_country<%= f.index%>"><option>国・地域を選択してください</option></select> 
+    <select class="form-control col-sm-6" name="user[country_histories_attributes][<%= f.index%>][country_id]" id="select_country<%= f.index%>"><option>国・地域を選択してください</option></select> 
   </div>
-  <%= f.label :city_name ,"詳細な地域"%>
-  <%= f.text_field :city_name %>
-
+  <div class="mb-2">
+    <%= f.text_field :city_name ,class: "form-control" ,placeholder: "詳細な地域" %>
+  </div>
  <%
 =begin%>
  <%= f.collection_select(:country_id,Country.all,:id,:name,{prompt: "方面を選択してください"})%>  
 <%
 =end%>
-
-  <%= f.date_select(:stay_begin,discard_day: true) %>
-  ~
-  <%= f.date_select(:stay_end,discard_day: true) %>
-  <br>
-  <%= link_to_remove_association "経歴を削除する", f %>
+  <p class="mb-2 d-flex justify-content-between">
+    <span class="mr-5">
+      滞在時期
+      <%= f.date_select(:stay_begin,discard_day: true , start_year: 1970, end_year: Time.now.year, prompt:"--")  %>
+      ~
+      <%= f.date_select(:stay_end,discard_day: true , start_year: 1970, end_year: Time.now.year, prompt:"--") %>
+    </span>
+    <span><%= link_to_remove_association "この滞在履歴を削除する", f ,class: "text-right"%></span>
+  </p>
 </div>
 
+<script>
+ //scriptタグを入れないと追加されたパーシャルが動かなかったので追加
+  $(function() {
+    $('.select_continent').change(function() {
+      continent_id = $(this).val();
+      index = $(this).data("index");
+      if (continent_id == ""){
+        $(this).closest(".nested-fields").find(".select_country").html('<option>国・地域を選択してください</option>');
+        // document.getElementById('question_country_id').innerHTML = '<option>国・地域を選択してください</option>';
+        return;
+      }
+      $.ajax({
+        type: 'GET',
+        url: '/questions/get_body',
+        data: {
+          continent_id: continent_id,
+          index: index
+        }
+      })
+    });
+  });
+</script>
