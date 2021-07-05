@@ -30,14 +30,18 @@ http://3.114.182.148/ ←現在はこちらからご覧になれます
 ## 利用方法
 TravelOurのメイン機能は以下の2つです。 
 ### 1.質問内容を投稿して共有する
-![Videotogif (2)](https://user-images.githubusercontent.com/73025214/115436424-f2824980-a245-11eb-9f27-85de525ea615.gif)
+![Videotogif (9)](https://user-images.githubusercontent.com/73025214/124477712-4a5d3500-dddf-11eb-993d-986c31b7581c.gif)
+
 「質問する！」から疑問に思った内容を記入して投稿します。  
 回答者が回答しやすいように記入項目として「国の場所」、「タイトル」、「質問の種類」、「内容」を記入し投稿します。
+またオプションとしてGoogle Maps APIを使った位置情報と画像も一緒に投稿することができます。
 
 ### 2.質問に回答する
-![Videotogif](https://user-images.githubusercontent.com/73025214/115438405-51e15900-a248-11eb-9e7b-d2b105089d12.gif)
+![Videotogif (6)](https://user-images.githubusercontent.com/73025214/124428041-2847c080-dda7-11eb-9093-40763fb33fc1.gif)
+
 回答者は質問一覧から質問を選び回答することができます。  
 回答に対して「参考になった」ボタンをつけているので、他のユーザーがこの情報が有益だと感じたかどうかを視覚的にわかりやすくしています。
+こちらも質問投稿と同じく位置情報と画像を投稿できます。
 
 ## 機能一覧
 * ログイン　ユーザー登録(devise)
