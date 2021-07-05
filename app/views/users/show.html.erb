@@ -28,8 +28,8 @@
                 <%= form_with(model: current_user.relationships.find_by(follow_id: @user.id), class: "form-follow",method: :delete ) do |f| %>
                   <%= hidden_field_tag :follow_id, @user.id %>
                          
-                  <%= f.button type: :submit , class: 'follow p-0 h6 ' do %>
-                    <i class="fas fa-user-minus"></i>
+                  <%= f.button type: :submit , style: "text-decoration: none;", class: 'follow pr-1 pl-2 py-2 respond-button d-flex align-items-center' do %>
+                    <i class="fas fa-user-minus pr-1"></i> フォロー解除
                   <% end %>
                 <% end %>
               <% else %>
@@ -37,8 +37,8 @@
                   <%= hidden_field_tag :follow_id, @user.id %>
                   <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。" %>
                   <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
-                  <%= f.button type: :submit , class: 'follow p-0 h6 ml-3' do %>
-                    <i class="fas fa-user-plus"></i>
+                  <%= f.button type: :submit , style: "text-decoration: none;",class: 'follow pr-1 pl-2 py-2 respond-button d-flex align-items-center' do %>
+                    <i class="fas fa-user-plus pr-1"></i> フォロー
                   <% end %>
                 <% end %>
               <% end %>
