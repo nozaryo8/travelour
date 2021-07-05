@@ -266,8 +266,12 @@
               <i class="fas fa-globe-americas"></i>
               <%= history.country.name%>
               <%= history.city_name %>
-              <%= history.stay_begin.strftime('%y/%m') %> ~
-              <%= history.stay_end.strftime('%y/%m') %>
+              <% if history.stay_begin %>
+                <%= history.stay_begin.strftime('%y/%m') if history.stay_begin.strftime('%y/%m') %> ~
+                <% if history.stay_end %>
+                  <%= history.stay_end.strftime('%y/%m') %>
+                <% end %>
+              <% end %>
             </p>
           <% end %>
         <% end %>

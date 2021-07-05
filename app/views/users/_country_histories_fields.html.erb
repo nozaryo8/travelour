@@ -22,9 +22,9 @@
   <p class="mb-2 d-flex justify-content-between">
     <span class="mr-5">
       滞在時期
-      <%= f.date_select(:stay_begin,discard_day: true , start_year: 1970, end_year: Time.now.year, prompt:"--")  %>
+      <%= f.date_select(:stay_begin,discard_day: true , start_year: 1970, end_year: Time.now.year, prompt:"--" ,required: true)  %>
       ~
-      <%= f.date_select(:stay_end,discard_day: true , start_year: 1970, end_year: Time.now.year, prompt:"--") %>
+      <%= f.date_select(:stay_end,discard_day: true , start_year: 1970, end_year: Time.now.year, prompt:"--" ,required: true) %>
     </span>
     <span><%= link_to_remove_association "この滞在履歴を削除する", f ,class: "text-right"%></span>
   </p>

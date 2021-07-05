@@ -27,7 +27,7 @@
         <div class="form-group">
           <label>滞在履歴</label><br>
           <div class="parents">
-            <%= f.fields_for :country_histories do |s| %>
+            <%= f.fields_for :country_histories , required: true do |s| %>
               <%= render "country_histories_fields", f: s %>
 
             <% end %>
