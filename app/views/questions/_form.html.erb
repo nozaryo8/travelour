@@ -199,10 +199,7 @@ function codeAddress() {
   }, function(results, status) {
     if (status == 'OK') {
       new_map.setCenter(results[0].geometry.location);
-      new_marker = new google.maps.Marker({
-        map: new_map,
-        position: results[0].geometry.location
-      });
+      
       // 下の1行を追加 
       // display.textContent = "検索結果：" + results[0].geometry.location
     } else {
@@ -224,13 +221,7 @@ function questionInitMap() {
     disableDoubleClickZoom: true
   });
 
-  new_marker = new google.maps.Marker({
-    position: {
-      lat: 40.7828,
-      lng: -73.9653
-    },
-    map: new_map
-  });
+  new_marker = null
   new_latitude = 40.7828
   new_longitude = -73.9653
   
@@ -238,8 +229,10 @@ function questionInitMap() {
   // google.maps.event.addListener(map,"dblclick",clickMap);
 
   function clickMap(e){
-    new_marker.setMap(null);
-    new_marker = null;
+    if (new_marker !== null){
+      new_marker.setMap(null);
+      new_marker = null;
+    }
     new_marker = new google.maps.Marker({
       position:{
           lat: e.latLng.lat(),

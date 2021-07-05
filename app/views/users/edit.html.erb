@@ -29,7 +29,9 @@
           <div class="parents">
             <%= f.fields_for :country_histories do |s| %>
               <%= render "country_histories_fields", f: s %>
+
             <% end %>
+            
             <%= link_to_add_association "経歴を追加", f, :country_histories, partial: "country_histories_fields" %>
           </div>
           <%
@@ -65,6 +67,22 @@
 </div>
 
 <script>
+  $(window).on('load', function() {
+    let count = $('.nested-fields').length;
+    for(let i = 0; i < count; i++) {
+      let country_id = $(`#user_country_histories_attributes_${i}_country_id`).attr("value");
+      console.log(country_id)
+      $.ajax({
+        type: 'GET',
+        url: '/users/get_options',
+        data: {
+          country_id: country_id,
+          index: i
+        }
+      })
+    }
+  });
+
   $(".image").bind("change", function() {
     var size_in_megabytes = this.files[0].size/1024/1024;
     if (size_in_megabytes > 5) {

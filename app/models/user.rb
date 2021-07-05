@@ -103,7 +103,7 @@ class User < ApplicationRecord
     Question.where(user_id: self.id).group(:country_id).count
   end
 
-  #TODO: 答えごとに国をグルーピングする
+  #TODO: 国を答えグルーピングする
   def grouping_answer_country
     Question.where(user_id: self.id).group(:country_id).count
   end

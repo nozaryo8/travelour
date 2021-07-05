@@ -56,7 +56,7 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
-    @country_histories = @user.country_histories.build
+    # @country_histories = @user.country_histories.build
   end
 
   def update
@@ -70,6 +70,17 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def get_options
+    @country_id = params[:country_id]
+    @continent = Country.find(params[:country_id]).continent
+    @countries = @continent.countries
+    @index = params[:index]
+    respond_to do |format|
+      format.js
+    end
+
   end
 
 

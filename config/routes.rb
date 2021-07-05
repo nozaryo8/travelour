@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # TODO: format: js　をoffにしたので必要であれば元にもどす
   get "questions/:question_id/answers" => "answers#create" #,defaults: { format: 'js' }
   get "answers/:answer_id/reactions" => "reactions#create" #,defaults: { format: 'js' }
+  get "users/get_options" => "users#get_options" ,defaults: { format: 'js' }
   get "users/:id/connections" => "users#connections", as: 'connections'
   get "questions/:id/answer_request" => "questions#answer_request", as: 'answer_request'
   post "questions/:id/answer_request" => "questions#create_request", as: 'create_request'

@@ -22,6 +22,28 @@
               <% end %>
             <% end %>
           <% end %>
+          <div class="follow_button">
+            <% unless current_user == @user %>
+              <% if current_user.following?(@user) %>
+                <%= form_with(model: current_user.relationships.find_by(follow_id: @user.id), class: "form-follow",method: :delete ) do |f| %>
+                  <%= hidden_field_tag :follow_id, @user.id %>
+                         
+                  <%= f.button type: :submit , class: 'follow p-0 h6 ' do %>
+                    <i class="fas fa-user-minus"></i>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
+                  <%= hidden_field_tag :follow_id, @user.id %>
+                  <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。" %>
+                  <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
+                  <%= f.button type: :submit , class: 'follow p-0 h6 ml-3' do %>
+                    <i class="fas fa-user-plus"></i>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
       <div class="profile-introduction">
@@ -30,23 +52,7 @@
         <%end %>
       </div>
       <%= link_to('フォロー・フォロワー一覧',connections_path(@user.id))%>
-      <div class="follow_button">
-        <% unless current_user == @user %>
-          <% if current_user.following?(@user) %>
-            <%= form_with(model: current_user.relationships.find_by(follow_id: @user.id), class: "form-follow",method: :delete ) do |f| %>
-              <%= hidden_field_tag :follow_id, @user.id %>
-              <%= f.submit 'フォロー解除', class: 'follow p-0 h6 ' %>
-            <% end %>
-          <% else %>
-            <%= form_with(model: current_user.relationships.build , method: :post, class: "form-follow") do |f| %>
-              <%= hidden_field_tag :follow_id, @user.id %>
-              <%= hidden_field_tag :message , "#{current_user.username}さんがあなたをフォローしました。" %>
-              <%= hidden_field_tag :url , "/users/#{current_user.id}"%>
-              <%= f.submit 'フォロー', class: 'follow p-0 h6 ml-3' %>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
+      
 
       <ul class="user-tabs ">
         <li class="<%='active' if params[:mode] == 'question' || params[:mode] == nil %>">

@@ -707,10 +707,7 @@ function codeAddress() {
   }, function(results, status) {
     if (status == 'OK') {
       map.setCenter(results[0].geometry.location);
-      marker = new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location
-      });
+      
       // 下の1行を追加 
       // display.textContent = "検索結果：" + results[0].geometry.location
     } else {
@@ -732,13 +729,7 @@ function initMap() {
     disableDoubleClickZoom: true
   });
 
-  marker = new google.maps.Marker({
-    position: {
-      lat: 40.7828,
-      lng: -73.9653
-    },
-    map: map
-  });
+  marker = null
   latitude = 40.7828
   longitude = -73.9653
   
@@ -746,12 +737,14 @@ function initMap() {
   // google.maps.event.addListener(map,"dblclick",clickMap);
 
   function clickMap(e){
-    marker.setMap(null);
-    marker = null;
+    if (marker !== null){
+      marker.setMap(null);
+      marker = null;
+    }
     marker = new google.maps.Marker({
       position:{
-          lat: e.latLng.lat(),
-          lng: e.latLng.lng()
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng()
       },
       map: map
     });
