@@ -1,44 +1,53 @@
 <header class="<%= 'mb-0' if current_page?(root_path) %>" >
 <!-- Navigation -->
-<div class="travelour-title">
+<div class="travelour-titlec ">
   <div class="fixed-top">
-    <nav class="navbar navbar-expand-md">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      
       <div class="container">
         <% if user_signed_in? %>
           <%= link_to "TravelOur", "/questions", id: "logo" ,class: "a_tag" %>
         <% else %>
           <%= link_to "TravelOur", root_path, id: "logo" %>
         <% end %> 
-
+      
         <% if user_signed_in? %>
-        <div class="text-muted form">
-          <%= search_form_for @search , url: questions_path do |f| %>
-            <%= f.hidden_field(:mode, name: :mode,:value => "all_questions") %>
-            <%= f.hidden_field(:order,name: :order, :value => params[:order]) %>
-            <%= f.hidden_field(:country,name: :country, :value => params[:country]) %>
-            <%= f.hidden_field(:tag,name: :tag, :value => params[:tag]) %>
-            <div class="input-group form">
-              <!-- AND検索を実行するとvalue(検索フォームの文字)が消えるのでvalueを追加-->
-              <% if params[:q] %>
-                <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す" ,value: params[:q][:title_or_body_or_tag_name_or_country_name_cont] %>
-              <% else %>
-                <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す" %>
-              <% end %>
-              <div class="input-group-append">
-                <%= f.submit class: "input-group-text submit"%>
+          <div class="text-muted form">
+            <%= search_form_for @search , url: questions_path do |f| %>
+              <%= f.hidden_field(:mode, name: :mode,:value => "all_questions") %>
+              <%= f.hidden_field(:order,name: :order, :value => params[:order]) %>
+              <%= f.hidden_field(:country,name: :country, :value => params[:country]) %>
+              <%= f.hidden_field(:tag,name: :tag, :value => params[:tag]) %>
+              <div class="input-group form">
+                <!-- AND検索を実行するとvalue(検索フォームの文字)が消えるのでvalueを追加-->
+                <% if params[:q] %>
+                  <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す" ,value: params[:q][:title_or_body_or_tag_name_or_country_name_cont] %>
+                <% else %>
+                  <%= f.search_field :title_or_body_or_tag_name_or_country_name_cont,class: "form-control form", placeholder: "キーワードで質問を探す" %>
+                <% end %>
+                <div class="input-group-append">
+                  <%= f.submit class: "input-group-text submit"%>
+                </div>
               </div>
-            </div>
-            
-          <% end %>
-        </div>
+              
+            <% end %>
+          </div>
         
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
         
-        
-          <ul class="navbar-nav">
+          
+          <ul class="navbar-nav collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
             <li class="nav-item">
               <%= link_to new_question_path, class: 'nav-link text-white margin-0 a_tag a_header',id: 'question_do' ,data: {"turbolinks"=>false} do %>
                 <i class="far fa-comment-dots"></i>質問する!
@@ -62,21 +71,8 @@
               <i class="fas fa-sign-out-alt"></i>ログアウト
             <% end %>
 
-            <%
-=begin%>
- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle margin-0 text-white a_tag a_header" data-toggle="dropdown" ,href="#" role="button" aria-haspopup="true" aria-expanded="false">アカウント</a>
-              <div class="dropdown-menu">
-                <%= link_to "プロフィール", current_user , class: "dropdown-item small"%>
-                <% if current_user.email != "guest@gmail.com"%>
-                  <%= link_to 'ユーザー編集', edit_user_path(current_user) , class: "dropdown-item small"%>
-                <% end %>
-                <%= link_to "ログアウト", destroy_user_session_path, :method => :delete , class: "dropdown-item small"%>
-              </div>
-            </li> 
-<%
-=end%>
           </ul>
+        
         <% else %>
         <ul class="navbar-nav">
           <li class="nav-item"> 
