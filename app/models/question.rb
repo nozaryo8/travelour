@@ -18,7 +18,7 @@ class Question < ApplicationRecord
     # もしいいねが見つからなかった場合見つかるまで1週間づつ戻って探す
     if evaluation == [] || evaluation.size < 5
       1.step do |i|
-        evaluation = Question.joins(:evaluations).where(evaluations: { created_at: (i+1).weeks.ago.prev_week..i.weeks.ago.prev_week}).group(:id).order("count(*) desc").limit(10)
+        evaluation = Question.joins(:evaluations).where(evaluations: { created_at: (i+1).weeks.ago..i.weeks.ago}).group(:id).order("count(*) desc").limit(10)
         return evaluation if evaluation != [] && evaluation.size >= 5
       end
     end

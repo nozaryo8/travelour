@@ -100,12 +100,14 @@ class User < ApplicationRecord
 
   #TODO: 国ごとにグルーピングする
   def grouping_question_country
-    Question.where(user_id: self.id).group(:country_id).count
+    # Question.where(user_id: self.id).group(:country_id).count
+    self.questions.joins(:country).group(:name).count
   end
 
   #TODO: 国を答えグルーピングする
   def grouping_answer_country
-    Question.where(user_id: self.id).group(:country_id).count
+    # eager_load
+    self.answers.eager_load(question: :country).group(:name).count
   end
 
 
