@@ -5,5 +5,6 @@ class NotificationsController < ApplicationController
     notification.is_read = true
     notification.save
     redirect_to notification.url
+    
   end
 end
